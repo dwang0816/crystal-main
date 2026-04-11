@@ -18,7 +18,7 @@ const parseContent = (text: string) => {
 
 export function MemoWidget({ content }: { content: string }) {
     return (
-        <div className="relative w-fit max-w-[85vw] sm:max-w-[560px] bg-white rounded-sm shadow border border-slate-200 p-3 sm:p-4 text-lg sm:text-2xl leading-relaxed font-serif text-black text-left pointer-events-none whitespace-pre-wrap">
+        <div className="relative w-fit max-w-[85vw] sm:max-w-[520px] bg-white rounded-sm shadow border border-slate-200 p-4 sm:p-6 text-xl sm:text-[1.75rem] leading-relaxed font-serif text-black text-left pointer-events-none whitespace-pre-wrap">
             {parseContent(content)}
         </div>
     );

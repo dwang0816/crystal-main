@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { MoonIcon, SunIcon } from "lucide-react";
 
-import { Separator } from "../ui/Separator";
-import { Label } from "../ui/Label";
-
 function getTimeForTimezone(now: Date, tz: string) {
     const time = now.toLocaleTimeString("en-US", {
         timeZone: tz,
@@ -18,7 +15,7 @@ function getTimeForTimezone(now: Date, tz: string) {
     return { time, isDay: h >= 6 && h < 20 };
 }
 
-export function ClockWidget() {
+function TimeBar({ city, region, tz }: { city: string; region: string; tz: string }) {
     const [, setTick] = useState(0);
 
     useEffect(() => {
@@ -26,37 +23,29 @@ export function ClockWidget() {
         return () => clearInterval(interval);
     }, []);
 
-    const now = new Date();
-    const nyc = getTimeForTimezone(now, "America/New_York");
-    const kl = getTimeForTimezone(now, "Asia/Kuala_Lumpur");
+    const { time, isDay } = getTimeForTimezone(new Date(), tz);
 
     return (
-        <div className="rounded-sm border border-slate-200 bg-white shadow w-[160px] h-[150px] sm:w-[200px] sm:h-[180px]">
-            <div className="flex px-4 py-2 flex-col h-full gap-0">
-                <div className="flex flex-1 w-full flex-col justify-center gap-2">
-                    <div className="flex w-full items-center justify-between">
-                        <Label className="text-black text-xs font-normal font-serif">New York</Label>
-                        {nyc.isDay ? (
-                            <SunIcon className="size-4 text-amber-500" />
-                        ) : (
-                            <MoonIcon className="size-4 text-indigo-400" />
-                        )}
-                    </div>
-                    <h3 className="font-semibold tracking-tight text-slate-900 text-xl font-serif font-normal">{nyc.time}</h3>
-                </div>
-                <Separator />
-                <div className="flex flex-1 w-full flex-col justify-center gap-2">
-                    <div className="flex w-full items-center justify-between">
-                        <Label className="text-black text-xs font-normal font-serif">Kuala Lumpur</Label>
-                        {kl.isDay ? (
-                            <SunIcon className="size-4 text-amber-500" />
-                        ) : (
-                            <MoonIcon className="size-4 text-indigo-400" />
-                        )}
-                    </div>
-                    <h3 className="font-semibold tracking-tight text-slate-900 text-xl font-serif font-normal">{kl.time}</h3>
-                </div>
+        <div className="flex flex-col gap-1">
+            <span className="text-[11px] font-normal text-black/40 px-1.5 font-serif tracking-wide">
+                {city}, <span className="uppercase">{region}</span>
+            </span>
+            <div className="flex items-center gap-2.5 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-2">
+                {isDay
+                    ? <SunIcon className="size-4 text-amber-500 shrink-0" />
+                    : <MoonIcon className="size-4 text-indigo-400 shrink-0" />
+                }
+                <span className="text-[13.5px] font-serif text-slate-800 whitespace-nowrap">{time}</span>
             </div>
+        </div>
+    );
+}
+
+export function ClockWidget() {
+    return (
+        <div className="flex gap-4 items-start">
+            <TimeBar city="port dickson" region="MY" tz="Asia/Kuala_Lumpur" />
+            <TimeBar city="new york" region="NY" tz="America/New_York" />
         </div>
     );
 }
