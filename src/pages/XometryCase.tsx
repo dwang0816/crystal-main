@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
-/* ─── Site design tokens ─── */
+/* ─── Design tokens ─── */
 const T = {
   bg:           '#ffffff',
   surface:      '#F6F6F6',
-  surface2:     '#F0F0F0',
   border:       '#E5E5E5',
   borderStrong: 'rgba(0,0,0,0.12)',
   brand:        '#0011FF',
@@ -22,86 +21,67 @@ const T = {
   tagBorder:    '#E0E0E0',
 } as const;
 
-/* ─── Primitives ─── */
+/* ─── Primitive components ─── */
+
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <div style={{
-    display: 'flex', alignItems: 'center', gap: '0.45rem',
-    fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
-    textTransform: 'uppercase', color: T.text3, marginBottom: '1rem',
-    fontFamily: '"Barlow", sans-serif',
-  }}>
-    <span style={{ width: 4, height: 4, borderRadius: '50%', background: T.brand, flexShrink: 0 }} />
+  <div className="flex items-center gap-1.5 mb-4 uppercase tracking-[0.14em] text-[10px] font-bold"
+       style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+    <span className="w-1 h-1 rounded-full shrink-0" style={{ background: T.brand }} />
     {children}
   </div>
 );
 
-const SectionTitle = ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
-  <h2 style={{
-    fontFamily: '"Barlow", sans-serif',
-    fontSize: 22, fontWeight: 700, color: T.text1,
-    letterSpacing: '-0.01em', marginBottom: '1.25rem', lineHeight: 1.3, ...style,
-  }}>
+const SectionTitle = ({ children }: { children: React.ReactNode }) => (
+  <h2 className="text-xl sm:text-[22px] font-bold mb-5 leading-snug tracking-tight"
+      style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
     {children}
   </h2>
 );
 
-const Box = ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
-  <div style={{
-    background: T.surface, border: `1px solid ${T.border}`, borderRadius: 10,
-    padding: '1.375rem 1.625rem', marginBottom: '0.875rem', ...style,
-  }}>
+const Box = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+  <div className={`rounded-[10px] p-5 sm:p-6 mb-3.5 ${className ?? ''}`}
+       style={{ background: T.surface, border: `1px solid ${T.border}` }}>
     {children}
   </div>
 );
 
 const BoxTitle = ({ children }: { children: React.ReactNode }) => (
-  <div style={{
-    fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
-    color: T.text3, marginBottom: '0.65rem', fontFamily: '"Barlow", sans-serif',
-  }}>
+  <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-2.5"
+       style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
     {children}
   </div>
 );
 
-const BodyText = ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
-  <p style={{
-    fontSize: 14, color: T.text2, lineHeight: 1.8,
-    fontFamily: '"Hanken Grotesk", sans-serif', ...style,
-  }}>
+const BodyText = ({ children }: { children: React.ReactNode }) => (
+  <p className="text-sm leading-[1.8]" style={{ color: T.text2, fontFamily: '"Hanken Grotesk", sans-serif' }}>
     {children}
   </p>
 );
 
-const ImgPlaceholder = ({ label, style }: { label: string; style?: React.CSSProperties }) => (
-  <div style={{
-    background: T.imgBg, border: `1.5px dashed ${T.imgBorder}`, borderRadius: 8,
-    display: 'flex', flexDirection: 'column', alignItems: 'center',
-    justifyContent: 'center', gap: '0.5rem', color: T.text3,
-    minHeight: 200, ...style,
-  }}>
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.3 }}>
+/* Grid2: 1-col on mobile, 2-col on sm+ */
+const Grid2 = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+  <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 ${className ?? ''}`}>
+    {children}
+  </div>
+);
+
+const ImgPlaceholder = ({ label, className }: { label: string; className?: string }) => (
+  <div className={`flex flex-col items-center justify-center gap-2 rounded-lg min-h-[160px] sm:min-h-[200px] ${className ?? ''}`}
+       style={{ background: T.imgBg, border: `1.5px dashed ${T.imgBorder}` }}>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="opacity-30" style={{ color: T.text3 }}>
       <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="1.5" />
       <path d="M3 16l5-5 4 4 3-3 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
-    <span style={{
-      fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase',
-      opacity: 0.5, textAlign: 'center', padding: '0 1rem',
-      fontFamily: '"Barlow", sans-serif',
-    }}>
+    <span className="text-[10px] uppercase tracking-[0.1em] opacity-40 text-center px-4"
+          style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
       {label}
     </span>
   </div>
 );
 
-const Grid2 = ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
-  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', ...style }}>
-    {children}
-  </div>
-);
-
 const SectionWrap = ({ children, id }: { children: React.ReactNode; id?: string }) => (
-  <section id={id} style={{ padding: '52px 0', borderBottom: `1px solid ${T.border}` }}>
+  <section id={id} className="py-10 sm:py-14" style={{ borderBottom: `1px solid ${T.border}` }}>
     {children}
   </section>
 );
@@ -110,116 +90,63 @@ const SectionWrap = ({ children, id }: { children: React.ReactNode; id?: string 
 export const XometryCase = () => {
   const navigate = useNavigate();
 
-  const page: React.CSSProperties = {
-    maxWidth: 860,
-    margin: '0 auto',
-    padding: '0 2rem',
-  };
-
   return (
-    <div
-      style={{
-        background: T.bg,
-        color: T.text1,
-        fontFamily: '"Hanken Grotesk", sans-serif',
-        fontSize: 15,
-        lineHeight: 1.7,
-        WebkitFontSmoothing: 'antialiased',
-        position: 'absolute',
-        inset: 0,
-        overflowY: 'auto',
-        paddingTop: 52,
-      }}
-    >
-      <div style={page}>
+    <div className="absolute inset-0 overflow-y-auto pt-[52px] text-[15px] leading-relaxed"
+         style={{ background: T.bg, color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif',
+                  WebkitFontSmoothing: 'antialiased' }}>
+      <div className="max-w-[860px] mx-auto px-4 sm:px-8">
 
         {/* ═══ HERO ═══ */}
-        <section style={{ paddingTop: 52, paddingBottom: 60, borderBottom: `1px solid ${T.border}` }}>
+        <section className="pt-10 sm:pt-14 pb-12 sm:pb-16" style={{ borderBottom: `1px solid ${T.border}` }}>
 
           {/* Back */}
-          <button
-            onClick={() => navigate('/')}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '0.35rem',
-              background: 'none', border: 'none', color: T.text3,
-              fontSize: 12, cursor: 'pointer', letterSpacing: '0.06em',
-              textTransform: 'uppercase', marginBottom: '2rem', padding: 0,
-              fontFamily: '"Barlow", sans-serif',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.color = T.brand)}
-            onMouseLeave={e => (e.currentTarget.style.color = T.text3)}
-          >
+          <button onClick={() => navigate('/')}
+                  className="flex items-center gap-1.5 mb-8 text-[12px] uppercase tracking-[0.06em] cursor-pointer bg-transparent border-none p-0 transition-colors"
+                  style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = T.brand)}
+                  onMouseLeave={e => (e.currentTarget.style.color = T.text3)}>
             ← All Work
           </button>
 
           {/* Eyebrow */}
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-            fontSize: 11, fontWeight: 600, letterSpacing: '0.1em',
-            textTransform: 'uppercase', color: T.text3,
-            marginBottom: '1rem', fontFamily: '"Barlow", sans-serif',
-          }}>
-            <span style={{ width: 20, height: 1, background: T.text3 }} />
+          <div className="inline-flex items-center gap-2 mb-3 text-[11px] font-semibold uppercase tracking-[0.1em]"
+               style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+            <span className="w-5 h-px" style={{ background: T.text3 }} />
             Case Study · 01
           </div>
 
-          <h1 style={{
-            fontFamily: '"Barlow", sans-serif',
-            fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 700,
-            letterSpacing: '-0.02em', lineHeight: 1.15,
-            color: T.text1, maxWidth: 620, marginBottom: '1rem',
-          }}>
+          <h1 className="text-[clamp(22px,4vw,42px)] font-bold leading-[1.15] tracking-tight mb-4 max-w-[620px]"
+              style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
             Xometry WorkCenter — Mobile Operations for Manufacturers
           </h1>
 
-          <p style={{
-            fontSize: 16, color: T.text2, maxWidth: 500,
-            lineHeight: 1.65, marginBottom: '2.25rem',
-          }}>
+          <p className="text-[15px] sm:text-[16px] mb-9 max-w-[500px] leading-relaxed" style={{ color: T.text2 }}>
             Designing a mobile-first platform to help manufacturers manage jobs from quote to payment.
           </p>
 
-          {/* Meta strip */}
-          <div style={{
-            display: 'flex', flexWrap: 'wrap',
-            border: `1px solid ${T.border}`, borderRadius: 10,
-            overflow: 'hidden', marginBottom: '2.5rem',
-          }}>
+          {/* Meta strip — wraps on mobile */}
+          <div className="flex flex-wrap rounded-[10px] overflow-hidden mb-10"
+               style={{ border: `1px solid ${T.border}` }}>
             {[
               { label: 'Role',     value: 'Product Design Intern' },
               { label: 'Timeline', value: 'XX Weeks' },
               { label: 'Team',     value: 'PM, Engineers, Stakeholders' },
               { label: 'Platform', value: 'iOS Mobile App' },
-            ].map((m, i, arr) => (
-              <div key={m.label} style={{
-                flex: '1 1 130px', padding: '0.875rem 1.25rem',
-                borderRight: i < arr.length - 1 ? `1px solid ${T.border}` : 'none',
-                background: T.surface,
-              }}>
-                <div style={{
-                  fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
-                  textTransform: 'uppercase', color: T.text3,
-                  marginBottom: '0.3rem', fontFamily: '"Barlow", sans-serif',
-                }}>
+            ].map(m => (
+              <div key={m.label} className="flex-[1_1_130px] px-4 py-3.5"
+                   style={{ background: T.surface, borderRight: `1px solid ${T.border}` }}>
+                <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1"
+                     style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
                   {m.label}
                 </div>
-                <div style={{ fontSize: 13, color: T.text1, fontWeight: 500 }}>{m.value}</div>
+                <div className="text-[13px] font-medium" style={{ color: T.text1 }}>{m.value}</div>
               </div>
             ))}
-            {/* Status — brand accent tag */}
-            <div style={{ flex: '1 1 130px', padding: '0.875rem 1.25rem', background: T.surface }}>
-              <div style={{
-                fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
-                textTransform: 'uppercase', color: T.text3,
-                marginBottom: '0.3rem', fontFamily: '"Barlow", sans-serif',
-              }}>
-                Status
-              </div>
-              <span style={{
-                display: 'inline-block', background: T.brandDim, color: T.brand,
-                fontSize: 11, fontWeight: 600, padding: '2px 8px',
-                borderRadius: 4, letterSpacing: '0.03em', border: `1px solid ${T.brandBorder}`,
-              }}>
+            <div className="flex-[1_1_130px] px-4 py-3.5" style={{ background: T.surface }}>
+              <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1"
+                   style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>Status</div>
+              <span className="inline-block text-[11px] font-semibold px-2 py-0.5 rounded"
+                    style={{ background: T.brandDim, color: T.brand, border: `1px solid ${T.brandBorder}` }}>
                 Live on App Store
               </span>
             </div>
@@ -228,20 +155,16 @@ export const XometryCase = () => {
           {/* Hero image */}
           <ImgPlaceholder
             label="Hero Image — Full phone mockup of app dashboard or job offers screen"
-            style={{ minHeight: 320, borderRadius: 12 }}
+            className="!min-h-[220px] sm:!min-h-[320px] rounded-xl"
           />
         </section>
 
         {/* ═══ OVERVIEW ═══ */}
         <SectionWrap id="cs-overview">
           <SectionLabel>Overview</SectionLabel>
-          <div style={{
-            background: T.surface, border: `1px solid ${T.border}`,
-            borderLeft: `3px solid ${T.brand}`,
-            borderRadius: '0 10px 10px 0',
-            padding: '1.375rem 1.75rem',
-            fontSize: 15, color: T.text2, lineHeight: 1.8,
-          }}>
+          <div className="text-[14px] sm:text-[15px] leading-[1.8] rounded-r-[10px] px-5 sm:px-7 py-5"
+               style={{ background: T.surface, borderLeft: `3px solid ${T.brand}`,
+                        border: `1px solid ${T.border}`, borderLeft: `3px solid ${T.brand}`, color: T.text2 }}>
             Xometry's WorkCenter app helps manufacturers manage the quote-to-cash process from their
             phone. Shops can review job offers, respond to RFQs, manage active work, and upload
             documentation in one centralized mobile platform. This project focused on designing the
@@ -254,8 +177,7 @@ export const XometryCase = () => {
         <SectionWrap id="cs-role">
           <SectionLabel>My Role</SectionLabel>
           <SectionTitle>End-to-End Product Design</SectionTitle>
-
-          <Box style={{ marginBottom: '1.125rem' }}>
+          <Box className="mb-4">
             <BodyText>
               I worked as a product designer supporting the end-to-end design of the WorkCenter mobile
               app. I participated in user interviews, synthesized insights, designed core workflows, and
@@ -264,12 +186,9 @@ export const XometryCase = () => {
             </BodyText>
           </Box>
 
-          {/* Contributions grid */}
-          <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 1, background: T.border,
-            border: `1px solid ${T.border}`, borderRadius: 10, overflow: 'hidden',
-          }}>
+          {/* 2-col mobile → 3-col desktop */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-px rounded-[10px] overflow-hidden"
+               style={{ background: T.border, border: `1px solid ${T.border}` }}>
             {[
               'User Interviews & Synthesis',
               'End-to-End Mobile Workflow Design',
@@ -278,15 +197,9 @@ export const XometryCase = () => {
               'Developer Handoff & Collaboration',
               'Iterative Feature Expansion',
             ].map(item => (
-              <div key={item} style={{
-                background: T.bg, padding: '1rem 1.125rem',
-                display: 'flex', alignItems: 'flex-start', gap: '0.6rem',
-              }}>
-                <span style={{
-                  width: 5, height: 5, borderRadius: '50%', background: T.brand,
-                  marginTop: 7, flexShrink: 0,
-                }} />
-                <span style={{ fontSize: 13, color: T.text2, lineHeight: 1.5 }}>{item}</span>
+              <div key={item} className="flex items-start gap-2.5 p-4" style={{ background: T.bg }}>
+                <span className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: T.brand }} />
+                <span className="text-[12px] sm:text-[13px] leading-snug" style={{ color: T.text2 }}>{item}</span>
               </div>
             ))}
           </div>
@@ -312,7 +225,7 @@ export const XometryCase = () => {
           <SectionLabel>Research</SectionLabel>
           <SectionTitle>Understanding the Shop Floor</SectionTitle>
 
-          <Box style={{ marginBottom: '1.125rem' }}>
+          <Box className="mb-4">
             <BodyText>
               To understand manufacturer workflows, we conducted multiple user interviews with shop
               owners and operators. Conversations focused on how users review job offers, manage
@@ -321,12 +234,9 @@ export const XometryCase = () => {
           </Box>
 
           {/* Key insights */}
-          <Box style={{ marginBottom: '1.125rem' }}>
+          <Box className="mb-4">
             <BoxTitle>Key Insights</BoxTitle>
-            <div style={{
-              display: 'flex', flexDirection: 'column', gap: 1,
-              background: T.border, borderRadius: 6, overflow: 'hidden',
-            }}>
+            <div className="flex flex-col gap-px rounded overflow-hidden" style={{ background: T.border }}>
               {[
                 'Users frequently review jobs away from their desks',
                 'Quick decision making is critical for accepting work',
@@ -334,17 +244,9 @@ export const XometryCase = () => {
                 'Users manage multiple jobs simultaneously',
                 'Clarity of job details directly affects acceptance confidence',
               ].map((insight, i) => (
-                <div key={i} style={{
-                  background: T.bg, padding: '0.875rem 1.125rem',
-                  display: 'flex', gap: '1rem', alignItems: 'flex-start',
-                }}>
-                  <span style={{
-                    fontFamily: 'monospace', fontSize: 11, color: T.text3,
-                    minWidth: 24, paddingTop: 2,
-                  }}>
-                    0{i + 1}
-                  </span>
-                  <span style={{ fontSize: 13.5, color: T.text1, lineHeight: 1.55 }}>{insight}</span>
+                <div key={i} className="flex gap-4 items-start px-4 py-3.5" style={{ background: T.bg }}>
+                  <span className="font-mono text-[11px] min-w-[24px] pt-0.5" style={{ color: T.text3 }}>0{i + 1}</span>
+                  <span className="text-[13px] sm:text-[13.5px] leading-snug" style={{ color: T.text1 }}>{insight}</span>
                 </div>
               ))}
             </div>
@@ -352,21 +254,17 @@ export const XometryCase = () => {
 
           {/* Research artifacts */}
           <div>
-            <div style={{
-              fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
-              color: T.text3, marginBottom: '0.65rem', fontFamily: '"Barlow", sans-serif',
-            }}>
-              Research Artifacts
-            </div>
-            <Grid2 style={{ marginBottom: '0.75rem' }}>
-              <ImgPlaceholder label="Interview Notes Screenshot" style={{ minHeight: 220 }} />
-              <ImgPlaceholder label="Affinity Mapping" style={{ minHeight: 220 }} />
+            <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-2.5"
+                 style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>Research Artifacts</div>
+            <Grid2 className="mb-3">
+              <ImgPlaceholder label="Interview Notes Screenshot" className="sm:!min-h-[220px]" />
+              <ImgPlaceholder label="Affinity Mapping" className="sm:!min-h-[220px]" />
             </Grid2>
-            <Grid2 style={{ marginBottom: '0.75rem' }}>
-              <ImgPlaceholder label="Research Documentation" style={{ minHeight: 160 }} />
-              <ImgPlaceholder label="Sticky Note Groupings" style={{ minHeight: 160 }} />
+            <Grid2 className="mb-3">
+              <ImgPlaceholder label="Research Documentation" />
+              <ImgPlaceholder label="Sticky Note Groupings" />
             </Grid2>
-            <ImgPlaceholder label="User Quotes & Highlights" style={{ minHeight: 140 }} />
+            <ImgPlaceholder label="User Quotes & Highlights" />
           </div>
         </SectionWrap>
 
@@ -375,31 +273,26 @@ export const XometryCase = () => {
           <SectionLabel>Design Goals</SectionLabel>
           <SectionTitle>Principles to Design Against</SectionTitle>
 
-          <div style={{
-            display: 'grid', gridTemplateColumns: '1fr 1fr',
-            gap: 1, background: T.border,
-            border: `1px solid ${T.border}`, borderRadius: 10, overflow: 'hidden',
-          }}>
+          {/* 1-col mobile → 2-col desktop */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px rounded-[10px] overflow-hidden"
+               style={{ background: T.border, border: `1px solid ${T.border}` }}>
             {[
               'Enable quick job review on mobile',
               'Centralize job management in one place',
               'Streamline uploads and status updates',
               'Support multi-job workflows simultaneously',
             ].map(goal => (
-              <div key={goal} style={{
-                background: T.bg, padding: '1.125rem 1.375rem',
-                display: 'flex', gap: '0.75rem', alignItems: 'flex-start',
-              }}>
-                <span style={{ fontSize: 14, color: T.brand, marginTop: 1, flexShrink: 0, fontWeight: 600 }}>→</span>
-                <span style={{ fontSize: 13.5, color: T.text1, lineHeight: 1.5 }}>{goal}</span>
+              <div key={goal} className="flex gap-3 items-start px-5 py-4" style={{ background: T.bg }}>
+                <span className="text-sm font-bold mt-0.5 shrink-0" style={{ color: T.brand }}>→</span>
+                <span className="text-[13px] sm:text-[13.5px] leading-snug" style={{ color: T.text1 }}>{goal}</span>
               </div>
             ))}
-            <div style={{
-              background: T.bg, padding: '1.125rem 1.375rem',
-              display: 'flex', gap: '0.75rem', alignItems: 'flex-start', gridColumn: '1 / -1',
-            }}>
-              <span style={{ fontSize: 14, color: T.brand, marginTop: 1, flexShrink: 0, fontWeight: 600 }}>→</span>
-              <span style={{ fontSize: 13.5, color: T.text1, lineHeight: 1.5 }}>Reduce cognitive load for fast-paced environments</span>
+            {/* Full-width last item */}
+            <div className="sm:col-span-2 flex gap-3 items-start px-5 py-4" style={{ background: T.bg }}>
+              <span className="text-sm font-bold mt-0.5 shrink-0" style={{ color: T.brand }}>→</span>
+              <span className="text-[13px] sm:text-[13.5px] leading-snug" style={{ color: T.text1 }}>
+                Reduce cognitive load for fast-paced environments
+              </span>
             </div>
           </div>
         </SectionWrap>
@@ -409,7 +302,7 @@ export const XometryCase = () => {
           <SectionLabel>Designing the Platform</SectionLabel>
           <SectionTitle>Building the Full System</SectionTitle>
 
-          <Box style={{ marginBottom: '1.125rem' }}>
+          <Box className="mb-4">
             <BodyText>
               The WorkCenter app was designed as a mobile-first platform supporting the full job
               lifecycle. The experience connects job discovery, acceptance, management, and completion
@@ -418,24 +311,20 @@ export const XometryCase = () => {
             </BodyText>
           </Box>
 
-          {/* Callout */}
-          <div style={{
-            background: T.brandDim, border: `1px solid ${T.brandBorder}`,
-            borderRadius: 8, padding: '1.125rem 1.5rem', marginBottom: '1.5rem',
-          }}>
-            <p style={{ fontSize: 13.5, color: T.brand, lineHeight: 1.65 }}>
+          <div className="rounded-lg px-5 py-4 mb-6" style={{ background: T.brandDim, border: `1px solid ${T.brandBorder}` }}>
+            <p className="text-[13px] sm:text-[13.5px] leading-relaxed" style={{ color: T.brand }}>
               The entire system — from information architecture to component design — was built with
               one question in mind: <em>can a shop owner make a decision in under 30 seconds?</em>
             </p>
           </div>
 
-          <Grid2 style={{ marginBottom: '0.75rem' }}>
-            <ImgPlaceholder label="Information Architecture" style={{ minHeight: 240 }} />
-            <ImgPlaceholder label="Flow Diagram" style={{ minHeight: 240 }} />
+          <Grid2 className="mb-3">
+            <ImgPlaceholder label="Information Architecture" className="sm:!min-h-[240px]" />
+            <ImgPlaceholder label="Flow Diagram" className="sm:!min-h-[240px]" />
           </Grid2>
           <Grid2>
-            <ImgPlaceholder label="App Map" style={{ minHeight: 240 }} />
-            <ImgPlaceholder label="Early Wireframes" style={{ minHeight: 240 }} />
+            <ImgPlaceholder label="App Map" className="sm:!min-h-[240px]" />
+            <ImgPlaceholder label="Early Wireframes" className="sm:!min-h-[240px]" />
           </Grid2>
         </SectionWrap>
 
@@ -470,30 +359,24 @@ export const XometryCase = () => {
               imgLabel: 'Quote-to-Cash Flow', flip: true,
             },
           ].map((f, i, arr) => (
-            <div key={f.num} style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem',
-              alignItems: 'start', padding: '1.75rem 0',
-              borderBottom: i < arr.length - 1 ? `1px solid ${T.border}` : 'none',
-              direction: f.flip ? 'rtl' : 'ltr',
-            }}>
-              <div style={{ direction: 'ltr' }}>
-                <div style={{
-                  fontFamily: 'monospace', fontSize: 11, color: T.text3,
-                  letterSpacing: '0.08em', marginBottom: '0.6rem',
-                }}>
+            <div key={f.num}
+                 className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 py-7 items-start
+                             ${i < arr.length - 1 ? 'border-b' : ''}`}
+                 style={{ borderColor: T.border }}>
+              {/* Content — on desktop flip: push to col 2 */}
+              <div className={f.flip ? 'sm:order-2' : ''}>
+                <div className="font-mono text-[11px] mb-2.5 tracking-[0.08em]" style={{ color: T.text3 }}>
                   {f.num} / {f.heading}
                 </div>
-                <h3 style={{
-                  fontFamily: '"Barlow", sans-serif',
-                  fontSize: 17, fontWeight: 700, color: T.text1,
-                  marginBottom: '0.6rem', letterSpacing: '-0.01em', lineHeight: 1.3,
-                }}>
+                <h3 className="text-base sm:text-[17px] font-bold mb-2.5 leading-snug tracking-tight"
+                    style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
                   {f.title}
                 </h3>
-                <p style={{ fontSize: 13.5, color: T.text2, lineHeight: 1.7 }}>{f.desc}</p>
+                <p className="text-[13px] sm:text-[13.5px] leading-[1.7]" style={{ color: T.text2 }}>{f.desc}</p>
               </div>
-              <div style={{ direction: 'ltr' }}>
-                <ImgPlaceholder label={f.imgLabel} style={{ minHeight: 260 }} />
+              {/* Image — on desktop flip: push to col 1 */}
+              <div className={f.flip ? 'sm:order-1' : ''}>
+                <ImgPlaceholder label={f.imgLabel} className="sm:!min-h-[260px]" />
               </div>
             </div>
           ))}
@@ -504,7 +387,7 @@ export const XometryCase = () => {
           <SectionLabel>Collaboration & Handoff</SectionLabel>
           <SectionTitle>Bridging Design and Engineering</SectionTitle>
 
-          <Box style={{ marginBottom: '1.125rem' }}>
+          <Box className="mb-4">
             <BodyText>
               I worked closely with engineers to ensure designs translated smoothly into development.
               This included preparing handoff documentation, walking through flows in detail, and leading
@@ -513,13 +396,13 @@ export const XometryCase = () => {
             </BodyText>
           </Box>
 
-          <Grid2 style={{ marginBottom: '0.75rem' }}>
-            <ImgPlaceholder label="Figma Dev Mode" style={{ minHeight: 220 }} />
-            <ImgPlaceholder label="Annotated Screens" style={{ minHeight: 220 }} />
+          <Grid2 className="mb-3">
+            <ImgPlaceholder label="Figma Dev Mode" className="sm:!min-h-[220px]" />
+            <ImgPlaceholder label="Annotated Screens" className="sm:!min-h-[220px]" />
           </Grid2>
           <Grid2>
-            <ImgPlaceholder label="Handoff Specs & Documentation" style={{ minHeight: 160 }} />
-            <ImgPlaceholder label="Component System" style={{ minHeight: 160 }} />
+            <ImgPlaceholder label="Handoff Specs & Documentation" />
+            <ImgPlaceholder label="Component System" />
           </Grid2>
         </SectionWrap>
 
@@ -528,31 +411,25 @@ export const XometryCase = () => {
           <SectionLabel>Impact</SectionLabel>
           <SectionTitle>Shipped & Live on the App Store</SectionTitle>
 
-          {/* Stats */}
-          <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1,
-            background: T.border, border: `1px solid ${T.border}`,
-            borderRadius: 10, overflow: 'hidden', marginBottom: '1.125rem',
-          }}>
+          {/* Stats — 3 cols even on mobile (values are short) */}
+          <div className="grid grid-cols-3 gap-px rounded-[10px] overflow-hidden mb-4"
+               style={{ background: T.border, border: `1px solid ${T.border}` }}>
             {[
               { stat: 'Live', label: 'App Store Status' },
-              { stat: 'iOS', label: 'Platform Shipped' },
-              { stat: '∞', label: 'Ongoing Iteration' },
+              { stat: 'iOS',  label: 'Platform Shipped' },
+              { stat: '∞',    label: 'Ongoing Iteration' },
             ].map(s => (
-              <div key={s.stat} style={{ background: T.bg, padding: '1.375rem 1.5rem' }}>
-                <div style={{
-                  fontFamily: '"Barlow", sans-serif',
-                  fontSize: 26, fontWeight: 700, color: T.text1,
-                  letterSpacing: '-0.02em', lineHeight: 1, marginBottom: '0.3rem',
-                }}>
+              <div key={s.stat} className="px-4 sm:px-6 py-5" style={{ background: T.bg }}>
+                <div className="text-2xl sm:text-[26px] font-bold leading-none mb-1 tracking-tight"
+                     style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
                   {s.stat}
                 </div>
-                <div style={{ fontSize: 12, color: T.text2 }}>{s.label}</div>
+                <div className="text-[11px] sm:text-[12px]" style={{ color: T.text2 }}>{s.label}</div>
               </div>
             ))}
           </div>
 
-          <Box style={{ marginBottom: '0.875rem' }}>
+          <Box className="mb-3">
             <BodyText>
               The WorkCenter app launched publicly and is currently live on the App Store. The mobile
               platform enables manufacturers to manage jobs on the go, reducing friction and improving
@@ -561,29 +438,19 @@ export const XometryCase = () => {
             </BodyText>
           </Box>
 
-          {/* Status badges */}
           <Box>
             <BoxTitle>Current Status</BoxTitle>
-            <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                padding: '0.35rem 0.85rem', borderRadius: 5, fontSize: 12, fontWeight: 600,
-                background: T.greenDim, color: T.green, border: `1px solid ${T.greenBorder}`,
-                fontFamily: '"Barlow", sans-serif',
-              }}>
-                <span style={{
-                  width: 6, height: 6, borderRadius: '50%', background: T.green,
-                  boxShadow: `0 0 5px ${T.green}`,
-                }} />
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-[12px] font-semibold"
+                    style={{ background: T.greenDim, color: T.green, border: `1px solid ${T.greenBorder}`,
+                             fontFamily: '"Barlow", sans-serif' }}>
+                <span className="w-1.5 h-1.5 rounded-full" style={{ background: T.green, boxShadow: `0 0 5px ${T.green}` }} />
                 Live on App Store
               </span>
               {['New Features In Progress', 'Continuing to Iterate'].map(b => (
-                <span key={b} style={{
-                  display: 'inline-flex', alignItems: 'center', padding: '0.35rem 0.85rem',
-                  borderRadius: 5, fontSize: 12, fontWeight: 500,
-                  background: T.tagBg, color: T.text2, border: `1px solid ${T.tagBorder}`,
-                  fontFamily: '"Barlow", sans-serif',
-                }}>
+                <span key={b} className="inline-flex items-center px-3 py-1.5 rounded text-[12px] font-medium"
+                      style={{ background: T.tagBg, color: T.text2, border: `1px solid ${T.tagBorder}`,
+                               fontFamily: '"Barlow", sans-serif' }}>
                   {b}
                 </span>
               ))}
@@ -592,41 +459,27 @@ export const XometryCase = () => {
         </SectionWrap>
 
         {/* ═══ NEXT CASE STUDY ═══ */}
-        <section style={{ padding: '2.5rem 0 5rem' }}>
-          <div style={{
-            fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase',
-            color: T.text3, marginBottom: '0.875rem', fontFamily: '"Barlow", sans-serif',
-          }}>
+        <section className="pt-10 pb-20">
+          <div className="text-[10px] font-bold uppercase tracking-[0.14em] mb-3.5"
+               style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
             Next Case Study
           </div>
-          <div
-            style={{
-              background: T.surface, border: `1px solid ${T.border}`, borderRadius: 12,
-              padding: '1.625rem 2rem', display: 'flex', alignItems: 'center',
-              justifyContent: 'space-between', cursor: 'pointer', transition: 'border-color 0.2s',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLDivElement).style.borderColor = T.borderStrong;
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLDivElement).style.borderColor = T.border;
-            }}
-          >
+          <div className="flex items-center justify-between p-6 sm:p-8 rounded-xl cursor-pointer transition-colors"
+               style={{ background: T.surface, border: `1px solid ${T.border}` }}
+               onMouseEnter={e => ((e.currentTarget as HTMLDivElement).style.borderColor = T.borderStrong)}
+               onMouseLeave={e => ((e.currentTarget as HTMLDivElement).style.borderColor = T.border)}>
             <div>
-              <div style={{
-                fontFamily: '"Barlow", sans-serif',
-                fontSize: 18, fontWeight: 700, color: T.text1,
-                letterSpacing: '-0.01em', marginBottom: '0.25rem',
-              }}>
+              <div className="text-base sm:text-[18px] font-bold mb-1 tracking-tight"
+                   style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
                 Project Two — Coming Soon
               </div>
-              <div style={{ fontSize: 13, color: T.text2 }}>Next project title goes here</div>
+              <div className="text-[13px]" style={{ color: T.text2 }}>Next project title goes here</div>
             </div>
-            <span style={{ fontSize: 20, color: T.text3, marginLeft: '1.5rem' }}>→</span>
+            <span className="text-xl ml-6 shrink-0" style={{ color: T.text3 }}>→</span>
           </div>
         </section>
 
-      </div>{/* /page */}
+      </div>
     </div>
   );
 };

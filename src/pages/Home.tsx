@@ -17,35 +17,64 @@ const FileLabel = ({ name }: { name: string }) => (
     </span>
 );
 
-const HomeSection = () => (
-    <div className="absolute inset-0 w-full h-full overflow-hidden" style={DOTTED_BG}>
+const MEMO_CONTENT = `Hi, I'm Crystal — a Product Designer building\n*efficient, impactful *experiences\nwith *intention.*`;
 
-        {/* ── Personal statement — centered ── */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-[62%] -translate-y-1/2 flex flex-col items-center gap-1.5">
-            <MemoWidget content={`Hi, I'm Crystal — a Product Designer building\n*efficient, impactful *experiences\nwith *intention.*`} />
-            <FileLabel name="intro" />
+const HomeSection = () => (
+    <div className="absolute inset-0 w-full h-full" style={DOTTED_BG}>
+
+        {/* ════════════════════════════════
+            MOBILE  (< sm / 640px)
+            Single-column, vertically centered
+        ════════════════════════════════ */}
+        <div className="sm:hidden absolute inset-0 flex flex-col items-center justify-center gap-4 px-5 overflow-y-auto py-8">
+            <div className="flex flex-col items-center gap-1.5 w-full">
+                <MemoWidget content={MEMO_CONTENT} />
+                <FileLabel name="intro" />
+            </div>
+            <ClockWidget />
         </div>
 
-        {/* ── Right column ── */}
-        <div className="hidden sm:flex absolute top-[5%] right-[3%] flex-col items-start gap-3">
+        {/* ════════════════════════════════
+            DESKTOP  (≥ sm / 640px)
+            Moodboard: memo left-center, right column
+        ════════════════════════════════ */}
+        <div className="hidden sm:block absolute inset-0 overflow-hidden">
 
-            {/* Clock bars — top left of photo */}
-            <div className="self-start pl-1">
-                <ClockWidget />
+            {/* Personal statement — left-center */}
+            <div className="absolute top-1/2 -translate-y-1/2 left-[5%] lg:left-[8%] max-w-[44%]">
+                <div className="flex flex-col items-center gap-1.5">
+                    <MemoWidget content={MEMO_CONTENT} />
+                    <FileLabel name="intro" />
+                </div>
             </div>
 
-            {/* Photo + Experience stacked tight */}
-            <div className="flex flex-col items-center gap-1">
-                <div className="flex flex-col items-center gap-1">
-                    <ImageWidget src={crystalIcelandImg} alt="Crystal in Iceland" />
+            {/* Right column — clock → photo → experience */}
+            <div className="absolute top-[4%] right-[2%] xl:right-[3%] flex flex-col items-start gap-2
+                            w-[320px] md:w-[380px] lg:w-[420px] xl:w-[440px]">
+
+                {/* Clock bars — full column width */}
+                <ClockWidget />
+
+                {/* Photo */}
+                <div className="flex flex-col items-center gap-1 w-full">
+                    <div className="w-full bg-white rounded-sm shadow border border-slate-200 p-2">
+                        <img
+                            src={crystalIcelandImg}
+                            alt="Crystal in Iceland"
+                            className="w-full max-h-[260px] md:max-h-[300px] lg:max-h-[340px] object-cover object-top rounded-sm select-none pointer-events-none"
+                            draggable={false}
+                        />
+                    </div>
                     <FileLabel name="crystal_in_iceland.jpg" />
                 </div>
+
+                {/* Experience — directly below photo */}
                 <div className="flex flex-col items-center gap-1 w-full">
                     <ExperienceWidget />
                     <FileLabel name="experience" />
                 </div>
-            </div>
 
+            </div>
         </div>
 
     </div>

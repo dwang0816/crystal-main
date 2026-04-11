@@ -6,9 +6,9 @@ const experiences = [
     { company: 'Photo Store Digital Express', role: 'Assistant Photo Editor', period: 'Jan 2018 - Jan 2020' },
 ];
 
-export function ExperienceWidget() {
+export function ExperienceWidget({ className }: { className?: string }) {
     return (
-        <div className="rounded-sm border border-slate-200 bg-white shadow w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] flex flex-col">
+        <div className={`rounded-sm border border-slate-200 bg-white shadow w-full max-h-[260px] flex flex-col ${className ?? ''}`}>
             <div className="px-5 py-4 overflow-y-auto flex-1 pointer-events-auto">
                 <div className="relative pl-4">
                     <div className="absolute left-[5px] top-[6px] bottom-[6px] w-px bg-slate-200" />
