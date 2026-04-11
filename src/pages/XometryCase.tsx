@@ -22,12 +22,6 @@ const T = {
   tagBorder:    '#E0E0E0',
 } as const;
 
-const DOTTED: React.CSSProperties = {
-  backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 1px, transparent 0)',
-  backgroundSize: '24px 24px',
-  backgroundColor: T.bg,
-};
-
 /* ─── Primitives ─── */
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <div style={{
@@ -104,10 +98,6 @@ const Grid2 = ({ children, style }: { children: React.ReactNode; style?: React.C
   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', ...style }}>
     {children}
   </div>
-);
-
-const Divider = () => (
-  <div style={{ height: 1, background: T.border, margin: '0' }} />
 );
 
 const SectionWrap = ({ children, id }: { children: React.ReactNode; id?: string }) => (
