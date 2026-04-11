@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Xometry WorkCenter — Case Study</title>
+<style>
+  /* ─── Reset & Base ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0d0d0d;
+    --surface:    #141414;
+    --surface-2:  #1a1a1a;
+    --border:     #252525;
+    --border-mid: #2e2e2e;
+    --accent:     #e8ff47;
+    --accent-dim: rgba(232,255,71,0.12);
+    --text-1:     #f0f0f0;
+    --text-2:     #8a8a8a;
+    --text-3:     #555;
+    --tag-bg:     #1e1e1e;
+    --tag-border: #2a2a2a;
+    --img-bg:     #181818;
+    --img-border: #2a2a2a;
+
+    --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-mono: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+
+    --max-w: 900px;
+    --gutter: 2rem;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-1);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Nav ─── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem var(--gutter);
+    background: rgba(13,13,13,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  .nav-back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 12px;
+    color: var(--text-2);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--text-1); }
+  .nav-back::before { content: '←'; font-size: 14px; }
+
+  /* ─── Page wrapper ─── */
+  .page {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-eyebrow span {
+    width: 20px;
+    height: 1px;
+    background: var(--text-3);
+  }
+
+  .hero-title {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--text-1);
+    max-width: 640px;
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    color: var(--text-2);
+    max-width: 520px;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Meta strip */
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+
+  .meta-item {
+    flex: 1;
+    min-width: 140px;
+    padding: 1rem 1.25rem;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .meta-item:last-child { border-right: none; }
+
+  .meta-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 0.35rem;
+  }
+
+  .meta-value {
+    font-size: 13px;
+    color: var(--text-1);
+    font-weight: 400;
+  }
+
+  .meta-tag {
+    display: inline-block;
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+  }
+
+  /* Hero image */
+  .hero-img-wrap {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--img-bg);
+    border: 1px dashed var(--img-border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: var(--text-3);
+  }
+
+  .hero-img-wrap .img-icon {
+    width: 40px;
+    height: 40px;
+    border: 1.5px dashed var(--text-3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    opacity: 0.5;
+  }
+
+  .hero-img-wrap .img-label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  /* ─── Sections ─── */
+  .section {
+    padding: 56px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-3);
+  }
+
+  /* ─── BOX CARD (the key design element) ─── */
+  .box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .box-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 0.75rem;
+  }
+
+  .box-body {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.75;
+  }
+
+  .box-body p + p { margin-top: 0.75rem; }
+
+  /* Overview box (hero quote style) */
+  .overview-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1.75rem 2rem;
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.75;
+  }
+
+  /* ─── 2-col grid ─── */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* ─── Role contributions ─── */
+  .role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .role-item {
+    background: var(--surface);
+    padding: 1.125rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .role-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .role-text {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+
+  /* ─── Research section ─── */
+  .insight-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .insight-item {
+    background: var(--surface);
+    padding: 1rem 1.25rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .insight-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-3);
+    min-width: 24px;
+    padding-top: 2px;
+  }
+
+  .insight-text {
+    font-size: 13.5px;
+    color: var(--text-1);
+    line-height: 1.55;
+  }
+
+  /* ─── Goals ─── */
+  .goals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .goal-item {
+    background: var(--surface);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .goal-arrow {
+    font-size: 14px;
+    color: var(--accent);
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .goal-text {
+    font-size: 13.5px;
+    color: var(--text-1);
+    line-height: 1.5;
+  }
+
+  /* ─── Image placeholder ─── */
+  .img-placeholder {
+    background: var(--img-bg);
+    border: 1px dashed var(--img-border);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--text-3);
+    min-height: 200px;
+  }
+
+  .img-placeholder .ph-icon {
+    font-size: 22px;
+    opacity: 0.35;
+  }
+
+  .img-placeholder .ph-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+  .img-tall { min-height: 280px; }
+  .img-short { min-height: 160px; }
+  .img-wide { min-height: 240px; width: 100%; }
+
+  /* ─── Feature blocks ─── */
+  .feature-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .feature-block:last-child { border-bottom: none; padding-bottom: 0; }
+  .feature-block:first-child { padding-top: 0; }
+
+  .feature-block.flip { direction: rtl; }
+  .feature-block.flip > * { direction: ltr; }
+
+  .feature-content {}
+
+  .feature-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-3);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-1);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .feature-desc {
+    font-size: 13.5px;
+    color: var(--text-2);
+    line-height: 1.7;
+  }
+
+  /* ─── Callout / highlight box ─── */
+  .callout {
+    background: var(--accent-dim);
+    border: 1px solid rgba(232,255,71,0.2);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .callout-text {
+    font-size: 13.5px;
+    color: var(--accent);
+    line-height: 1.6;
+  }
+
+  /* ─── Impact stats ─── */
+  .impact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .impact-item {
+    background: var(--surface);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .impact-stat {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-1);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .impact-label {
+    font-size: 12px;
+    color: var(--text-2);
+  }
+
+  /* ─── Status badge ─── */
+  .status-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-live {
+    background: rgba(74,222,128,0.1);
+    color: #4ade80;
+    border: 1px solid rgba(74,222,128,0.25);
+  }
+
+  .badge-live::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 6px #4ade80;
+    animation: pulse 2s infinite;
+  }
+
+  .badge-ongoing {
+    background: var(--tag-bg);
+    color: var(--text-2);
+    border: 1px solid var(--tag-border);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ─── Section header (titled) ─── */
+  .section-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .section-head-left {}
+
+  .section-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-1);
+    letter-spacing: -0.02em;
+    margin-top: 0.35rem;
+  }
+
+  /* ─── Divider ─── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 2rem 0;
+  }
+
+  /* ─── Platform tag ─── */
+  .platform-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    border-radius: 4px;
+    padding: 0.3rem 0.7rem;
+    font-size: 11px;
+    color: var(--text-2);
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+  }
+
+  /* ─── Next case study ─── */
+  .next-section {
+    padding: 3rem 0 5rem;
+  }
+
+  .next-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 1rem;
+  }
+
+  .next-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .next-card:hover {
+    border-color: var(--border-mid);
+    background: var(--surface-2);
+  }
+
+  .next-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-1);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.35rem;
+  }
+
+  .next-card-sub {
+    font-size: 13px;
+    color: var(--text-2);
+  }
+
+  .next-arrow {
+    font-size: 22px;
+    color: var(--text-3);
+    flex-shrink: 0;
+    margin-left: 1.5rem;
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .next-card:hover .next-arrow {
+    transform: translateX(4px);
+    color: var(--text-1);
+  }
+
+  /* ─── Footer ─── */
+  .footer-bar {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-text {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+
+  /* ─── Sticky section index (right side) ─── */
+  .toc {
+    position: fixed;
+    right: max(2rem, calc((100vw - 900px) / 2 - 160px));
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    text-decoration: none;
+    opacity: 0.35;
+    transition: opacity 0.2s;
+  }
+
+  .toc-item:hover { opacity: 0.8; }
+
+  .toc-item.active { opacity: 1; }
+
+  .toc-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-1);
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .toc-item.active .toc-dot {
+    background: var(--accent);
+    width: 6px;
+    height: 6px;
+  }
+
+  .toc-text {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-2);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1200px) { .toc { display: none; } }
+  @media (max-width: 700px) {
+    :root { --gutter: 1.25rem; }
+    .grid-2, .grid-3, .role-grid { grid-template-columns: 1fr; }
+    .goals-grid { grid-template-columns: 1fr; }
+    .impact-grid { grid-template-columns: 1fr 1fr; }
+    .feature-block { grid-template-columns: 1fr; }
+    .feature-block.flip { direction: ltr; }
+    .hero-meta { flex-direction: column; }
+    .meta-item { border-right: none; border-bottom: 1px solid var(--border); }
+    .meta-item:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav class="nav">
+  <a href="#" class="nav-logo">Portfolio</a>
+  <a href="#" class="nav-back">All Work</a>
+</nav>
+
+<!-- ─── TOC ─── -->
+<nav class="toc" id="toc">
+  <a class="toc-item active" href="#overview"><span class="toc-dot"></span><span class="toc-text">Overview</span></a>
+  <a class="toc-item" href="#role"><span class="toc-dot"></span><span class="toc-text">Role</span></a>
+  <a class="toc-item" href="#problem"><span class="toc-dot"></span><span class="toc-text">Problem</span></a>
+  <a class="toc-item" href="#research"><span class="toc-dot"></span><span class="toc-text">Research</span></a>
+  <a class="toc-item" href="#goals"><span class="toc-dot"></span><span class="toc-text">Goals</span></a>
+  <a class="toc-item" href="#platform"><span class="toc-dot"></span><span class="toc-text">Design</span></a>
+  <a class="toc-item" href="#features"><span class="toc-dot"></span><span class="toc-text">Features</span></a>
+  <a class="toc-item" href="#handoff"><span class="toc-dot"></span><span class="toc-text">Handoff</span></a>
+  <a class="toc-item" href="#impact"><span class="toc-dot"></span><span class="toc-text">Impact</span></a>
+</nav>
+
+<!-- ─── MAIN ─── -->
+<main>
+<div class="page">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero-eyebrow"><span></span>Case Study · 01</div>
+    <h1 class="hero-title">Xometry WorkCenter — Mobile Operations for Manufacturers</h1>
+    <p class="hero-subtitle">Designing a mobile-first platform to help manufacturers manage jobs from quote to payment.</p>
+
+    <!-- Meta strip -->
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Product Design Intern</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-value">XX Weeks</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Team</div>
+        <div class="meta-value">PM, Engineers, Stakeholders</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Platform</div>
+        <div class="meta-value">iOS Mobile App</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Status</div>
+        <div class="meta-value"><span class="meta-tag">Live on App Store</span></div>
+      </div>
+    </div>
+
+    <!-- Hero image -->
+    <div class="hero-img-wrap">
+      <div class="img-icon">⊕</div>
+      <div class="img-label">Hero Image — Full phone mockup of app dashboard or job offers screen</div>
+    </div>
+  </section>
+
+  <!-- ═══ OVERVIEW ═══ -->
+  <section class="section" id="overview">
+    <div class="section-label">Overview</div>
+    <div class="overview-box">
+      Xometry's WorkCenter app helps manufacturers manage the quote-to-cash process from their phone. Shops can review job offers, respond to RFQs, manage active work, and upload documentation in one centralized mobile platform. This project focused on designing the end-to-end mobile experience, supporting user research, and collaborating with stakeholders to ship a production-ready app now live on the App Store.
+    </div>
+  </section>
+
+  <!-- ═══ ROLE ═══ -->
+  <section class="section" id="role">
+    <div class="section-head">
+      <div class="section-head-left">
+        <div class="section-label">My Role</div>
+        <div class="section-title">End-to-End Product Design</div>
+      </div>
+    </div>
+
+    <div class="box" style="margin-bottom:1.5rem;">
+      <div class="box-body">
+        I worked as a product designer supporting the end-to-end design of the WorkCenter mobile app. I participated in user interviews, synthesized insights, designed core workflows, and collaborated closely with developers to bring features to production. I also led stakeholder reviews and continued iterating on new features as research evolved.
+      </div>
+    </div>
+
+    <div class="role-grid">
+      <div class="role-item"><span class="role-dot"></span><span class="role-text">User Interviews &amp; Synthesis</span></div>
+      <div class="role-item"><span class="role-dot"></span><span class="role-text">End-to-End Mobile Workflow Design</span></div>
+      <div class="role-item"><span class="role-dot"></span><span class="role-text">Interaction &amp; UI Design</span></div>
+      <div class="role-item"><span class="role-dot"></span><span class="role-text">Stakeholder Presentations</span></div>
+      <div class="role-item"><span class="role-dot"></span><span class="role-text">Developer Handoff &amp; Collaboration</span></div>
+      <div class="role-item"><span class="role-dot"></span><span class="role-text">Iterative Feature Expansion</span></div>
+    </div>
+  </section>
+
+  <!-- ═══ PROBLEM ═══ -->
+  <section class="section" id="problem">
+    <div class="section-label">Problem</div>
+    <div class="section-title" style="margin-bottom:1.75rem;">Manufacturers Are Tethered to Their Desks</div>
+
+    <div class="box">
+      <div class="box-body">
+        Manufacturers often manage job offers, production updates, and documentation while away from their desks. Existing workflows required switching between tools or waiting until returning to a computer — causing delays and missed opportunities. The challenge was to design a mobile-first experience that supports quick decision-making, reduces friction, and keeps shops organized across multiple jobs.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ RESEARCH ═══ -->
+  <section class="section" id="research">
+    <div class="section-head">
+      <div class="section-head-left">
+        <div class="section-label">Research</div>
+        <div class="section-title">Understanding the Shop Floor</div>
+      </div>
+    </div>
+
+    <div class="box" style="margin-bottom:1.5rem;">
+      <div class="box-body">
+        To understand manufacturer workflows, we conducted multiple user interviews with shop owners and operators. Conversations focused on how users review job offers, manage production, and communicate updates while on the floor.
+      </div>
+    </div>
+
+    <!-- Key insights -->
+    <div class="box" style="margin-bottom:1.5rem;">
+      <div class="box-title">Key Insights</div>
+      <div class="insight-list">
+        <div class="insight-item">
+          <span class="insight-num">01</span>
+          <span class="insight-text">Users frequently review jobs away from their desks</span>
+        </div>
+        <div class="insight-item">
+          <span class="insight-num">02</span>
+          <span class="insight-text">Quick decision making is critical for accepting work</span>
+        </div>
+        <div class="insight-item">
+          <span class="insight-num">03</span>
+          <span class="insight-text">Uploading photos and documents needed to be fast</span>
+        </div>
+        <div class="insight-item">
+          <span class="insight-num">04</span>
+          <span class="insight-text">Users manage multiple jobs simultaneously</span>
+        </div>
+        <div class="insight-item">
+          <span class="insight-num">05</span>
+          <span class="insight-text">Clarity of job details directly affects acceptance confidence</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Research images: 2x2 + 1 wide -->
+    <div style="margin-bottom:1.5rem;">
+      <div class="box-title" style="margin-bottom:0.75rem; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-3);">Research Artifacts</div>
+      <div class="grid-2" style="margin-bottom:1rem;">
+        <div class="img-placeholder img-tall">
+          <span class="ph-icon">◻</span>
+          <span class="ph-label">Interview Notes Screenshot</span>
+        </div>
+        <div class="img-placeholder img-tall">
+          <span class="ph-icon">◻</span>
+          <span class="ph-label">Affinity Mapping</span>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:1rem;">
+        <div class="img-placeholder img-short">
+          <span class="ph-icon">◻</span>
+          <span class="ph-label">Research Documentation</span>
+        </div>
+        <div class="img-placeholder img-short">
+          <span class="ph-icon">◻</span>
+          <span class="ph-label">Sticky Note Groupings</span>
+        </div>
+      </div>
+      <div class="img-placeholder img-short">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">User Quotes &amp; Highlights</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DESIGN GOALS ═══ -->
+  <section class="section" id="goals">
+    <div class="section-label">Design Goals</div>
+    <div class="section-title" style="margin-bottom:1.75rem;">Principles to Design Against</div>
+
+    <div class="goals-grid">
+      <div class="goal-item">
+        <span class="goal-arrow">→</span>
+        <span class="goal-text">Enable quick job review on mobile</span>
+      </div>
+      <div class="goal-item">
+        <span class="goal-arrow">→</span>
+        <span class="goal-text">Centralize job management in one place</span>
+      </div>
+      <div class="goal-item">
+        <span class="goal-arrow">→</span>
+        <span class="goal-text">Streamline uploads and status updates</span>
+      </div>
+      <div class="goal-item">
+        <span class="goal-arrow">→</span>
+        <span class="goal-text">Support multi-job workflows simultaneously</span>
+      </div>
+      <div class="goal-item" style="grid-column: 1 / -1;">
+        <span class="goal-arrow">→</span>
+        <span class="goal-text">Reduce cognitive load for fast-paced environments</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DESIGNING THE PLATFORM ═══ -->
+  <section class="section" id="platform">
+    <div class="section-head">
+      <div class="section-head-left">
+        <div class="section-label">Designing the Platform</div>
+        <div class="section-title">Building the Full System</div>
+      </div>
+    </div>
+
+    <div class="box" style="margin-bottom:1.5rem;">
+      <div class="box-body">
+        The WorkCenter app was designed as a mobile-first platform supporting the full job lifecycle. The experience connects job discovery, acceptance, management, and completion into one streamlined workflow. Emphasis was placed on clarity, hierarchy, and quick actions to support users working in fast-paced environments.
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-text">The entire system — from information architecture to component design — was built with one question in mind: <em>can a shop owner make a decision in under 30 seconds?</em></div>
+    </div>
+
+    <!-- Platform images 2x2 -->
+    <div class="grid-2" style="margin-bottom:1rem;">
+      <div class="img-placeholder img-tall">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Information Architecture</span>
+      </div>
+      <div class="img-placeholder img-tall">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Flow Diagram</span>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="img-placeholder img-tall">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">App Map</span>
+      </div>
+      <div class="img-placeholder img-tall">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Early Wireframes</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ KEY FEATURES ═══ -->
+  <section class="section" id="features">
+    <div class="section-label">Key Features</div>
+    <div class="section-title" style="margin-bottom:2rem;">Four Core Workflows</div>
+
+    <!-- Feature 01 -->
+    <div class="feature-block">
+      <div class="feature-content">
+        <div class="feature-num">01 / Reviewing Job Offers</div>
+        <h3 class="feature-title">Evaluate &amp; Accept Opportunities On-the-Go</h3>
+        <p class="feature-desc">Users can quickly evaluate job details and accept opportunities directly from their phone — no desk required. The offer card surfaces the most critical information upfront: part specs, quantity, due date, and payout.</p>
+      </div>
+      <div class="img-placeholder img-tall">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Job Offer Screen</span>
+      </div>
+    </div>
+
+    <!-- Feature 02 -->
+    <div class="feature-block flip">
+      <div class="feature-content">
+        <div class="feature-num">02 / Managing Active Jobs</div>
+        <h3 class="feature-title">One Dashboard for Every Active Project</h3>
+        <p class="feature-desc">A centralized dashboard allows users to track progress across multiple projects simultaneously. Status indicators, deadlines, and next actions are surfaced at a glance to minimize context-switching.</p>
+      </div>
+      <div class="img-placeholder img-tall">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Dashboard Screen</span>
+      </div>
+    </div>
+
+    <!-- Feature 03 -->
+    <div class="feature-block">
+      <div class="feature-content">
+        <div class="feature-num">03 / Uploading Documentation</div>
+        <h3 class="feature-title">Capture &amp; Submit Directly from Mobile</h3>
+        <p class="feature-desc">Users can capture and upload photos directly from their phone with minimal steps. The upload flow was designed to be fast and forgiving — supporting multiple file types with clear progress feedback.</p>
+      </div>
+      <div class="img-placeholder img-tall">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Upload Flow</span>
+      </div>
+    </div>
+
+    <!-- Feature 04 -->
+    <div class="feature-block flip">
+      <div class="feature-content">
+        <div class="feature-num">04 / Quote-to-Cash Workflow</div>
+        <h3 class="feature-title">The Full Lifecycle in One Place</h3>
+        <p class="feature-desc">The platform supports the complete job lifecycle — from receiving an offer, through production, to final payment. Each step was mapped and designed to reduce drop-off and increase manufacturer confidence.</p>
+      </div>
+      <div class="img-placeholder img-tall">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Quote-to-Cash Flow</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ COLLABORATION & HANDOFF ═══ -->
+  <section class="section" id="handoff">
+    <div class="section-head">
+      <div class="section-head-left">
+        <div class="section-label">Collaboration &amp; Handoff</div>
+        <div class="section-title">Bridging Design and Engineering</div>
+      </div>
+    </div>
+
+    <div class="box" style="margin-bottom:1.5rem;">
+      <div class="box-body">
+        I worked closely with engineers to ensure designs translated smoothly into development. This included preparing handoff documentation, walking through flows in detail, and leading stakeholder calls to align on product direction. Designs continued to evolve as features were implemented and tested in production.
+      </div>
+    </div>
+
+    <!-- Handoff image grid -->
+    <div class="grid-2" style="margin-bottom:1rem;">
+      <div class="img-placeholder img-tall">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Figma Dev Mode</span>
+      </div>
+      <div class="img-placeholder img-tall">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Annotated Screens</span>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="img-placeholder img-short">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Handoff Specs &amp; Documentation</span>
+      </div>
+      <div class="img-placeholder img-short">
+        <span class="ph-icon">◻</span>
+        <span class="ph-label">Component System</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ IMPACT ═══ -->
+  <section class="section" id="impact">
+    <div class="section-label">Impact</div>
+    <div class="section-title" style="margin-bottom:1.75rem;">Shipped &amp; Live on the App Store</div>
+
+    <div class="impact-grid" style="margin-bottom:1.5rem;">
+      <div class="impact-item">
+        <div class="impact-stat">Live</div>
+        <div class="impact-label">App Store Status</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-stat">iOS</div>
+        <div class="impact-label">Platform Shipped</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-stat">∞</div>
+        <div class="impact-label">Ongoing Iteration</div>
+      </div>
+    </div>
+
+    <div class="box" style="margin-bottom:1.5rem;">
+      <div class="box-body">
+        The WorkCenter app launched publicly and is currently live on the App Store. The mobile platform enables manufacturers to manage jobs on the go, reducing friction and improving visibility into active work. Ongoing research continues to inform new features and iterative improvements.
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="box">
+      <div class="box-title">Current Status</div>
+      <div class="status-row">
+        <span class="badge badge-live">Live on App Store</span>
+        <span class="badge badge-ongoing">New Features In Progress</span>
+        <span class="badge badge-ongoing">Continuing to Iterate</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NEXT CASE STUDY ═══ -->
+  <section class="next-section">
+    <div class="next-label">Next Case Study</div>
+    <div class="next-card">
+      <div>
+        <div class="next-card-title">Project Two — Coming Soon</div>
+        <div class="next-card-sub">Next project title goes here</div>
+      </div>
+      <span class="next-arrow">→</span>
+    </div>
+  </section>
+
+  <div class="footer-bar">
+    <span class="footer-text">Xometry WorkCenter — Case Study</span>
+    <span class="footer-text">Product Design Intern</span>
+  </div>
+
+</div><!-- /page -->
+</main>
+
+<script>
+  // Smooth TOC active state
+  const sections = document.querySelectorAll('section[id]');
+  const tocItems = document.querySelectorAll('.toc-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocItems.forEach(item => item.classList.remove('active'));
+        const id = entry.target.id;
+        const active = document.querySelector(`.toc-item[href="#${id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

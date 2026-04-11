@@ -1,0 +1,24 @@
+import { Routes, Route } from 'react-router-dom';
+import { FinderLayout } from './components/layout/FinderLayout';
+import { SectionProvider } from './context/SectionContext';
+import { Home } from './pages/Home';
+import { Product } from './pages/Product';
+import { Visual } from './pages/Visual';
+import { XometryCase } from './pages/XometryCase';
+
+function App() {
+  return (
+    <SectionProvider>
+      <Routes>
+        <Route path="/" element={<FinderLayout />}>
+          <Route index element={<Home />} />
+          <Route path="product" element={<Product />} />
+          <Route path="visual" element={<Visual />} />
+          <Route path="projects/xometry-workcenter" element={<XometryCase />} />
+        </Route>
+      </Routes>
+    </SectionProvider>
+  );
+}
+
+export default App;
