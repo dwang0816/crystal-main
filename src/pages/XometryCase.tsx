@@ -163,8 +163,7 @@ export const XometryCase = () => {
         <SectionWrap id="cs-overview">
           <SectionLabel>Overview</SectionLabel>
           <div className="text-[14px] sm:text-[15px] leading-[1.8] rounded-r-[10px] px-5 sm:px-7 py-5"
-               style={{ background: T.surface, borderLeft: `3px solid ${T.brand}`,
-                        border: `1px solid ${T.border}`, borderLeft: `3px solid ${T.brand}`, color: T.text2 }}>
+               style={{ background: T.surface, border: `1px solid ${T.border}`, borderLeft: `3px solid ${T.brand}`, color: T.text2 }}>
             Xometry's WorkCenter app helps manufacturers manage the quote-to-cash process from their
             phone. Shops can review job offers, respond to RFQs, manage active work, and upload
             documentation in one centralized mobile platform. This project focused on designing the

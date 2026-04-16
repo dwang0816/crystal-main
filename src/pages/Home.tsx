@@ -99,22 +99,6 @@ const PhotoBlock = ({ maxH }: { maxH?: string }) => (
     </div>
 );
 
-/* ── Shared right column (clock + photo + experience) ── */
-const RightColumn = ({ clockWidth, colWidth }: { clockWidth: string; colWidth: string }) => (
-    <div className="flex-none flex items-start">
-        <div className="flex-none pt-2 pr-3" style={{ width: clockWidth }}>
-            <ClockWidget direction="vertical" />
-        </div>
-        <div className="flex-none flex flex-col gap-2" style={{ width: colWidth }}>
-            <PhotoBlock />
-            <div className="group/widget flex flex-col gap-1 pr-2">
-                <ExperienceWidget />
-                <FileLabel name="experience" />
-            </div>
-        </div>
-    </div>
-);
-
 /* ── Featured card ── */
 const FeaturedCard = ({
     project,
