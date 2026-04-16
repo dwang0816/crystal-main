@@ -1,4 +1,6 @@
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { DOTTED_BG } from '../lib/styles';
 import { MemoWidget } from '../components/widgets/MemoWidget';
 import { ExperienceWidget } from '../components/widgets/ExperienceWidget';
@@ -13,6 +15,66 @@ const FileLabel = ({ name }: { name: string }) => (
         {name}
     </span>
 );
+
+/* ── Draggable + resizable widget shell ─────────────────────────────────────
+   • Drag  → reposition freely on the canvas
+   • − / + → shrink / enlarge (spring-animated, visible on hover)
+   Buttons live INSIDE the widget so hovering over them doesn't break the
+   hover state — no JS hover tracking needed, pure CSS group-hover.          */
+function DesktopWidget({
+    children,
+    style,
+    zBase = 1,
+    constraintsRef,
+}: {
+    children: React.ReactNode;
+    style?: React.CSSProperties;
+    zBase?: number;
+    constraintsRef: React.RefObject<HTMLDivElement | null>;
+}) {
+    const [scale, setScale]   = useState(1);
+    const [zIndex, setZIndex] = useState(zBase);
+
+    return (
+        <motion.div
+            drag
+            dragConstraints={constraintsRef}
+            dragMomentum={false}
+            dragElastic={0.04}
+            onDragStart={() => setZIndex(100)}
+            onDragEnd={()   => setZIndex(zBase)}
+            animate={{ scale }}
+            transition={{ type: 'spring', stiffness: 340, damping: 28 }}
+            style={{ position: 'absolute', zIndex, touchAction: 'none', ...style }}
+            className="cursor-grab active:cursor-grabbing select-none group"
+        >
+            {/* − / + controls — inside the widget, top-right corner.
+                CSS group-hover keeps them visible when moving toward them. */}
+            <div
+                className="absolute top-2 right-2 z-50 flex items-center gap-1
+                           opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+                onPointerDown={e => e.stopPropagation()}
+            >
+                <button
+                    onClick={() => setScale(s => Math.max(+(s - 0.2).toFixed(2), 0.3))}
+                    className="w-6 h-6 rounded-full bg-white/90 border border-slate-200 shadow-sm
+                               text-slate-500 text-base leading-none
+                               flex items-center justify-center
+                               hover:bg-white hover:text-slate-800 transition-colors"
+                >−</button>
+                <button
+                    onClick={() => setScale(s => Math.min(+(s + 0.2).toFixed(2), 2.5))}
+                    className="w-6 h-6 rounded-full bg-white/90 border border-slate-200 shadow-sm
+                               text-slate-500 text-base leading-none
+                               flex items-center justify-center
+                               hover:bg-white hover:text-slate-800 transition-colors"
+                >+</button>
+            </div>
+
+            {children}
+        </motion.div>
+    );
+}
 
 /* ~600px container → text naturally wraps into 3 clean lines at 1.75rem */
 const MEMO_STATIC   = `Hi, I'm **Crystal** — `;
@@ -111,6 +173,7 @@ const FeaturedWorkWidget = ({
 const HomeSection = () => {
     const navigate = useNavigate();
     const topTwo = featuredProjects.slice(0, 2);
+    const canvasRef = useRef<HTMLDivElement>(null);
 
     return (
         <div className="absolute inset-0 w-full h-full" style={DOTTED_BG}>
@@ -209,91 +272,64 @@ const HomeSection = () => {
             </div>
 
             {/* ══════════════════════════════════════════
-                LARGE DESKTOP  (lg → 2xl / 1024–1535px)
-                2-col × 3-row grid.
-                Left (1fr):  [empty] / [intro, ↓-aligned] / [FW, ↑-aligned]
-                Right (photo width): [clock] / [photo] / [experience]
-                → intro bottom = photo bottom (shared row 2)
-                → FW top = experience top (shared row 3)
-                → no clock column between them — direct adjacency
+                DESKTOP  (lg+ / 1024px+)
+                Drag to move. Scroll wheel on any widget to tilt.
             ══════════════════════════════════════════ */}
             <div
-                className="hidden lg:grid 2xl:hidden absolute inset-0 overflow-hidden"
-                style={{
-                    top: '52px',
-                    gridTemplateColumns: '1fr clamp(260px, 26vw, 380px)',
-                    gridTemplateRows: 'auto auto auto 1fr',
-                    rowGap: '8px',
-                }}
+                ref={canvasRef}
+                className="hidden lg:block absolute inset-0 overflow-hidden"
+                style={{ top: '52px' }}
             >
-                {/* [row 1, col 1]: empty — height set by clock */}
-                <div />
+                {/* Clock */}
+                <DesktopWidget
+                    constraintsRef={canvasRef}
+                    zBase={9}
+                    style={{ right: 'calc(clamp(200px, 22vw, 310px) + 2% + 14px)', top: '5%', width: 'clamp(180px, 18vw, 260px)' }}
+                >
+                    <ClockWidget direction="vertical" />
+                </DesktopWidget>
 
-                {/* [row 1, col 2]: clock */}
-                <div className="pt-2 pr-2 pl-1">
-                    <ClockWidget direction="horizontal" />
-                </div>
+                {/* Photo */}
+                <DesktopWidget
+                    constraintsRef={canvasRef}
+                    zBase={8}
+                    style={{ right: '2%', top: '3%', width: 'clamp(200px, 22vw, 310px)' }}
+                >
+                    <PhotoBlock maxH="clamp(140px, 18vh, 240px)" />
+                </DesktopWidget>
 
-                {/* [row 2, col 1]: intro — top-aligned with photo top, left edge of page */}
-                <div className="flex items-start pl-6 pr-4">
-                    <div className="group/widget flex flex-col items-start gap-1.5 max-w-[480px] xl:max-w-[520px]">
+                {/* Intro memo */}
+                <DesktopWidget
+                    constraintsRef={canvasRef}
+                    zBase={10}
+                    style={{ left: '3%', top: '14%', maxWidth: 'clamp(300px, 42vw, 540px)' }}
+                >
+                    <div className="flex flex-col items-start gap-1.5">
                         <MemoWidget staticContent={MEMO_STATIC} content={MEMO_ANIMATED} />
                         <FileLabel name="intro" />
                     </div>
-                </div>
+                </DesktopWidget>
 
-                {/* [row 2, col 2]: photo — flush top of right column */}
-                <PhotoBlock />
-
-                {/* [row 3, col 1]: featured work — directly below intro, left edge of page */}
-                <div className="flex items-start pl-6 pr-4 pb-8">
+                {/* Featured work */}
+                <DesktopWidget
+                    constraintsRef={canvasRef}
+                    zBase={9}
+                    style={{ left: '3%', bottom: '5%' }}
+                >
                     <FeaturedWorkWidget projects={topTwo} onNavigate={navigate} />
-                </div>
+                </DesktopWidget>
 
-                {/* [row 3, col 2]: experience */}
-                <div className="group/widget flex flex-col gap-1 pr-2 pb-4">
-                    <ExperienceWidget />
-                    <FileLabel name="experience" />
-                </div>
-
-                {/* [row 4]: absorbs leftover vertical space */}
-                <div className="col-span-2" />
-            </div>
-
-            {/* ══════════════════════════════════════════
-                WIDE DESKTOP  (≥ 2xl / 1536px+)
-                Full-page centered intro + featured work
-                Right column absolute to corner
-            ══════════════════════════════════════════ */}
-            <div className="hidden 2xl:block absolute inset-0 overflow-hidden" style={{ top: '52px' }}>
-
-                {/* Right column */}
-                <div className="absolute top-0 right-0 flex items-start">
-                    <div className="flex-none w-[165px] pt-2 pr-3">
-                        <ClockWidget direction="vertical" />
+                {/* Experience */}
+                <DesktopWidget
+                    constraintsRef={canvasRef}
+                    zBase={7}
+                    style={{ right: '2%', bottom: '6%', width: 'clamp(200px, 22vw, 310px)' }}
+                >
+                    <div className="flex flex-col gap-1">
+                        <ExperienceWidget />
+                        <FileLabel name="experience" />
                     </div>
-                    <div className="flex-none flex flex-col gap-2" style={{ width: 'clamp(320px, 26vw, 420px)' }}>
-                        <PhotoBlock />
-                        <div className="group/widget flex flex-col gap-1 pr-2">
-                            <ExperienceWidget />
-                            <FileLabel name="experience" />
-                        </div>
-                    </div>
-                </div>
-
-                {/* Intro — full-page centered, 3-line width */}
-                <div className="absolute top-[36%] -translate-y-1/2 inset-x-0 flex justify-center z-10 px-4">
-                    <div className="group/widget flex flex-col items-center gap-1.5 w-full max-w-[520px]">
-                        <MemoWidget staticContent={MEMO_STATIC} content={MEMO_ANIMATED} />
-                        <FileLabel name="intro" />
-                    </div>
-                </div>
-
-                {/* Featured work — full-page centered */}
-                <div className="absolute bottom-[8%] inset-x-0 flex justify-center z-10">
-                    <FeaturedWorkWidget projects={topTwo} onNavigate={navigate} />
-                </div>
-
+                </DesktopWidget>
             </div>
 
         </div>
