@@ -27,7 +27,7 @@ function ExperienceList({ idPrefix }: { idPrefix: string }) {
 export function ExperienceWidget({ className }: { className?: string }) {
     return (
         <div
-            className={`exp-widget rounded-sm border border-slate-200 bg-white shadow w-full h-[260px] overflow-hidden transition-all duration-200 hover:-translate-y-[3px] hover:shadow-md ${className ?? ''}`}
+            className={`exp-widget rounded-sm border border-slate-200 bg-white shadow w-full overflow-hidden transition-all duration-200 hover:-translate-y-[3px] hover:shadow-md ${className ?? 'h-[260px]'}`}
         >
             {/* Two identical lists — CSS animation scrolls them; at -50% it loops seamlessly */}
             <div className="exp-ticker px-5 pt-4">

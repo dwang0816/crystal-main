@@ -16,11 +16,12 @@ type BaseItem = {
 export type FeaturedProject = {
     id: string;
     title: string;
-    description: string;
-    images: string[];
-    color: string;
-    titleColor: string;
+    hmw: string;
+    tags: string[];
+    tools: { src: string; alt: string }[];
+    image: string;
     link?: string;
+    external?: boolean;
 };
 
 export type DraggableItem =

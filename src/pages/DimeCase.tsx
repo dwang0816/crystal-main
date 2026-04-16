@@ -58,7 +58,6 @@ const BodyText = ({ children }: { children: React.ReactNode }) => (
   </p>
 );
 
-/* Grid2: 1-col on mobile, 2-col on sm+ */
 const Grid2 = ({ children, className }: { children: React.ReactNode; className?: string }) => (
   <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 ${className ?? ''}`}>
     {children}
@@ -87,7 +86,7 @@ const SectionWrap = ({ children, id }: { children: React.ReactNode; id?: string 
 );
 
 /* ─── Main page ─── */
-export const XometryCase = () => {
+export const DimeCase = () => {
   const navigate = useNavigate();
 
   return (
@@ -112,26 +111,26 @@ export const XometryCase = () => {
           <div className="inline-flex items-center gap-2 mb-3 text-[11px] font-semibold uppercase tracking-[0.1em]"
                style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
             <span className="w-5 h-px" style={{ background: T.text3 }} />
-            Case Study · 01
+            Case Study · 03
           </div>
 
           <h1 className="text-[clamp(22px,4vw,42px)] font-bold leading-[1.15] tracking-tight mb-4 max-w-[620px]"
               style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
-            Xometry WorkCenter — Mobile Operations for Manufacturers
+            Dime — Real-Time Credit Card Reward Optimization
           </h1>
 
           <p className="text-[15px] sm:text-[16px] mb-9 max-w-[500px] leading-relaxed" style={{ color: T.text2 }}>
-            Designing a mobile-first platform to help manufacturers manage jobs from quote to payment.
+            Designing a multi-platform system that helps users always choose the best card at checkout.
           </p>
 
-          {/* Meta strip — wraps on mobile */}
+          {/* Meta strip */}
           <div className="flex flex-wrap rounded-[10px] overflow-hidden mb-10"
                style={{ border: `1px solid ${T.border}` }}>
             {[
-              { label: 'Role',     value: 'Product Design Intern' },
-              { label: 'Timeline', value: 'XX Weeks' },
-              { label: 'Team',     value: 'PM, Engineers, Stakeholders' },
-              { label: 'Platform', value: 'iOS Mobile App' },
+              { label: 'Role',     value: 'Product Design · Frontend' },
+              { label: 'Timeline', value: 'Hackathon' },
+              { label: 'Team',     value: 'Designers · Engineers' },
+              { label: 'Platform', value: 'Extension · Dashboard' },
             ].map(m => (
               <div key={m.label} className="flex-[1_1_130px] px-4 py-3.5"
                    style={{ background: T.surface, borderRight: `1px solid ${T.border}` }}>
@@ -144,17 +143,17 @@ export const XometryCase = () => {
             ))}
             <div className="flex-[1_1_130px] px-4 py-3.5" style={{ background: T.surface }}>
               <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1"
-                   style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>Status</div>
+                   style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>Award</div>
               <span className="inline-block text-[11px] font-semibold px-2 py-0.5 rounded"
-                    style={{ background: T.brandDim, color: T.brand, border: `1px solid ${T.brandBorder}` }}>
-                Live on App Store
+                    style={{ background: T.greenDim, color: T.green, border: `1px solid ${T.greenBorder}` }}>
+                🏆 Best Financial Hack
               </span>
             </div>
           </div>
 
           {/* Hero image */}
           <ImgPlaceholder
-            label="Hero Image — Full phone mockup of app dashboard or job offers screen"
+            label="Hero Image — Extension UI + Dashboard overview"
             className="!min-h-[220px] sm:!min-h-[320px] rounded-xl"
           />
         </section>
@@ -164,37 +163,37 @@ export const XometryCase = () => {
           <SectionLabel>Overview</SectionLabel>
           <div className="text-[14px] sm:text-[15px] leading-[1.8] rounded-r-[10px] px-5 sm:px-7 py-5"
                style={{ background: T.surface, border: `1px solid ${T.border}`, borderLeft: `3px solid ${T.brand}`, color: T.text2 }}>
-            Xometry's WorkCenter app helps manufacturers manage the quote-to-cash process from their
-            phone. Shops can review job offers, respond to RFQs, manage active work, and upload
-            documentation in one centralized mobile platform. This project focused on designing the
-            end-to-end mobile experience, supporting user research, and collaborating with stakeholders
-            to ship a production-ready app now live on the App Store.
+            Dime is a multi-platform tool designed to help users maximize credit card rewards in real
+            time. The system recommends the best card at checkout, scans receipts for in-person
+            purchases, and visualizes reward opportunities across spending. The project focused on
+            designing the full experience, developing custom data visualizations, and collaborating
+            closely with engineers to deliver a working prototype.
           </div>
         </SectionWrap>
 
         {/* ═══ ROLE ═══ */}
         <SectionWrap id="cs-role">
           <SectionLabel>My Role</SectionLabel>
-          <SectionTitle>End-to-End Product Design</SectionTitle>
+          <SectionTitle>End-to-End Platform Design</SectionTitle>
           <Box className="mb-4">
             <BodyText>
-              I worked as a product designer supporting the end-to-end design of the WorkCenter mobile
-              app. I participated in user interviews, synthesized insights, designed core workflows, and
-              collaborated closely with developers to bring features to production. I also led stakeholder
-              reviews and continued iterating on new features as research evolved.
+              I designed the end-to-end platform experience across the extension, dashboard, and
+              supporting interfaces. This included defining workflows, creating custom data
+              visualizations tailored to reward optimization, and ensuring clarity across multiple
+              surfaces. I also supported frontend development and worked closely with the team through
+              rapid ideation and iteration during the hackathon.
             </BodyText>
           </Box>
 
-          {/* 2-col mobile → 3-col desktop */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-px rounded-[10px] overflow-hidden"
                style={{ background: T.border, border: `1px solid ${T.border}` }}>
             {[
-              'User Interviews & Synthesis',
-              'End-to-End Mobile Workflow Design',
-              'Interaction & UI Design',
-              'Stakeholder Presentations',
-              'Developer Handoff & Collaboration',
-              'Iterative Feature Expansion',
+              'End-to-End Platform Design',
+              'Custom Data Visualization',
+              'Extension & Dashboard UI',
+              'Workflow Definition',
+              'Frontend Development Support',
+              'Rapid Ideation & Iteration',
             ].map(item => (
               <div key={item} className="flex items-start gap-2.5 p-4" style={{ background: T.bg }}>
                 <span className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: T.brand }} />
@@ -207,90 +206,47 @@ export const XometryCase = () => {
         {/* ═══ PROBLEM ═══ */}
         <SectionWrap id="cs-problem">
           <SectionLabel>Problem</SectionLabel>
-          <SectionTitle>Manufacturers Are Tethered to Their Desks</SectionTitle>
+          <SectionTitle>Rewards Are Complex and Easily Missed</SectionTitle>
           <Box>
             <BodyText>
-              Manufacturers often manage job offers, production updates, and documentation while away
-              from their desks. Existing workflows required switching between tools or waiting until
-              returning to a computer — causing delays and missed opportunities. The challenge was to
-              design a mobile-first experience that supports quick decision-making, reduces friction,
-              and keeps shops organized across multiple jobs.
+              Credit card rewards are complex and difficult to track. Users often don't know which card
+              to use at checkout and miss opportunities to maximize points. Existing tools provide
+              retrospective insights but don't support real-time decision making — leaving value on
+              the table with every transaction.
             </BodyText>
           </Box>
         </SectionWrap>
 
-        {/* ═══ RESEARCH ═══ */}
-        <SectionWrap id="cs-research">
-          <SectionLabel>Research</SectionLabel>
-          <SectionTitle>Understanding the Shop Floor</SectionTitle>
+        {/* ═══ SOLUTION ═══ */}
+        <SectionWrap id="cs-solution">
+          <SectionLabel>Solution</SectionLabel>
+          <SectionTitle>A Connected System for Every Moment of Spending</SectionTitle>
 
           <Box className="mb-4">
             <BodyText>
-              To understand manufacturer workflows, we conducted multiple user interviews with shop
-              owners and operators. Conversations focused on how users review job offers, manage
-              production, and communicate updates while on the floor.
+              Dime was designed as a connected ecosystem spanning multiple touchpoints — each surface
+              supporting a different moment in the spending journey while sharing a unified
+              recommendation system beneath.
             </BodyText>
           </Box>
 
-          {/* Key insights */}
-          <Box className="mb-4">
-            <BoxTitle>Key Insights</BoxTitle>
-            <div className="flex flex-col gap-px rounded overflow-hidden" style={{ background: T.border }}>
-              {[
-                'Users frequently review jobs away from their desks',
-                'Quick decision making is critical for accepting work',
-                'Uploading photos and documents needed to be fast',
-                'Users manage multiple jobs simultaneously',
-                'Clarity of job details directly affects acceptance confidence',
-              ].map((insight, i) => (
-                <div key={i} className="flex gap-4 items-start px-4 py-3.5" style={{ background: T.bg }}>
-                  <span className="font-mono text-[11px] min-w-[24px] pt-0.5" style={{ color: T.text3 }}>0{i + 1}</span>
-                  <span className="text-[13px] sm:text-[13.5px] leading-snug" style={{ color: T.text1 }}>{insight}</span>
-                </div>
-              ))}
-            </div>
-          </Box>
-
-          {/* Research artifacts */}
-          <div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-2.5"
-                 style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>Research Artifacts</div>
-            <Grid2 className="mb-3">
-              <ImgPlaceholder label="Interview Notes Screenshot" className="sm:!min-h-[220px]" />
-              <ImgPlaceholder label="Affinity Mapping" className="sm:!min-h-[220px]" />
-            </Grid2>
-            <Grid2 className="mb-3">
-              <ImgPlaceholder label="Research Documentation" />
-              <ImgPlaceholder label="Sticky Note Groupings" />
-            </Grid2>
-            <ImgPlaceholder label="User Quotes & Highlights" />
-          </div>
-        </SectionWrap>
-
-        {/* ═══ DESIGN GOALS ═══ */}
-        <SectionWrap id="cs-goals">
-          <SectionLabel>Design Goals</SectionLabel>
-          <SectionTitle>Principles to Design Against</SectionTitle>
-
-          {/* 1-col mobile → 2-col desktop */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-px rounded-[10px] overflow-hidden"
                style={{ background: T.border, border: `1px solid ${T.border}` }}>
             {[
-              'Enable quick job review on mobile',
-              'Centralize job management in one place',
-              'Streamline uploads and status updates',
-              'Support multi-job workflows simultaneously',
+              'Recommends best card in real time',
+              'Tracks spending across all cards',
+              'Visualizes reward opportunities',
+              'Supports in-person purchases via receipt scan',
             ].map(goal => (
               <div key={goal} className="flex gap-3 items-start px-5 py-4" style={{ background: T.bg }}>
                 <span className="text-sm font-bold mt-0.5 shrink-0" style={{ color: T.brand }}>→</span>
                 <span className="text-[13px] sm:text-[13.5px] leading-snug" style={{ color: T.text1 }}>{goal}</span>
               </div>
             ))}
-            {/* Full-width last item */}
             <div className="sm:col-span-2 flex gap-3 items-start px-5 py-4" style={{ background: T.bg }}>
               <span className="text-sm font-bold mt-0.5 shrink-0" style={{ color: T.brand }}>→</span>
               <span className="text-[13px] sm:text-[13.5px] leading-snug" style={{ color: T.text1 }}>
-                Reduce cognitive load for fast-paced environments
+                Simplifies complex reward structures into clear, actionable decisions
               </span>
             </div>
           </div>
@@ -299,70 +255,57 @@ export const XometryCase = () => {
         {/* ═══ DESIGNING THE PLATFORM ═══ */}
         <SectionWrap id="cs-platform">
           <SectionLabel>Designing the Platform</SectionLabel>
-          <SectionTitle>Building the Full System</SectionTitle>
+          <SectionTitle>A Multi-Surface Ecosystem</SectionTitle>
 
           <Box className="mb-4">
             <BodyText>
-              The WorkCenter app was designed as a mobile-first platform supporting the full job
-              lifecycle. The experience connects job discovery, acceptance, management, and completion
-              into one streamlined workflow. Emphasis was placed on clarity, hierarchy, and quick
-              actions to support users working in fast-paced environments.
+              Dime was designed as a connected ecosystem spanning multiple touchpoints. Each surface
+              supports a different moment in the spending journey while sharing a unified recommendation
+              system — creating a seamless experience from browser checkout to in-person receipt scan.
             </BodyText>
           </Box>
 
           <div className="rounded-lg px-5 py-4 mb-6" style={{ background: T.brandDim, border: `1px solid ${T.brandBorder}` }}>
             <p className="text-[13px] sm:text-[13.5px] leading-relaxed" style={{ color: T.brand }}>
-              The entire system — from information architecture to component design — was built with
-              one question in mind: <em>can a shop owner make a decision in under 30 seconds?</em>
+              Every surface was designed to answer the same question in a different context:{' '}
+              <em>which card should I use right now?</em>
             </p>
           </div>
 
-          <Grid2 className="mb-3">
-            <ImgPlaceholder label="Information Architecture" className="sm:!min-h-[240px]" />
-            <ImgPlaceholder label="Flow Diagram" className="sm:!min-h-[240px]" />
-          </Grid2>
-          <Grid2>
-            <ImgPlaceholder label="App Map" className="sm:!min-h-[240px]" />
-            <ImgPlaceholder label="Early Wireframes" className="sm:!min-h-[240px]" />
-          </Grid2>
-        </SectionWrap>
-
-        {/* ═══ KEY FEATURES ═══ */}
-        <SectionWrap id="cs-features">
-          <SectionLabel>Key Features</SectionLabel>
-          <SectionTitle>Four Core Workflows</SectionTitle>
-
           {[
             {
-              num: '01', heading: 'Reviewing Job Offers',
-              title: 'Evaluate & Accept Opportunities On-the-Go',
-              desc: 'Users can quickly evaluate job details and accept opportunities directly from their phone — no desk required. The offer card surfaces the most critical information upfront: part specs, quantity, due date, and payout.',
-              imgLabel: 'Job Offer Screen', flip: false,
+              num: '01', heading: 'System Diagram',
+              title: 'Mapping the Full Ecosystem',
+              desc: 'A system diagram defined how the extension, dashboard, receipt scanner, and messaging agent would connect — establishing a shared recommendation layer across all surfaces.',
+              imgLabel: 'System Diagram',
+              flip: false,
             },
             {
-              num: '02', heading: 'Managing Active Jobs',
-              title: 'One Dashboard for Every Active Project',
-              desc: 'A centralized dashboard allows users to track progress across multiple projects simultaneously. Status indicators, deadlines, and next actions are surfaced at a glance to minimize context-switching.',
-              imgLabel: 'Dashboard Screen', flip: true,
+              num: '02', heading: 'Browser Extension',
+              title: 'Real-Time Checkout Recommendations',
+              desc: 'The browser extension surfaces the best card recommendation directly at checkout — appearing contextually when users are on payment pages and requiring zero extra steps.',
+              imgLabel: 'Extension UI',
+              flip: true,
             },
             {
-              num: '03', heading: 'Uploading Documentation',
-              title: 'Capture & Submit Directly from Mobile',
-              desc: 'Users can capture and upload photos directly from their phone with minimal steps. The upload flow was designed to be fast and forgiving — supporting multiple file types with clear progress feedback.',
-              imgLabel: 'Upload Flow', flip: false,
+              num: '03', heading: 'Dashboard',
+              title: 'Spending Overview & Reward Tracking',
+              desc: 'The dashboard provides a full view of spending across cards, visualizing reward opportunities, historical performance, and upcoming optimization strategies.',
+              imgLabel: 'Dashboard UI',
+              flip: false,
             },
             {
-              num: '04', heading: 'Quote-to-Cash Workflow',
-              title: 'The Full Lifecycle in One Place',
-              desc: 'The platform supports the complete job lifecycle — from receiving an offer, through production, to final payment. Each step was mapped and designed to reduce drop-off and increase manufacturer confidence.',
-              imgLabel: 'Quote-to-Cash Flow', flip: true,
+              num: '04', heading: 'Messaging Agent',
+              title: 'Conversational Reward Guidance',
+              desc: 'A messaging interface allows users to ask questions about their cards and get personalized recommendations — extending the system into a conversational format.',
+              imgLabel: 'Messaging Agent UI',
+              flip: true,
             },
           ].map((f, i, arr) => (
             <div key={f.num}
                  className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 py-7 items-start
                              ${i < arr.length - 1 ? 'border-b' : ''}`}
                  style={{ borderColor: T.border }}>
-              {/* Content — on desktop flip: push to col 2 */}
               <div className={f.flip ? 'sm:order-2' : ''}>
                 <div className="font-mono text-[11px] mb-2.5 tracking-[0.08em]" style={{ color: T.text3 }}>
                   {f.num} / {f.heading}
@@ -373,7 +316,6 @@ export const XometryCase = () => {
                 </h3>
                 <p className="text-[13px] sm:text-[13.5px] leading-[1.7]" style={{ color: T.text2 }}>{f.desc}</p>
               </div>
-              {/* Image — on desktop flip: push to col 1 */}
               <div className={f.flip ? 'sm:order-1' : ''}>
                 <ImgPlaceholder label={f.imgLabel} className="sm:!min-h-[260px]" />
               </div>
@@ -381,44 +323,64 @@ export const XometryCase = () => {
           ))}
         </SectionWrap>
 
-        {/* ═══ COLLABORATION & HANDOFF ═══ */}
-        <SectionWrap id="cs-handoff">
-          <SectionLabel>Collaboration & Handoff</SectionLabel>
-          <SectionTitle>Bridging Design and Engineering</SectionTitle>
+        {/* ═══ DATA VISUALIZATION ═══ */}
+        <SectionWrap id="cs-dataviz">
+          <SectionLabel>Data Visualization</SectionLabel>
+          <SectionTitle>Making Reward Logic Legible</SectionTitle>
 
           <Box className="mb-4">
             <BodyText>
-              I worked closely with engineers to ensure designs translated smoothly into development.
-              This included preparing handoff documentation, walking through flows in detail, and leading
-              stakeholder calls to align on product direction. Designs continued to evolve as features
-              were implemented and tested in production.
+              To make reward optimization understandable, I designed custom visualizations tailored to
+              spending categories, reward multipliers, and missed opportunities. These visualizations
+              helped translate complex reward logic into clear, actionable insights — surfacing the right
+              information at the right moment rather than overwhelming users with raw data.
             </BodyText>
           </Box>
 
           <Grid2 className="mb-3">
-            <ImgPlaceholder label="Figma Dev Mode" className="sm:!min-h-[220px]" />
-            <ImgPlaceholder label="Annotated Screens" className="sm:!min-h-[220px]" />
+            <ImgPlaceholder label="Spending Category Charts" className="sm:!min-h-[240px]" />
+            <ImgPlaceholder label="Reward Breakdown UI" className="sm:!min-h-[240px]" />
           </Grid2>
           <Grid2>
-            <ImgPlaceholder label="Handoff Specs & Documentation" />
-            <ImgPlaceholder label="Component System" />
+            <ImgPlaceholder label="Card Comparison View" className="sm:!min-h-[240px]" />
+            <ImgPlaceholder label="Reward Indicators & Multipliers" className="sm:!min-h-[240px]" />
+          </Grid2>
+        </SectionWrap>
+
+        {/* ═══ COLLABORATION ═══ */}
+        <SectionWrap id="cs-collaboration">
+          <SectionLabel>Collaboration</SectionLabel>
+          <SectionTitle>Design and Engineering in Parallel</SectionTitle>
+
+          <Box className="mb-4">
+            <BodyText>
+              The team worked closely together throughout the hackathon, rapidly ideating, prototyping,
+              and building in parallel. Design and development informed each other continuously,
+              allowing us to quickly test ideas and ship a working prototype within the time constraint.
+            </BodyText>
+          </Box>
+
+          <Grid2>
+            <ImgPlaceholder label="Ideation & Whiteboarding" className="sm:!min-h-[220px]" />
+            <ImgPlaceholder label="Prototype Iterations" className="sm:!min-h-[220px]" />
           </Grid2>
         </SectionWrap>
 
         {/* ═══ IMPACT ═══ */}
         <SectionWrap id="cs-impact">
           <SectionLabel>Impact</SectionLabel>
-          <SectionTitle>Shipped & Live on the App Store</SectionTitle>
+          <SectionTitle>Capital One Best Financial Hack Winner</SectionTitle>
 
-          {/* Stats — 3 cols even on mobile (values are short) */}
-          <div className="grid grid-cols-3 gap-px rounded-[10px] overflow-hidden mb-4"
+          {/* Stats */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-px rounded-[10px] overflow-hidden mb-4"
                style={{ background: T.border, border: `1px solid ${T.border}` }}>
             {[
-              { stat: 'Live', label: 'App Store Status' },
-              { stat: 'iOS',  label: 'Platform Shipped' },
-              { stat: '∞',    label: 'Ongoing Iteration' },
+              { stat: '🏆',         label: 'Best Financial Hack' },
+              { stat: '3',          label: 'Platform Surfaces' },
+              { stat: 'Live',       label: 'Working Prototype' },
+              { stat: '∞',          label: 'Reward Scenarios' },
             ].map(s => (
-              <div key={s.stat} className="px-4 sm:px-6 py-5" style={{ background: T.bg }}>
+              <div key={s.stat} className="px-4 sm:px-5 py-5" style={{ background: T.bg }}>
                 <div className="text-2xl sm:text-[26px] font-bold leading-none mb-1 tracking-tight"
                      style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
                   {s.stat}
@@ -430,23 +392,27 @@ export const XometryCase = () => {
 
           <Box className="mb-3">
             <BodyText>
-              The WorkCenter app launched publicly and is currently live on the App Store. The mobile
-              platform enables manufacturers to manage jobs on the go, reducing friction and improving
-              visibility into active work. Ongoing research continues to inform new features and
-              iterative improvements.
+              Dime shipped as a fully working multi-platform prototype within the hackathon window.
+              The system delivered real-time reward recommendations, custom financial data
+              visualizations, and frontend implementation — earning Capital One's Best Financial Hack award.
             </BodyText>
           </Box>
 
           <Box>
-            <BoxTitle>Current Status</BoxTitle>
+            <BoxTitle>Deliverables</BoxTitle>
             <div className="flex flex-wrap gap-2 items-center">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-[12px] font-semibold"
                     style={{ background: T.greenDim, color: T.green, border: `1px solid ${T.greenBorder}`,
                              fontFamily: '"Barlow", sans-serif' }}>
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: T.green, boxShadow: `0 0 5px ${T.green}` }} />
-                Live on App Store
+                Capital One Best Financial Hack
               </span>
-              {['New Features In Progress', 'Continuing to Iterate'].map(b => (
+              {[
+                'Working Multi-Platform Prototype',
+                'Real-Time Recommendations',
+                'Custom Data Visualizations',
+                'Frontend Implementation',
+              ].map(b => (
                 <span key={b} className="inline-flex items-center px-3 py-1.5 rounded text-[12px] font-medium"
                       style={{ background: T.tagBg, color: T.text2, border: `1px solid ${T.tagBorder}`,
                                fontFamily: '"Barlow", sans-serif' }}>
@@ -457,23 +423,23 @@ export const XometryCase = () => {
           </Box>
         </SectionWrap>
 
-        {/* ═══ NEXT CASE STUDY ═══ */}
+        {/* ═══ BACK TO ALL WORK ═══ */}
         <section className="pt-10 pb-20">
           <div className="text-[10px] font-bold uppercase tracking-[0.14em] mb-3.5"
                style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
-            Next Case Study
+            All Work
           </div>
           <div className="flex items-center justify-between p-6 sm:p-8 rounded-xl cursor-pointer transition-colors"
                style={{ background: T.surface, border: `1px solid ${T.border}` }}
-               onClick={() => navigate('/projects/oneum')}
-               onMouseEnter={e => ((e.currentTarget as HTMLDivElement).style.borderColor = T.borderStrong)}
+               onClick={() => navigate('/')}
+               onMouseEnter={e => ((e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(0,0,0,0.12)')}
                onMouseLeave={e => ((e.currentTarget as HTMLDivElement).style.borderColor = T.border)}>
             <div>
               <div className="text-base sm:text-[18px] font-bold mb-1 tracking-tight"
                    style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
-                Oneum — Multi-Script Typography Through K-Pop
+                Back to All Work
               </div>
-              <div className="text-[13px]" style={{ color: T.text2 }}>Research · Visual design · Fall 2024</div>
+              <div className="text-[13px]" style={{ color: T.text2 }}>View all projects</div>
             </div>
             <span className="text-xl ml-6 shrink-0" style={{ color: T.text3 }}>→</span>
           </div>

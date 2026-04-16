@@ -4,96 +4,121 @@ import { DOTTED_BG } from '../../lib/styles';
 import type { FeaturedProject } from '../../types';
 
 const FeaturedCard = ({ project }: { project: FeaturedProject }) => {
-    const navigate = useNavigate();
-    const isClickable = !!project.link;
+  const navigate = useNavigate();
+  const isClickable = !!project.link;
 
-    const handleClick = () => {
-        if (project.link) navigate(project.link);
-    };
+  const handleClick = () => {
+    if (!project.link) return;
+    if (project.external) {
+      window.open(project.link, '_blank', 'noopener noreferrer');
+    } else {
+      navigate(project.link);
+    }
+  };
 
-    return (
-        <div
-            className="group relative rounded-2xl overflow-hidden h-full min-h-[280px] bg-[#F6F6F6] border border-black/[0.06]"
-            onClick={handleClick}
-            style={{ cursor: isClickable ? 'pointer' : 'default' }}
-        >
+  return (
+    <div
+      className="flex flex-col rounded-2xl overflow-hidden bg-white border border-black/[0.08] transition-shadow duration-300 hover:shadow-lg"
+      style={{ cursor: isClickable ? 'pointer' : 'default' }}
+      onClick={handleClick}
+    >
+      {/* Image */}
+      <div className="w-full overflow-hidden bg-[#EFEFEF]" style={{ height: 300 }}>
+        <img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+        />
+      </div>
 
-            {/* Floating images — fan out of folder on hover */}
-            <div className="absolute inset-0 flex items-start justify-center pt-10" style={{ zIndex: 2 }}>
-                <div className="relative" style={{ width: '78%', height: '68%' }}>
-                    {project.images.length > 1 && (
-                        <div
-                            className="absolute transition-all duration-500 ease-out group-hover:-translate-x-4 group-hover:-translate-y-6 group-hover:rotate-[-2deg]"
-                            style={{ width: '68%', height: '100%', left: '0%', top: '5%', zIndex: 1 }}
-                        >
-                            <img
-                                src={project.images[0]}
-                                alt={project.title}
-                                className="w-full h-full object-cover rounded-xl shadow-md transition-shadow duration-500 group-hover:shadow-xl"
-                                style={{ transform: 'rotate(-5deg)' }}
-                            />
-                        </div>
-                    )}
-                    <div
-                        className="absolute transition-all duration-500 ease-out group-hover:translate-x-4 group-hover:-translate-y-8 group-hover:rotate-[2deg]"
-                        style={{ width: '68%', height: '100%', right: '0%', top: '0%', zIndex: 2 }}
-                    >
-                        <img
-                            src={project.images[project.images.length > 1 ? 1 : 0]}
-                            alt={project.title}
-                            className="w-full h-full object-cover rounded-xl shadow-xl transition-shadow duration-500 group-hover:shadow-2xl"
-                            style={{ transform: 'rotate(3deg)' }}
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {/* Folder cover — glass/transparent effect */}
-            <div className="absolute bottom-0 left-0 right-0" style={{ height: '40%', zIndex: 10 }}>
-                {/* Folder tab SVG */}
-                <svg
-                    viewBox="0 0 800 48"
-                    preserveAspectRatio="none"
-                    className="absolute -top-[23px] left-0 w-full h-[24px]"
-                    style={{ zIndex: 10 }}
-                >
-                    <path
-                        d="M0,48 L0,10 C0,4 4,0 10,0 L240,0 C260,0 268,8 278,24 C288,40 296,48 316,48 Z"
-                        fill="white"
-                    />
-                </svg>
-
-                {/* Folder body — frosted glass */}
-                <div
-                    className="h-full px-5 pt-2 pb-4 flex flex-col justify-center border-t border-black/5"
-                    style={{ backgroundColor: 'white' }}
-                >
-                    <div className="flex items-center justify-between">
-                        <h3 className="font-heading text-xl font-bold leading-tight text-black">
-                            {project.title}
-                        </h3>
-                        {isClickable && (
-                            <span className="text-[11px] font-medium text-black/40 group-hover:text-black/70 transition-colors shrink-0 ml-2">
-                                View →
-                            </span>
-                        )}
-                    </div>
-                    <div className="h-px my-2 bg-black/10" />
-                    <p className="text-[13px] leading-relaxed font-medium text-black">
-                        {project.description}
-                    </p>
-                </div>
-            </div>
+      {/* Content */}
+      <div className="flex flex-col px-5 pt-5 pb-5 flex-1">
+        {/* Title + badge */}
+        <div className="flex items-center gap-2.5 mb-3 flex-wrap">
+          <span
+            className="text-[18px] font-bold tracking-tight"
+            style={{ color: '#0a0a0a', fontFamily: '"Barlow", sans-serif' }}
+          >
+            {project.title}
+          </span>
+          {project.tags.map(tag => (
+            <span
+              key={tag}
+              className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full"
+              style={{ background: 'rgba(0,17,255,0.08)', color: '#0011FF', fontFamily: '"Barlow", sans-serif' }}
+            >
+              {tag}
+            </span>
+          ))}
         </div>
-    );
+
+        {/* HMW */}
+        <p
+          className="text-[13px] leading-[1.7] mb-4 flex-1"
+          style={{ color: '#555555', fontFamily: '"Hanken Grotesk", sans-serif' }}
+        >
+          {project.hmw}
+        </p>
+
+        {/* Dashed divider */}
+        <div className="w-full mb-3" style={{ borderTop: '1px dashed rgba(0,0,0,0.12)' }} />
+
+        {/* Tools + arrow */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            {project.tools.map(tool => (
+              <img
+                key={tool.alt}
+                src={tool.src}
+                alt={tool.alt}
+                className="w-6 h-6 rounded-md object-contain"
+                style={{ background: '#F0F0F0', padding: 2 }}
+              />
+            ))}
+          </div>
+          {isClickable && (
+            <span className="text-base" style={{ color: '#0a0a0a' }}>
+              {project.external ? '↗' : '→'}
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export const FeaturedCards = () => (
+export const FeaturedCards = () => {
+  const navigate = useNavigate();
+
+  return (
     <div className="absolute inset-0 w-full h-full pt-[52px] overflow-y-auto" style={DOTTED_BG}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 md:gap-10 p-4 sm:p-8 md:p-12 lg:p-16" style={{ gridAutoRows: 'minmax(280px, auto)' }}>
-            {featuredProjects.map((project) => (
-                <FeaturedCard key={project.id} project={project} />
-            ))}
+      <div className="px-4 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10">
+
+        {/* Header */}
+        <div className="flex items-end justify-between mb-6 sm:mb-8">
+          <h2
+            className="text-[clamp(20px,3vw,28px)] font-bold tracking-tight leading-tight"
+            style={{ color: '#0a0a0a', fontFamily: '"Barlow", sans-serif' }}
+          >
+            Featured Case Studies
+          </h2>
+          <button
+            onClick={() => navigate('/product')}
+            className="text-[12px] font-semibold uppercase tracking-[0.08em] border-none bg-transparent cursor-pointer transition-opacity hover:opacity-60 shrink-0 ml-4"
+            style={{ color: '#0a0a0a', fontFamily: '"Barlow", sans-serif' }}
+          >
+            View All →
+          </button>
         </div>
+
+        {/* Cards — full width, 2-col */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {featuredProjects.map(project => (
+            <FeaturedCard key={project.id} project={project} />
+          ))}
+        </div>
+
+      </div>
     </div>
-);
+  );
+};

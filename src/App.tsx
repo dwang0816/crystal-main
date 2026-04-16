@@ -7,6 +7,9 @@ import { AboutMe } from './pages/AboutMe';
 import { Product } from './pages/Product';
 import { Visual } from './pages/Visual';
 import { XometryCase } from './pages/XometryCase';
+import { OneumCase } from './pages/OneumCase';
+import { DimeCase } from './pages/DimeCase';
+import { BlogPost } from './pages/BlogPost';
 
 function App() {
   return (
@@ -18,7 +21,10 @@ function App() {
           <Route path="about-me" element={<AboutMe />} />
           <Route path="product" element={<Product />} />
           <Route path="visual" element={<Visual />} />
+          <Route path="blog/:slug" element={<BlogPost />} />
           <Route path="projects/xometry-workcenter" element={<XometryCase />} />
+          <Route path="projects/oneum" element={<OneumCase />} />
+          <Route path="projects/dime" element={<DimeCase />} />
         </Route>
       </Routes>
     </SectionProvider>
