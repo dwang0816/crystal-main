@@ -1,0 +1,20 @@
+{
+  "name": "Crystal Cho — Product Designer",
+  "short_name": "Crystal Cho",
+  "description": "Portfolio of Crystal Cho, Product Designer building efficient, impactful experiences with intention.",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0011FF",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

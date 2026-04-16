@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import { TypewriterTitles } from './TypewriterTitles';
 import { cn } from '@/lib/utils';
-import { useSection } from '../../context/SectionContext';
 import { TextMorph } from 'torph/react';
 import CCLogo from "../../assets/cc.png";
 import { useState, useEffect } from 'react';
@@ -25,10 +24,19 @@ import { useState, useEffect } from 'react';
 const SIDEBAR_ITEM = 'flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-[13px] font-normal font-hanken transition-colors';
 const SIDEBAR_HEADING = 'px-3 text-[11px] font-heading font-medium text-black/40 mb-2 uppercase tracking-wider';
 
+/* Path → human-readable title map */
+const PATH_TITLES: Record<string, string> = {
+    '':          'Home',
+    'featured':  'Featured',
+    'about-me':  'About Me',
+    'product':   'Product',
+    'visual':    'Visual',
+    'projects':  'Projects',
+};
+
 export const FinderLayout = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { activeSectionName, scrollTo, prev, next, sections } = useSection();
     const [isCopied, setCopy] = useState("Email");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -43,37 +51,17 @@ export const FinderLayout = () => {
         setTimeout(() => setCopy("Email"), 1400);
     }
 
-    const isHome = location.pathname === '/';
-
     const getTitle = () => {
-        if (isHome) return activeSectionName;
-        const path = location.pathname.split('/')[1];
-        return path.charAt(0).toUpperCase() + path.slice(1) || '';
+        const segment = location.pathname.split('/')[1] ?? '';
+        return PATH_TITLES[segment] ?? (segment.charAt(0).toUpperCase() + segment.slice(1));
     };
-
-    const handleScrollTo = (sectionId: string) => {
-        if (!isHome) {
-            navigate('/');
-            setTimeout(() => scrollTo(sectionId), 100);
-        } else {
-            scrollTo(sectionId);
-        }
-    };
-
-    const handlePrev = () => isHome ? prev() : navigate(-1);
-    const handleNext = () => isHome ? next() : navigate(1);
-
-    const sidebarScrollClass = (sectionId: string) => {
-        const isActive = isHome && activeSectionName === sections.find(s => s.id === sectionId)?.name;
-        return cn(SIDEBAR_ITEM, 'cursor-pointer', isActive ? 'bg-[#E5E5E5] text-black' : 'text-[#333333] hover:bg-black/5');
-    };
-
-    const sidebarLinkClass = ({ isActive }: { isActive: boolean }) =>
-        cn(SIDEBAR_ITEM, isActive && !isHome ? 'bg-[#E5E5E5] text-black' : 'text-[#333333] hover:bg-black/5');
-
-    const sidebarAnchorClass = cn(SIDEBAR_ITEM, 'text-[#333333] hover:bg-black/5');
 
     const iconSize = 16;
+
+    const sidebarLinkClass = ({ isActive }: { isActive: boolean }) =>
+        cn(SIDEBAR_ITEM, isActive ? 'bg-[#E5E5E5] text-black' : 'text-[#333333] hover:bg-black/5');
+
+    const sidebarAnchorClass = cn(SIDEBAR_ITEM, 'text-[#333333] hover:bg-black/5');
 
     const sidebarContent = (
         <>
@@ -87,12 +75,12 @@ export const FinderLayout = () => {
                 <div>
                     <div className={SIDEBAR_HEADING}>Favorites</div>
                     <div className="flex flex-col gap-0.5">
-                        <button onClick={() => { handleScrollTo('crystal-cho'); setIsSidebarOpen(false); }} className={sidebarScrollClass('crystal-cho')}>
-                            <Sparkles size={iconSize} className="text-[#0011FF]" /> Crystal Cho
-                        </button>
-                        <button onClick={() => { handleScrollTo('featured'); setIsSidebarOpen(false); }} className={sidebarScrollClass('featured')}>
+                        <NavLink to="/" end className={sidebarLinkClass}>
+                            <Sparkles size={iconSize} className="text-[#0011FF]" /> Home
+                        </NavLink>
+                        <NavLink to="/featured" className={sidebarLinkClass}>
                             <LinkIcon size={iconSize} className="text-[#0011FF]" /> Featured
-                        </button>
+                        </NavLink>
                     </div>
                 </div>
 
@@ -111,9 +99,9 @@ export const FinderLayout = () => {
                 <div>
                     <div className={SIDEBAR_HEADING}>More</div>
                     <div className="flex flex-col gap-0.5">
-                        <button onClick={() => { handleScrollTo('about-me'); setIsSidebarOpen(false); }} className={sidebarScrollClass('about-me')}>
+                        <NavLink to="/about-me" className={sidebarLinkClass}>
                             <Zap size={iconSize} className="text-[#0011FF]" /> About Me
-                        </button>
+                        </NavLink>
                     </div>
                 </div>
 
@@ -182,14 +170,16 @@ export const FinderLayout = () => {
                             </button>
 
                             <div className="flex items-center gap-3 mr-2">
-                                <button onClick={handlePrev} className="text-slate-400 hover:text-slate-600">
+                                <button onClick={() => navigate(-1)} className="text-slate-400 hover:text-slate-600">
                                     <ChevronLeft size={20} />
                                 </button>
-                                <button onClick={handleNext} className="text-slate-400 hover:text-slate-600">
+                                <button onClick={() => navigate(1)} className="text-slate-400 hover:text-slate-600">
                                     <ChevronRight size={20} />
                                 </button>
                             </div>
-                            <span className="font-heading font-normal text-[17px] md:text-[19px] text-black tracking-[0.02em]"><TextMorph>{getTitle()}</TextMorph></span>
+                            <span className="font-heading font-normal text-[17px] md:text-[19px] text-black tracking-[0.02em]">
+                                <TextMorph>{getTitle()}</TextMorph>
+                            </span>
                         </div>
 
                         <div className="absolute right-4">

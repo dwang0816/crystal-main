@@ -6,7 +6,7 @@ import { ExperienceWidget } from '../components/widgets/ExperienceWidget';
 import crystalIcelandImg from '../assets/crystal_in_iceland.jpg';
 
 export const SECTIONS = [
-    { id: 'crystal-cho', name: 'Crystal Cho' },
+    { id: 'crystal-cho', name: 'Home' },
     { id: 'featured', name: 'Featured' },
     { id: 'about-me', name: 'About Me' },
 ] as const;
