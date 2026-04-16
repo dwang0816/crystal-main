@@ -20,21 +20,6 @@ const MEMO_ANIMATED = `a Product Designer building *efficient and impactful expe
 
 const FOLDER_PINK = '#F2B8C6';
 
-/* ── Photo for mobile/tablet ── */
-const PhotoBlock = () => (
-    <div className="group/widget flex flex-col gap-1">
-        <div className="border border-slate-200 rounded-sm overflow-hidden shadow-sm transition-all duration-200 group-hover/widget:-translate-y-[3px] group-hover/widget:shadow-md">
-            <img
-                src={crystalIcelandImg}
-                alt="Crystal in Iceland"
-                className="w-full h-auto block select-none pointer-events-none"
-                draggable={false}
-            />
-        </div>
-        <FileLabel name="crystal_in_iceland.jpg" />
-    </div>
-);
-
 /* ── Mobile/tablet project folders ── */
 const ProjectFolders = ({ onNavigate }: { onNavigate: (path: string) => void }) => (
     <div className="flex flex-col gap-5">
