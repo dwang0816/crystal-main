@@ -52,6 +52,7 @@ interface Item {
   img: string;
   url: string;
   height: number;
+  description?: string;
 }
 
 interface GridItem extends Item {
@@ -73,6 +74,41 @@ interface MasonryProps {
   colorShiftOnHover?: boolean;
 }
 
+// ── Lightbox ──────────────────────────────────────────────────────────────────
+interface LightboxProps {
+  item: Item;
+  onClose: () => void;
+}
+
+const Lightbox: React.FC<LightboxProps> = ({ item, onClose }) => {
+  // Close on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [onClose]);
+
+  return (
+    <div
+      className="lightbox-overlay"
+      onClick={onClose}
+    >
+      <button className="lightbox-close" onClick={onClose} aria-label="Close">✕</button>
+      <div className="lightbox-content" onClick={e => e.stopPropagation()}>
+        {item.img.endsWith('.gif') ? (
+          <img src={item.img} alt={item.description ?? ''} className="lightbox-img" />
+        ) : (
+          <img src={item.img} alt={item.description ?? ''} className="lightbox-img" />
+        )}
+        {item.description && (
+          <p className="lightbox-caption">{item.description}</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ── Masonry ───────────────────────────────────────────────────────────────────
 const Masonry: React.FC<MasonryProps> = ({
   items,
   ease = 'power3.out',
@@ -92,6 +128,7 @@ const Masonry: React.FC<MasonryProps> = ({
 
   const [containerRef, { width }] = useMeasure<HTMLDivElement>();
   const [imagesReady, setImagesReady] = useState(false);
+  const [lightboxItem, setLightboxItem] = useState<Item | null>(null);
 
   const getInitialPosition = (item: GridItem) => {
     const containerRect = containerRef.current?.getBoundingClientRect();
@@ -127,13 +164,13 @@ const Masonry: React.FC<MasonryProps> = ({
     preloadImages(items.map(i => i.img)).then(() => setImagesReady(true));
   }, [items]);
 
-  const grid = useMemo<GridItem[]>(() => {
-    if (!width) return [];
+  const { grid, totalHeight } = useMemo<{ grid: GridItem[]; totalHeight: number }>(() => {
+    if (!width) return { grid: [], totalHeight: 0 };
 
     const colHeights = new Array(columns).fill(0);
     const columnWidth = width / columns;
 
-    return items.map(child => {
+    const grid = items.map(child => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = columnWidth * col;
       const height = child.height / 2;
@@ -143,6 +180,11 @@ const Masonry: React.FC<MasonryProps> = ({
 
       return { ...child, x, y, w: columnWidth, h: height };
     });
+
+    // Extra padding so captions at the bottom aren't clipped
+    const totalHeight = Math.max(...colHeights) + 40;
+
+    return { grid, totalHeight };
   }, [columns, items, width]);
 
   const hasMounted = useRef(false);
@@ -238,39 +280,57 @@ const Masonry: React.FC<MasonryProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="list">
-      {grid.map(item => {
-        return (
-          <div
-            key={item.id}
-            data-key={item.id}
-            className="item-wrapper"
-            onClick={() => window.open(item.url, '_blank', 'noopener')}
-            onMouseEnter={e => handleMouseEnter(e, item)}
-            onMouseLeave={e => handleMouseLeave(e, item)}
-          >
-            <div className="item-img" style={{ backgroundImage: `url(${item.img})` }}>
-              {colorShiftOnHover && (
-                <div
-                  className="color-overlay"
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(45deg, rgba(255,0,150,0.5), rgba(0,150,255,0.5))',
-                    opacity: 0,
-                    pointerEvents: 'none',
-                    borderRadius: '8px'
-                  }}
-                />
+    <>
+      <div ref={containerRef} className="list" style={totalHeight ? { height: totalHeight } : undefined}>
+        {grid.map(item => {
+          return (
+            <div
+              key={item.id}
+              data-key={item.id}
+              className="item-wrapper"
+              onClick={() => setLightboxItem(item)}
+              onMouseEnter={e => handleMouseEnter(e, item)}
+              onMouseLeave={e => handleMouseLeave(e, item)}
+            >
+              {/* GIFs use <img> to preserve animation; stills use background-image */}
+              {item.img.endsWith('.gif') ? (
+                <div className="item-img" style={{ background: '#000' }}>
+                  <img
+                    src={item.img}
+                    alt={item.description ?? ''}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 10, display: 'block' }}
+                  />
+                </div>
+              ) : (
+                <div className="item-img" style={{ backgroundImage: `url(${item.img})` }}>
+                  {colorShiftOnHover && (
+                    <div
+                      className="color-overlay"
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        background: 'linear-gradient(45deg, rgba(255,0,150,0.5), rgba(0,150,255,0.5))',
+                        opacity: 0,
+                        pointerEvents: 'none',
+                        borderRadius: '8px'
+                      }}
+                    />
+                  )}
+                </div>
               )}
+              {item.description && <div className="item-caption">{item.description}</div>}
             </div>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+
+      {lightboxItem && (
+        <Lightbox item={lightboxItem} onClose={() => setLightboxItem(null)} />
+      )}
+    </>
   );
 };
 

@@ -44,7 +44,7 @@ const FeaturedCard = ({ project }: { project: FeaturedProject }) => {
             <span
               key={tag}
               className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full"
-              style={{ background: 'rgba(0,17,255,0.08)', color: '#0011FF', fontFamily: '"Barlow", sans-serif' }}
+              style={{ background: 'var(--color-brand-dim)', color: 'var(--color-brand)', fontFamily: '"Barlow", sans-serif' }}
             >
               {tag}
             </span>

@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env
+.env.local
+
+# Downloaded gallery images (regenerated at build time)
+public/gallery/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

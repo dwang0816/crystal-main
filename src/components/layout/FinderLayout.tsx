@@ -2,11 +2,11 @@ import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import {
     ChevronLeft,
     ChevronRight,
-    Sparkles,
-    Link as LinkIcon,
-    Zap,
-    Hash,
-    Compass,
+    Puzzle,
+    Paperclip,
+    Contact,
+    Frame,
+    PenTool,
     Menu,
     X,
     Linkedin,
@@ -17,7 +17,6 @@ import {
 import { TypewriterTitles } from './TypewriterTitles';
 import { cn } from '@/lib/utils';
 import { TextMorph } from 'torph/react';
-import CCLogo from "../../assets/cc.png";
 import { useState, useEffect } from 'react';
 
 
@@ -66,7 +65,10 @@ export const FinderLayout = () => {
     const sidebarContent = (
         <>
             <div className="pt-6 pb-8 px-4 flex flex-col items-center">
-                <img src={CCLogo} className='pb-2' style={{ transform: 'scale(0.8)', transformOrigin: 'center' }} />
+                <NavLink to="/">
+                    <img src="/logo-b.svg" width={273} className='pb-2 cursor-pointer block dark:hidden' style={{ transform: 'scale(0.8)', transformOrigin: 'center' }} />
+                    <img src="/logo-w.svg" width={273} className='pb-2 cursor-pointer hidden dark:block' style={{ transform: 'scale(0.8)', transformOrigin: 'center' }} />
+                </NavLink>
                 <p className="text-[13px] font-heading font-semibold text-black dark:text-white tracking-[0.04em] mb-0.5">Crystal Cho</p>
                 <TypewriterTitles />
                 <div className="text-[10px] font-heading font-medium text-black/70 dark:text-white/50 flex items-center gap-1 tracking-[0.1em] uppercase mt-1">📍Based in NYC</div>
@@ -77,10 +79,10 @@ export const FinderLayout = () => {
                     <div className={SIDEBAR_HEADING}>Favorites</div>
                     <div className="flex flex-col gap-0.5">
                         <NavLink to="/" end className={sidebarLinkClass}>
-                            <Sparkles size={iconSize} className="text-[#0011FF]" /> Home
+                            <Puzzle size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Home
                         </NavLink>
                         <NavLink to="/featured" className={sidebarLinkClass}>
-                            <LinkIcon size={iconSize} className="text-[#0011FF]" /> Featured
+                            <Paperclip size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Featured
                         </NavLink>
                     </div>
                 </div>
@@ -89,10 +91,10 @@ export const FinderLayout = () => {
                     <div className={SIDEBAR_HEADING}>Work</div>
                     <div className="flex flex-col gap-0.5">
                         <NavLink to="/product" className={sidebarLinkClass}>
-                            <Hash size={iconSize} className="text-[#0011FF]" /> Product
+                            <Frame size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Product
                         </NavLink>
                         <NavLink to="/visual" className={sidebarLinkClass}>
-                            <Compass size={iconSize} className="text-[#0011FF]" /> Visual
+                            <PenTool size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Visual
                         </NavLink>
                     </div>
                 </div>
@@ -101,7 +103,7 @@ export const FinderLayout = () => {
                     <div className={SIDEBAR_HEADING}>More</div>
                     <div className="flex flex-col gap-0.5">
                         <NavLink to="/about-me" className={sidebarLinkClass}>
-                            <Zap size={iconSize} className="text-[#0011FF]" /> About Me
+                            <Contact size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> About Me
                         </NavLink>
                     </div>
                 </div>
@@ -110,13 +112,13 @@ export const FinderLayout = () => {
                     <div className={SIDEBAR_HEADING}>Locations</div>
                     <div className="flex flex-col gap-0.5">
                         <a href="https://www.linkedin.com/in/cch0/" className={sidebarAnchorClass}>
-                            <Linkedin size={iconSize} className="text-[#0011FF]" /> Linkedin
+                            <Linkedin size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Linkedin
                         </a>
                         <div className={sidebarAnchorClass} onClick={handleCopy}>
-                            <Mail size={iconSize} className="text-[#0011FF]" /> <TextMorph>{isCopied}</TextMorph>
+                            <Mail size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> <TextMorph>{isCopied}</TextMorph>
                         </div>
                         <a href="https://drive.google.com/file/d/1W6JRUbUujetsAFSYz608EYB9ce5NvTph/view?usp=drive_link" className={sidebarAnchorClass}>
-                            <FileText size={iconSize} className="text-[#0011FF]" /> Resume
+                            <FileText size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Resume
                         </a>
                     </div>
                 </div>

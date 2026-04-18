@@ -176,7 +176,7 @@ export function DraggableResizableWidget({
                 </div>
 
                 {label && (
-                    <span className="text-[11px] text-slate-900/60 text-center font-normal leading-tight px-1.5 py-0.5 rounded group-hover/drw:bg-[#0011FF] group-hover/drw:text-white pointer-events-none shrink-0">
+                    <span className="text-[11px] text-slate-900/60 text-center font-normal leading-tight px-1.5 py-0.5 rounded group-hover/drw:bg-[#0011FF] dark:group-hover/drw:bg-[#84cc16] group-hover/drw:text-white pointer-events-none shrink-0">
                         {label}
                     </span>
                 )}

@@ -1,16 +1,18 @@
 .list {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100px;
 }
 
 .item-wrapper {
   position: absolute;
   will-change: transform, width, height, opacity;
   padding: 6px;
-  cursor: pointer;
+  cursor: zoom-in;
   top: 0;
   left: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .item-wrapper > .item-img {
@@ -18,10 +20,109 @@
   background-size: cover;
   background-position: center center;
   width: 100%;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   text-transform: uppercase;
   font-size: 10px;
   line-height: 10px;
   border-radius: 10px;
-  box-shadow: 0px 10px 50px -10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.item-caption {
+  padding: 7px 4px 2px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 11px;
+  font-family: 'Hanken Grotesk', sans-serif;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  text-transform: none;
+  pointer-events: none;
+}
+
+.dark .item-caption {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Lightbox ─────────────────────────────────────────────────────────────── */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Offset centering so it aligns to the content pane, not the full viewport */
+  padding-top: 52px;   /* height of the top navbar */
+  cursor: zoom-out;
+  animation: lb-fade-in 0.2s ease;
+}
+
+/* On desktop the sidebar is 230px wide — shift the center point right */
+@media (min-width: 768px) {
+  .lightbox-overlay {
+    padding-left: 230px;
+  }
+}
+
+@keyframes lb-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+  animation: lb-scale-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes lb-scale-in {
+  from { transform: scale(0.88); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.lightbox-img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+}
+
+.lightbox-caption {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  font-family: 'Hanken Grotesk', sans-serif;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 18px;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.22);
 }

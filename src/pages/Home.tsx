@@ -21,11 +21,11 @@ const FOLDER_PINK = '#F2B8C6';
 
 /* ── Desktop photo ── */
 const DesktopPhotoContent = () => (
-    <div className="border border-slate-200 dark:border-[#333] rounded-sm overflow-hidden shadow-sm w-full dark:bg-[#1a1a1a]">
+    <div className="border border-slate-200 dark:border-[#333] rounded-sm overflow-hidden shadow-sm w-full dark:bg-[#1a1a1a] p-1">
         <img
             src={crystalIcelandImg}
             alt="Crystal in Iceland"
-            className="w-full h-auto block select-none pointer-events-none"
+            className="w-full h-auto block select-none pointer-events-none rounded-sm"
             draggable={false}
         />
     </div>
@@ -61,9 +61,9 @@ const HomeSection = () => {
                     {/* Photo + internship folders — side by side */}
                     <div className="flex gap-4 items-start">
                         <div className="flex-1 flex flex-col gap-1">
-                            <div className="border border-slate-200 dark:border-[#333] rounded-sm overflow-hidden shadow-sm bg-white dark:bg-[#1a1a1a]">
+                            <div className="border border-slate-200 dark:border-[#333] rounded-sm overflow-hidden shadow-sm bg-white dark:bg-[#1a1a1a] p-1">
                                 <img src={crystalIcelandImg} alt="Crystal in Iceland"
-                                    className="w-full h-auto block select-none pointer-events-none" draggable={false} />
+                                    className="w-full h-auto block select-none pointer-events-none rounded-sm" draggable={false} />
                             </div>
                             <FileLabel name="crystal_in_iceland.jpg" />
                         </div>
@@ -119,9 +119,9 @@ const HomeSection = () => {
                         <ClockWidget direction="vertical" />
                     </div>
                     <div>
-                        <div className="border border-slate-200 dark:border-[#333] rounded-sm overflow-hidden shadow-sm bg-white dark:bg-[#1a1a1a]">
+                        <div className="border border-slate-200 dark:border-[#333] rounded-sm overflow-hidden shadow-sm bg-white dark:bg-[#1a1a1a] p-1">
                             <img src={crystalIcelandImg} alt="Crystal in Iceland"
-                                className="w-full h-auto block select-none pointer-events-none" draggable={false} />
+                                className="w-full h-auto block select-none pointer-events-none rounded-sm" draggable={false} />
                         </div>
                         <FileLabel name="crystal_in_iceland.jpg" />
                     </div>

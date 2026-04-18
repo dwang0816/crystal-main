@@ -25,6 +25,8 @@
     --ring: 0 0% 3.9%;
     --radius: 0.5rem;
     --color-brand: #0011FF;
+    --color-brand-dim: rgba(0,17,255,0.07);
+    --color-brand-border: rgba(0,17,255,0.18);
   }
 
   .dark {
@@ -47,6 +49,9 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
+    --color-brand: #84cc16;
+    --color-brand-dim: rgba(132,204,22,0.08);
+    --color-brand-border: rgba(132,204,22,0.22);
   }
 }
 

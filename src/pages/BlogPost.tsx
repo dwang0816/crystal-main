@@ -56,10 +56,10 @@ export const BlogPost = () => {
                         <p className="text-[12px] text-slate-400 mb-3 uppercase tracking-widest">Case Study</p>
                         <button
                             onClick={() => navigate(project.link!)}
-                            className="group flex items-center gap-2 text-[15px] font-medium text-black dark:text-white hover:text-[#0011FF] transition-colors"
+                            className="group flex items-center gap-2 text-[15px] font-medium text-black dark:text-white hover:text-[#0011FF] dark:hover:text-[#84cc16] transition-colors"
                         >
                             {project.title}
-                            <span className="text-[#0011FF] group-hover:translate-x-1 transition-transform inline-block">→</span>
+                            <span className="text-[#0011FF] dark:text-[#84cc16] group-hover:translate-x-1 transition-transform inline-block">→</span>
                         </button>
                     </div>
                 )}
