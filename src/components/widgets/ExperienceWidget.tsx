@@ -9,14 +9,14 @@ const experiences = [
 function ExperienceList({ idPrefix }: { idPrefix: string }) {
     return (
         <div className="relative pl-4">
-            <div className="absolute left-[5px] top-[6px] bottom-[6px] w-px bg-slate-200" />
+            <div className="absolute left-[5px] top-[6px] bottom-[6px] w-px bg-slate-200 dark:bg-[#333]" />
             <div className="flex flex-col gap-4 pb-6">
                 {experiences.map((exp, i) => (
                     <div key={`${idPrefix}-${i}`} className="relative">
-                        <div className="absolute -left-4 top-[5px] w-[9px] h-[9px] rounded-full bg-black border-2 border-white" />
-                        <div className="text-[15px] font-serif font-medium text-black leading-tight">{exp.company}</div>
-                        <div className="text-[13px] font-serif text-black/50">{exp.role}</div>
-                        <div className="text-[11px] font-serif text-black/35">{exp.period}</div>
+                        <div className="absolute -left-4 top-[5px] w-[9px] h-[9px] rounded-full bg-black dark:bg-white border-2 border-white dark:border-[#1a1a1a]" />
+                        <div className="text-[15px] font-serif font-medium text-black dark:text-white leading-tight">{exp.company}</div>
+                        <div className="text-[13px] font-serif text-black/50 dark:text-white/50">{exp.role}</div>
+                        <div className="text-[11px] font-serif text-black/35 dark:text-white/30">{exp.period}</div>
                     </div>
                 ))}
             </div>
@@ -27,7 +27,7 @@ function ExperienceList({ idPrefix }: { idPrefix: string }) {
 export function ExperienceWidget({ className }: { className?: string }) {
     return (
         <div
-            className={`exp-widget rounded-sm border border-slate-200 bg-white shadow w-full overflow-hidden transition-all duration-200 hover:-translate-y-[3px] hover:shadow-md ${className ?? 'h-[260px]'}`}
+            className={`exp-widget rounded-sm border border-slate-200 dark:border-[#333] bg-white dark:bg-[#1a1a1a] shadow w-full overflow-hidden transition-all duration-200 hover:-translate-y-[3px] hover:shadow-md ${className ?? 'h-[260px]'}`}
         >
             {/* Two identical lists — CSS animation scrolls them; at -50% it loops seamlessly */}
             <div className="exp-ticker px-5 pt-4">

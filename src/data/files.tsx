@@ -1,4 +1,4 @@
-import type { DraggableItem, FeaturedProject } from '../types/index';
+import type { DraggableItem, FeaturedProject, InternshipPost } from '../types/index';
 import { ClockWidget } from '../components/widgets/ClockWidget';
 import { MemoWidget } from '../components/widgets/MemoWidget';
 import { ImageWidget } from '../components/widgets/ImageWidget';
@@ -33,6 +33,12 @@ export const homeFiles: DraggableItem[] = [
             <img src="https://ik.imagekit.io/cch0/images/kindle.png" alt="kindle" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 6 }} />,
         ]
     },
+];
+
+export const internshipPosts: InternshipPost[] = [
+    { id: 'vt-it',     title: 'Virginia Tech Division of IT', slug: 'vt-division-it',        period: 'Sep 2025 – Present' },
+    { id: 'xometry',   title: 'Xometry',                     slug: 'xometry-experience',    period: 'Jun 2025 – Mar 2026' },
+    { id: 'perpetual', title: 'Perpetual',                   slug: 'perpetual-experience',  period: 'May 2024 – Dec 2024' },
 ];
 
 export const featuredProjects: FeaturedProject[] = [

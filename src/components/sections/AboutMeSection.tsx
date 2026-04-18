@@ -1,23 +1,21 @@
-import { DOTTED_BG } from '../../lib/styles';
-
 export const AboutMeSection = () => {
     return (
-        <div className="absolute inset-0 w-full h-full pt-[52px] overflow-y-auto" style={DOTTED_BG}>
+        <div className="absolute inset-0 w-full h-full pt-[52px] overflow-y-auto dotted-bg">
             <div className="px-4 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10 max-w-2xl">
 
                 {/* Name + pronouns */}
                 <div className="mb-8">
                     <h1
-                        className="text-[clamp(32px,5vw,48px)] font-bold tracking-tight leading-tight mb-1"
-                        style={{ fontFamily: '"Barlow", sans-serif', color: '#0a0a0a' }}
+                        className="text-[clamp(32px,5vw,48px)] font-bold tracking-tight leading-tight mb-1 text-[#0a0a0a] dark:text-white"
+                        style={{ fontFamily: '"Barlow", sans-serif' }}
                     >
                         hi, i'm{' '}
                         <span style={{ color: '#0011FF' }}>Crystal</span>{' '}
-                        <span style={{ color: '#0a0a0a' }}>:)</span>
+                        <span>:)</span>
                     </h1>
                     <p
-                        className="text-[13px] italic"
-                        style={{ color: '#888888', fontFamily: '"Hanken Grotesk", sans-serif' }}
+                        className="text-[13px] italic text-[#888888] dark:text-[#666]"
+                        style={{ fontFamily: '"Hanken Grotesk", sans-serif' }}
                     >
                         (SHE/HER)
                     </p>
@@ -38,8 +36,8 @@ export const AboutMeSection = () => {
                                 {String(i + 1).padStart(2, '0')}.
                             </span>
                             <p
-                                className="text-[14px] leading-[1.75]"
-                                style={{ color: '#444444', fontFamily: '"Hanken Grotesk", sans-serif' }}
+                                className="text-[14px] leading-[1.75] text-[#444444] dark:text-[#aaaaaa]"
+                                style={{ fontFamily: '"Hanken Grotesk", sans-serif' }}
                             >
                                 {text}
                             </p>
@@ -48,19 +46,19 @@ export const AboutMeSection = () => {
                 </ol>
 
                 {/* Dashed divider */}
-                <div className="w-full mb-6" style={{ borderTop: '1px dashed rgba(0,0,0,0.15)' }} />
+                <div className="w-full mb-6 border-t border-dashed border-black/15 dark:border-white/10" />
 
                 {/* Education */}
                 <div>
                     <p
-                        className="text-[11px] font-semibold uppercase tracking-[0.12em] mb-2"
-                        style={{ color: '#AAAAAA', fontFamily: '"Barlow", sans-serif' }}
+                        className="text-[11px] font-semibold uppercase tracking-[0.12em] mb-2 text-[#AAAAAA] dark:text-[#555]"
+                        style={{ fontFamily: '"Barlow", sans-serif' }}
                     >
                         Education
                     </p>
                     <p
-                        className="text-[14px]"
-                        style={{ color: '#444444', fontFamily: '"Hanken Grotesk", sans-serif' }}
+                        className="text-[14px] text-[#444444] dark:text-[#aaaaaa]"
+                        style={{ fontFamily: '"Hanken Grotesk", sans-serif' }}
                     >
                         2026 BFA Graphic Design, Human-Computer Interaction from Virginia Tech
                     </p>

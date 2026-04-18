@@ -24,6 +24,13 @@ export type FeaturedProject = {
     external?: boolean;
 };
 
+export type InternshipPost = {
+    id: string;
+    title: string;
+    slug: string;
+    period: string;
+};
+
 export type DraggableItem =
     | (BaseItem & { type: 'folder'; items?: ReactNode[] })
     | (BaseItem & { type: 'widget'; widget: ReactNode; showLabel?: boolean });

@@ -59,3 +59,16 @@
     @apply bg-background text-foreground font-sans m-0 overflow-hidden;
   }
 }
+
+/* ── Dotted background — responds to dark mode via .dark class ── */
+.dotted-bg {
+  background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.15) 1px, transparent 0);
+  background-size: 24px 24px;
+  background-color: #ffffff;
+}
+
+.dark .dotted-bg {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.07) 1px, transparent 0);
+  background-size: 24px 24px;
+  background-color: #0f0f0f;
+}

@@ -1,16 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { DOTTED_BG } from '../lib/styles';
 import { MemoWidget } from '../components/widgets/MemoWidget';
 import { ExperienceWidget } from '../components/widgets/ExperienceWidget';
 import { ClockWidget } from '../components/widgets/ClockWidget';
 import { Folder } from '../components/desktop/Folder';
 import { DraggableResizableWidget } from '../components/desktop/DraggableResizableWidget';
-import { featuredProjects } from '../data/files';
+import { internshipPosts } from '../data/files';
 import crystalIcelandImg from '../assets/crystal_in_iceland.jpg';
 
-/* ── Filename label (mobile / tablet only) ── */
+/* ── Filename label ── */
 const FileLabel = ({ name }: { name: string }) => (
-    <span className="text-[11px] text-slate-900/35 font-normal leading-tight px-1.5 py-0.5 rounded mt-1 select-none block text-center transition-all duration-200 group-hover/widget:text-slate-900/60">
+    <span className="text-[11px] text-slate-900/35 dark:text-white/25 font-normal leading-tight px-1.5 py-0.5 rounded mt-1 select-none block text-center">
         {name}
     </span>
 );
@@ -20,32 +19,9 @@ const MEMO_ANIMATED = `a Product Designer building *efficient and impactful expe
 
 const FOLDER_PINK = '#F2B8C6';
 
-/* ── Mobile/tablet project folders ── */
-const ProjectFolders = ({ onNavigate }: { onNavigate: (path: string) => void }) => (
-    <div className="flex flex-col gap-5">
-        {featuredProjects.map(p => {
-            const slug = p.link ? p.link.replace('/projects/', '') : p.id;
-            return (
-                <div
-                    key={p.id}
-                    className="flex flex-col items-center gap-1.5 cursor-pointer"
-                    onClick={() => onNavigate(`/blog/${slug}`)}
-                >
-                    <Folder color={FOLDER_PINK} size={1.1} />
-                    <span className="text-[11px] text-slate-700 font-normal text-center leading-tight select-none">
-                        {p.title}
-                    </span>
-                </div>
-            );
-        })}
-    </div>
-);
-
-/* ════════════════════════════════════════════════════════════
-   Desktop draggable photo (needs pointer-events for click)
-════════════════════════════════════════════════════════════ */
+/* ── Desktop photo ── */
 const DesktopPhotoContent = () => (
-    <div className="border border-slate-200 rounded-sm overflow-hidden shadow-sm w-full">
+    <div className="border border-slate-200 dark:border-[#333] rounded-sm overflow-hidden shadow-sm w-full dark:bg-[#1a1a1a]">
         <img
             src={crystalIcelandImg}
             alt="Crystal in Iceland"
@@ -62,69 +38,94 @@ const HomeSection = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="absolute inset-0 w-full h-full" style={DOTTED_BG}>
+        <div className="absolute inset-0 w-full h-full dotted-bg">
 
             {/* ══════════════════════════════════════════
                 MOBILE  (< sm / 640px)
+                Order: intro → clock → photo + folders → internship folders → experience
             ══════════════════════════════════════════ */}
             <div className="sm:hidden absolute inset-0 overflow-y-auto">
-                <div className="flex flex-col gap-5 px-4 pt-[68px] pb-10">
-                    <div className="group/widget flex flex-col gap-1">
-                        <ClockWidget />
-                        <FileLabel name="clock" />
-                    </div>
-                    <div className="group/widget flex flex-col items-start gap-1">
+                <div className="flex flex-col gap-4 px-4 pt-[68px] pb-12">
+
+                    {/* Intro */}
+                    <div>
                         <MemoWidget staticContent={MEMO_STATIC} content={MEMO_ANIMATED} />
                         <FileLabel name="intro" />
                     </div>
-                    <div className="flex flex-row gap-6 flex-wrap">
-                        <ProjectFolders onNavigate={navigate} />
+
+                    {/* Clock */}
+                    <div>
+                        <ClockWidget direction="horizontal" />
                     </div>
-                    <div className="group/widget flex flex-col gap-1">
-                        <div className="bg-white rounded-sm shadow border border-slate-200 p-2 transition-all duration-200 group-hover/widget:-translate-y-[2px] group-hover/widget:shadow-md">
-                            <img
-                                src={crystalIcelandImg}
-                                alt="Crystal in Iceland"
-                                className="w-full max-h-[280px] object-contain rounded-sm select-none pointer-events-none"
-                                draggable={false}
-                            />
+
+                    {/* Photo + internship folders — side by side */}
+                    <div className="flex gap-4 items-start">
+                        <div className="flex-1 flex flex-col gap-1">
+                            <div className="border border-slate-200 dark:border-[#333] rounded-sm overflow-hidden shadow-sm bg-white dark:bg-[#1a1a1a]">
+                                <img src={crystalIcelandImg} alt="Crystal in Iceland"
+                                    className="w-full h-auto block select-none pointer-events-none" draggable={false} />
+                            </div>
+                            <FileLabel name="crystal_in_iceland.jpg" />
                         </div>
-                        <FileLabel name="crystal_in_iceland.jpg" />
+                        <div className="flex flex-col items-center gap-4 pt-1">
+                            {internshipPosts.map(p => (
+                                <div key={p.id} className="flex flex-col items-center gap-1 cursor-pointer"
+                                    onClick={() => navigate(`/blog/${p.slug}`)}>
+                                    <Folder color={FOLDER_PINK} size={0.9} />
+                                    <span className="text-[10px] text-slate-600 dark:text-slate-400 text-center leading-tight select-none max-w-[72px]">{p.title}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    <div className="group/widget flex flex-col gap-1">
+
+                    {/* Experience */}
+                    <div>
                         <ExperienceWidget />
                         <FileLabel name="experience" />
                     </div>
+
                 </div>
             </div>
 
             {/* ══════════════════════════════════════════
                 TABLET  (sm → lg / 640–1023px)
+                Left: intro + case study folders + internship folders
+                Right: clock → photo → experience
             ══════════════════════════════════════════ */}
-            <div className="hidden sm:flex lg:hidden absolute inset-0 overflow-hidden pt-[58px]">
-                <div className="flex-1 min-w-0 flex flex-col justify-center gap-6 px-6">
-                    <div className="group/widget flex flex-col items-start gap-1.5">
+            <div className="hidden sm:grid lg:hidden absolute inset-0 overflow-y-auto"
+                style={{ gridTemplateColumns: '1fr 280px', gap: '0 24px', padding: '70px 24px 32px 24px' }}>
+
+                {/* Left column */}
+                <div className="flex flex-col gap-6 min-w-0">
+                    <div>
                         <MemoWidget staticContent={MEMO_STATIC} content={MEMO_ANIMATED} />
                         <FileLabel name="intro" />
                     </div>
-                    <ProjectFolders onNavigate={navigate} />
-                </div>
-                <div className="flex-none flex flex-col gap-2 w-[260px] md:w-[300px] overflow-y-auto pb-4">
-                    <div className="pt-2 pr-2">
-                        <ClockWidget />
+                    {/* Internship folders */}
+                    <div className="flex flex-row gap-6 flex-wrap">
+                        {internshipPosts.map(p => (
+                            <div key={p.id} className="flex flex-col items-center gap-1.5 cursor-pointer"
+                                onClick={() => navigate(`/blog/${p.slug}`)}>
+                                <Folder color={FOLDER_PINK} size={1.1} />
+                                <span className="text-[11px] text-slate-700 dark:text-slate-400 text-center leading-tight select-none">{p.title}</span>
+                            </div>
+                        ))}
                     </div>
-                    <div className="flex flex-col items-center gap-1 pr-2">
-                        <div className="w-full bg-white rounded-sm shadow border border-slate-200 p-2">
-                            <img
-                                src={crystalIcelandImg}
-                                alt="Crystal in Iceland"
-                                className="w-full max-h-[220px] object-contain rounded-sm select-none pointer-events-none"
-                                draggable={false}
-                            />
+                </div>
+
+                {/* Right column */}
+                <div className="flex flex-col gap-4">
+                    <div>
+                        <ClockWidget direction="vertical" />
+                    </div>
+                    <div>
+                        <div className="border border-slate-200 dark:border-[#333] rounded-sm overflow-hidden shadow-sm bg-white dark:bg-[#1a1a1a]">
+                            <img src={crystalIcelandImg} alt="Crystal in Iceland"
+                                className="w-full h-auto block select-none pointer-events-none" draggable={false} />
                         </div>
                         <FileLabel name="crystal_in_iceland.jpg" />
                     </div>
-                    <div className="flex flex-col gap-1 pr-2">
+                    <div>
                         <ExperienceWidget />
                         <FileLabel name="experience" />
                     </div>
@@ -133,88 +134,42 @@ const HomeSection = () => {
 
             {/* ══════════════════════════════════════════
                 DESKTOP  (lg+ / 1024px+)
-                All widgets are draggable + resizable.
-                Positions/sizes persist in localStorage.
+                All widgets draggable + resizable, persisted in localStorage.
             ══════════════════════════════════════════ */}
             <div className="hidden lg:block absolute inset-0" style={{ top: '52px' }}>
 
                 {/* Intro / Memo */}
-                <DraggableResizableWidget
-                    id="memo"
-                    defaultX={36}
-                    defaultY={30}
-                    defaultWidth={540}
-                    minWidth={220}
-                    minHeight={80}
-                    label="intro"
-                    resizable
-                >
+                <DraggableResizableWidget id="memo" defaultX={36} defaultY={30} defaultWidth={540}
+                    minWidth={220} minHeight={80} label="intro" resizable>
                     <MemoWidget staticContent={MEMO_STATIC} content={MEMO_ANIMATED} />
                 </DraggableResizableWidget>
 
                 {/* Clock */}
-                <DraggableResizableWidget
-                    id="clock"
-                    defaultX={840}
-                    defaultY={20}
-                    defaultWidth={280}
-                    minWidth={180}
-                    minHeight={60}
-                    label="clock"
-                    resizable
-                >
+                <DraggableResizableWidget id="clock" defaultX={840} defaultY={20} defaultWidth={280}
+                    minWidth={180} minHeight={60} label="clock" resizable>
                     <ClockWidget direction="vertical" />
                 </DraggableResizableWidget>
 
                 {/* Photo */}
-                <DraggableResizableWidget
-                    id="photo"
-                    defaultX={590}
-                    defaultY={195}
-                    defaultWidth={260}
-                    minWidth={120}
-                    minHeight={80}
-                    label="crystal_in_iceland.jpg"
-                    resizable
-                >
+                <DraggableResizableWidget id="photo" defaultX={590} defaultY={195} defaultWidth={260}
+                    minWidth={120} minHeight={80} label="crystal_in_iceland.jpg" resizable>
                     <DesktopPhotoContent />
                 </DraggableResizableWidget>
 
                 {/* Experience */}
-                <DraggableResizableWidget
-                    id="experience"
-                    defaultX={840}
-                    defaultY={460}
-                    defaultWidth={260}
-                    defaultHeight={260}
-                    minWidth={180}
-                    minHeight={120}
-                    label="experience"
-                    resizable
-                >
+                <DraggableResizableWidget id="experience" defaultX={840} defaultY={460}
+                    defaultWidth={260} defaultHeight={260} minWidth={180} minHeight={120}
+                    label="experience" resizable>
                     <ExperienceWidget className="h-full" />
                 </DraggableResizableWidget>
 
-                {/* Project folders */}
-                {featuredProjects.map((p, i) => {
-                    const slug = p.link ? p.link.replace('/projects/', '') : p.id;
-                    const defaults = i === 0
-                        ? { x: 130, y: 490 }
-                        : { x: 310, y: 375 };
+                {/* Internship folders */}
+                {internshipPosts.map((p, i) => {
+                    const xPositions = [130, 310, 490];
                     return (
-                        <DraggableResizableWidget
-                            key={p.id}
-                            id={`folder-${p.id}`}
-                            defaultX={defaults.x}
-                            defaultY={defaults.y}
-                            label={p.title}
-                            resizable={false}
-                        >
-                            {/* pointer-events-auto so click still works after drag */}
-                            <div
-                                className="pointer-events-auto"
-                                onClick={() => navigate(`/blog/${slug}`)}
-                            >
+                        <DraggableResizableWidget key={p.id} id={`folder-internship-${p.id}`}
+                            defaultX={xPositions[i]} defaultY={490} label={p.title} resizable={false}>
+                            <div className="pointer-events-auto" onClick={() => navigate(`/blog/${p.slug}`)}>
                                 <Folder color={FOLDER_PINK} size={1.1} />
                             </div>
                         </DraggableResizableWidget>

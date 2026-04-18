@@ -31,7 +31,7 @@ export const TypewriterTitles = () => {
     }, []);
 
     return (
-        <div className="text-[10px] font-heading font-bold text-black/70 tracking-[0.1em] uppercase h-[14px] flex items-center justify-center relative">
+        <div className="text-[10px] font-heading font-bold text-black/70 dark:text-white/50 tracking-[0.1em] uppercase h-[14px] flex items-center justify-center relative">
             <AnimatePresence mode="wait">
                 <motion.span
                     key={titles[titleIndex]}

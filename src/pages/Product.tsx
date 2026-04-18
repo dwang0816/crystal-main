@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { DOTTED_BG } from '../lib/styles';
 
 const T = {
   card:       '#ffffff',
@@ -155,7 +154,7 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
 };
 
 export const Product = () => (
-  <div className="absolute inset-0 w-full h-full pt-[52px] overflow-y-auto" style={DOTTED_BG}>
+  <div className="absolute inset-0 w-full h-full pt-[52px] overflow-y-auto dotted-bg">
     <div className="px-4 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10">
 
       {/* Header */}

@@ -159,7 +159,7 @@ export function MemoWidget({ content, staticContent }: { content: string; static
     });
 
     return (
-        <div className="relative w-full bg-white border border-slate-200 rounded-sm shadow p-4 sm:p-6 lg:p-8 text-xl sm:text-[1.75rem] lg:text-[2.275rem] leading-relaxed font-serif text-black text-left whitespace-pre-wrap cursor-default">
+        <div className="relative w-full bg-white dark:bg-[#1a1a1a] border border-slate-200 dark:border-[#333] rounded-sm shadow p-4 sm:p-6 lg:p-8 text-xl sm:text-[1.75rem] lg:text-[2.275rem] leading-relaxed font-serif text-black dark:text-white text-left whitespace-pre-wrap cursor-default">
             {staticNodes}
             {animNodes}
             {typed < total && (

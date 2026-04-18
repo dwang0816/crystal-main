@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { featuredProjects } from '../../data/files';
-import { DOTTED_BG } from '../../lib/styles';
 import type { FeaturedProject } from '../../types';
 
 const FeaturedCard = ({ project }: { project: FeaturedProject }) => {
@@ -91,7 +90,7 @@ export const FeaturedCards = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="absolute inset-0 w-full h-full pt-[52px] overflow-y-auto" style={DOTTED_BG}>
+    <div className="absolute inset-0 w-full h-full pt-[52px] overflow-y-auto dotted-bg">
       <div className="px-4 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10">
 
         {/* Header */}
