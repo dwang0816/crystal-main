@@ -35,9 +35,8 @@ const FeaturedCard = ({ project }: { project: FeaturedProject }) => {
         {/* Title + badge */}
         <div className="flex items-center gap-2.5 mb-3 flex-wrap">
           <span
-            className="text-[18px] font-bold tracking-tight"
-            style={{ fontFamily: '"Barlow", sans-serif' }}
             className="text-[18px] font-bold tracking-tight text-[#0a0a0a] dark:text-white"
+            style={{ fontFamily: '"Barlow", sans-serif' }}
           >
             {project.title}
           </span>
@@ -54,9 +53,8 @@ const FeaturedCard = ({ project }: { project: FeaturedProject }) => {
 
         {/* HMW */}
         <p
-          className="text-[13px] leading-[1.7] mb-4 flex-1"
-          style={{ fontFamily: '"Hanken Grotesk", sans-serif' }}
           className="text-[13px] leading-[1.7] mb-4 flex-1 text-[#555555] dark:text-[#aaaaaa]"
+          style={{ fontFamily: '"Hanken Grotesk", sans-serif' }}
         >
           {project.hmw}
         </p>
@@ -98,17 +96,15 @@ export const FeaturedCards = () => {
         {/* Header */}
         <div className="flex items-end justify-between mb-6 sm:mb-8">
           <h2
-            className="text-[clamp(20px,3vw,28px)] font-bold tracking-tight leading-tight"
-            style={{ fontFamily: '"Barlow", sans-serif' }}
             className="text-[clamp(20px,3vw,28px)] font-bold tracking-tight leading-tight text-[#0a0a0a] dark:text-white"
+            style={{ fontFamily: '"Barlow", sans-serif' }}
           >
             Featured Case Studies
           </h2>
           <button
             onClick={() => navigate('/product')}
-            className="text-[12px] font-semibold uppercase tracking-[0.08em] border-none bg-transparent cursor-pointer transition-opacity hover:opacity-60 shrink-0 ml-4"
-            style={{ fontFamily: '"Barlow", sans-serif' }}
             className="text-[12px] font-semibold uppercase tracking-[0.08em] border-none bg-transparent cursor-pointer transition-opacity hover:opacity-60 shrink-0 ml-4 text-[#0a0a0a] dark:text-white"
+            style={{ fontFamily: '"Barlow", sans-serif' }}
           >
             View All →
           </button>
