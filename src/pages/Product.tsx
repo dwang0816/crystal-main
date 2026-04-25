@@ -116,8 +116,8 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
       {/* Content */}
       <div className="px-5 pt-5 pb-5 flex flex-col flex-1">
         <div className="flex items-center gap-2.5 mb-3 flex-wrap">
-          <span className="text-[18px] font-bold tracking-tight"
-                style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+          <span className="text-[18px] font-bold tracking-tight text-[#0a0a0a] dark:text-white"
+                style={{ fontFamily: '"Barlow", sans-serif' }}>
             {item.title}
           </span>
           {item.tags.map(tag => (
@@ -129,8 +129,8 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
           ))}
         </div>
 
-        <p className="text-[13px] leading-[1.7] mb-4 flex-1"
-           style={{ color: T.text2, fontFamily: '"Hanken Grotesk", sans-serif' }}>
+        <p className="text-[13px] leading-[1.7] mb-4 flex-1 text-[#555555] dark:text-[#aaaaaa]"
+           style={{ fontFamily: '"Hanken Grotesk", sans-serif' }}>
           {item.subtitle}
         </p>
 
@@ -145,7 +145,7 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
             ))}
           </div>
           {isClickable && (
-            <span className="text-base" style={{ color: T.text1 }}>→</span>
+            <span className="text-base text-[#0a0a0a] dark:text-white">→</span>
           )}
         </div>
       </div>
@@ -160,8 +160,8 @@ export const Product = () => (
       {/* Header */}
       <div className="mb-6 sm:mb-8">
         <h2
-          className="text-[clamp(20px,3vw,28px)] font-bold tracking-tight leading-tight"
-          style={{ color: '#0a0a0a', fontFamily: '"Barlow", sans-serif' }}
+          className="text-[clamp(20px,3vw,28px)] font-bold tracking-tight leading-tight text-[#0a0a0a] dark:text-white"
+          style={{ fontFamily: '"Barlow", sans-serif' }}
         >
           All Work
         </h2>

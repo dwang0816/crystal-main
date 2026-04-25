@@ -36,9 +36,49 @@ export const homeFiles: DraggableItem[] = [
 ];
 
 export const internshipPosts: InternshipPost[] = [
-    { id: 'vt-it',     title: 'Virginia Tech Division of IT', slug: 'vt-division-it',        period: 'Sep 2025 – Present' },
-    { id: 'xometry',   title: 'Xometry',                     slug: 'xometry-experience',    period: 'Jun 2025 – Mar 2026' },
-    { id: 'perpetual', title: 'Perpetual',                   slug: 'perpetual-experience',  period: 'May 2024 – Dec 2024' },
+    {
+        id: 'vt-it',
+        title: 'VT Division of IT',
+        slug: 'vt-division-it',
+        period: 'Sep 2025 – Present',
+        subtitle: 'learning how small changes scale',
+        body: [
+            'When I first started working with Virginia Tech\'s Division of IT, I thought design impact came from big changes—new layouts, new systems, full redesigns. But most of the work didn\'t look like that.',
+            'I was working on internal tools used by students and staff, where even small updates had to fit into larger, existing systems. Through user research and feedback, I started noticing patterns—confusing navigation, unclear labels, friction in everyday tasks.',
+            'Instead of redesigning everything, I focused on identifying the smallest changes that could make the biggest difference. Restructuring information, clarifying language, and improving flows that users interacted with daily.',
+            'What changed wasn\'t just the interface, but how people moved through it. Tasks became quicker, decisions clearer, and support requests decreased because things simply made more sense.',
+            'This experience shifted how I think about impact. It\'s not always about reinventing systems—it\'s about understanding them deeply enough to improve them in meaningful, realistic ways.',
+        ],
+    },
+    {
+        id: 'xometry',
+        title: 'Xometry',
+        slug: 'xometry-experience',
+        period: 'Jun 2025 – Mar 2026',
+        subtitle: 'designing for people who don\'t have time to think about design',
+        body: [
+            'At Xometry, I worked on the WorkCenter mobile app, used by manufacturers to manage jobs from quote to payment. These weren\'t typical "app users"—they were people working on shop floors, managing multiple jobs, and making decisions quickly.',
+            'Through user interviews, I saw how much pressure these workflows carried. Users didn\'t have time to navigate complex interfaces or figure things out—they needed clarity immediately.',
+            'As the sole designer on my team, I focused on simplifying these workflows. Restructuring how job information was presented, making actions more obvious, and reducing the number of steps needed to complete key tasks.',
+            'I worked closely with engineers to bring these designs into production, making sure what we built actually held up in real use. I also led stakeholder discussions to align on what mattered most to improve.',
+            'The result was a mobile experience that supported faster decisions and reduced friction in day-to-day operations.',
+            'This project reinforced something important: good design isn\'t about adding more—it\'s about removing what gets in the way.',
+        ],
+    },
+    {
+        id: 'perpetual',
+        title: 'Perpetual',
+        slug: 'perpetual-experience',
+        period: 'May 2024 – Dec 2024',
+        subtitle: 'designing when speed matters more than perfection',
+        body: [
+            'At Perpetual, everything moved fast. Timelines were tight, expectations were high, and there wasn\'t always time to explore every possible direction.',
+            'I worked on launching an AI startup website, where design decisions had to be made quickly and communicated clearly to developers. At the same time, I was conducting UX audits—identifying issues in existing products and figuring out what actually mattered to fix.',
+            'One of the biggest shifts for me was learning how to prioritize. Not everything needs to be perfect—what matters is what moves the product forward. I started focusing on clarity, making sure users understood what to do, where to go, and why it mattered.',
+            'By simplifying flows and aligning closely with developers, we were able to move from ideas to implementation quickly, without losing intent.',
+            'This experience made me more decisive. It taught me how to design with urgency, while still being thoughtful about the details that actually impact users.',
+        ],
+    },
 ];
 
 export const featuredProjects: FeaturedProject[] = [

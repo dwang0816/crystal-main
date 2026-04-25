@@ -9,7 +9,7 @@ import crystalIcelandImg from '../assets/crystal_in_iceland.jpg';
 
 /* ── Filename label ── */
 const FileLabel = ({ name }: { name: string }) => (
-    <span className="text-[11px] text-slate-900/35 dark:text-white/25 font-normal leading-tight px-1.5 py-0.5 rounded mt-1 select-none block text-center">
+    <span className="text-[11px] text-slate-900/35 dark:text-white/25 font-normal leading-tight px-1.5 py-0.5 rounded mt-2 select-none block text-center w-full">
         {name}
     </span>
 );
@@ -72,7 +72,7 @@ const HomeSection = () => {
                                 <div key={p.id} className="flex flex-col items-center gap-1 cursor-pointer"
                                     onClick={() => navigate(`/blog/${p.slug}`)}>
                                     <Folder color={FOLDER_PINK} size={0.9} />
-                                    <span className="text-[10px] text-slate-600 dark:text-slate-400 text-center leading-tight select-none max-w-[72px]">{p.title}</span>
+                                    <span className="text-[10px] text-slate-600 dark:text-slate-400 text-center leading-tight select-none w-[100px] inline-block break-words">{p.title}</span>
                                 </div>
                             ))}
                         </div>
@@ -107,7 +107,7 @@ const HomeSection = () => {
                             <div key={p.id} className="flex flex-col items-center gap-1.5 cursor-pointer"
                                 onClick={() => navigate(`/blog/${p.slug}`)}>
                                 <Folder color={FOLDER_PINK} size={1.1} />
-                                <span className="text-[11px] text-slate-700 dark:text-slate-400 text-center leading-tight select-none">{p.title}</span>
+                                <span className="text-[11px] text-slate-700 dark:text-slate-400 text-center leading-tight select-none w-[100px] inline-block break-words">{p.title}</span>
                             </div>
                         ))}
                     </div>
@@ -168,9 +168,12 @@ const HomeSection = () => {
                     const xPositions = [130, 310, 490];
                     return (
                         <DraggableResizableWidget key={p.id} id={`folder-internship-${p.id}`}
-                            defaultX={xPositions[i]} defaultY={490} label={p.title} resizable={false}>
-                            <div className="pointer-events-auto" onClick={() => navigate(`/blog/${p.slug}`)}>
-                                <Folder color={FOLDER_PINK} size={1.1} />
+                            defaultX={xPositions[i]} defaultY={490} resizable={false}>
+                            <div className="pointer-events-auto flex flex-col items-center gap-2">
+                                <div onClick={() => navigate(`/blog/${p.slug}`)}>
+                                    <Folder color={FOLDER_PINK} size={1.1} />
+                                </div>
+                                <span className="w-[100px] block text-[11px] text-slate-900/60 dark:text-white/40 text-center font-normal leading-tight select-none break-words" onClick={e => e.stopPropagation()}>{p.title}</span>
                             </div>
                         </DraggableResizableWidget>
                     );

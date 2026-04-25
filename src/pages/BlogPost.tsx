@@ -45,10 +45,26 @@ export const BlogPost = () => {
                     <p className="text-[13px] text-slate-400 dark:text-slate-500 mb-12">Blog post — coming soon</p>
                 )}
 
-                {/* Empty content area */}
-                <div className="min-h-[320px] rounded-sm border border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center">
-                    <span className="text-[13px] text-slate-300 dark:text-slate-600 select-none">content coming soon</span>
-                </div>
+                {/* Content */}
+                {internship?.subtitle && (
+                    <p className="text-[15px] italic text-slate-500 dark:text-slate-400 mb-10 leading-relaxed">
+                        {internship.subtitle}
+                    </p>
+                )}
+
+                {internship?.body ? (
+                    <div className="space-y-5">
+                        {internship.body.map((paragraph, i) => (
+                            <p key={i} className="text-[15px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                                {paragraph}
+                            </p>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="min-h-[320px] rounded-sm border border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center">
+                        <span className="text-[13px] text-slate-300 dark:text-slate-600 select-none">content coming soon</span>
+                    </div>
+                )}
 
                 {/* Case study link — only for featured projects */}
                 {project?.link && (

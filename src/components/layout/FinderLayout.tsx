@@ -64,17 +64,16 @@ export const FinderLayout = () => {
 
     const sidebarContent = (
         <>
-            <div className="pt-6 pb-8 px-4 flex flex-col items-center">
+            <div className="pt-3 pb-2 px-4 flex flex-col items-center">
                 <NavLink to="/">
-                    <img src="/logo-b.svg" width={273} className='pb-2 cursor-pointer block dark:hidden' style={{ transform: 'scale(0.8)', transformOrigin: 'center' }} />
-                    <img src="/logo-w.svg" width={273} className='pb-2 cursor-pointer hidden dark:block' style={{ transform: 'scale(0.8)', transformOrigin: 'center' }} />
+                    <img src="/logo-b.svg" width={150} className='cursor-pointer block dark:hidden' />
+                    <img src="/logo-w.svg" width={150} className='cursor-pointer hidden dark:block' />
                 </NavLink>
-                <p className="text-[13px] font-heading font-semibold text-black dark:text-white tracking-[0.04em] mb-0.5">Crystal Cho</p>
+                <p className="text-[13px] font-heading font-semibold text-black dark:text-white tracking-[0.04em] mb-0">Crystal Cho</p>
                 <TypewriterTitles />
-                <div className="text-[10px] font-heading font-medium text-black/70 dark:text-white/50 flex items-center gap-1 tracking-[0.1em] uppercase mt-1">📍Based in NYC</div>
             </div>
 
-            <nav className="flex flex-col px-3 pb-8 gap-8">
+            <nav className="flex flex-col px-3 pb-8 pt-12 gap-8">
                 <div>
                     <div className={SIDEBAR_HEADING}>Favorites</div>
                     <div className="flex flex-col gap-0.5">
@@ -153,7 +152,7 @@ export const FinderLayout = () => {
                 >
                     <button
                         onClick={() => setIsSidebarOpen(false)}
-                        className="absolute top-3 right-3 p-1.5 rounded-md hover:bg-black/10 text-slate-500"
+                        className="absolute top-3 right-3 p-1.5 rounded-md hover:bg-black/10 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400"
                     >
                         <X size={16} />
                     </button>

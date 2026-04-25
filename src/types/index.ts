@@ -29,6 +29,8 @@ export type InternshipPost = {
     title: string;
     slug: string;
     period: string;
+    subtitle?: string;
+    body?: string[];
 };
 
 export type DraggableItem =
