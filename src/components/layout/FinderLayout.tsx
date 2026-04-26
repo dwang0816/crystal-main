@@ -198,7 +198,7 @@ export const FinderLayout = () => {
             {/* ── Mobile drawer ── */}
             <aside
                 className={cn(
-                    'fixed top-0 left-0 h-full w-[260px] border-r border-black/[0.06] dark:border-white/[0.06] flex flex-col overflow-y-auto z-40 transition-transform duration-300 ease-in-out md:hidden bg-[rgba(26,26,26,0.05)] dark:bg-[rgba(255,255,255,0.05)]',
+                    'fixed top-0 left-0 h-full w-[260px] border-r border-black/[0.06] dark:border-white/[0.06] flex flex-col overflow-y-auto z-40 transition-transform duration-300 ease-in-out md:hidden bg-white dark:bg-[#111]',
                     isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
                 )}
             >

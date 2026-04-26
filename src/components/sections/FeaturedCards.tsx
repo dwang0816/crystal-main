@@ -10,7 +10,7 @@ const Tag = ({ children }: { children: React.ReactNode }) => (
 );
 
 /* ─── Project 1: full-width ──────────────────────────── */
-const FeaturedHero = ({ project, index }: { project: typeof featuredProjects[0]; index: number }) => {
+const FeaturedHero = ({ project, index: _index }: { project: typeof featuredProjects[0]; index: number }) => {
     const navigate = useNavigate();
     const handleClick = () => project.link && navigate(project.link);
 
