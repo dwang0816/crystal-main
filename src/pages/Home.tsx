@@ -43,8 +43,8 @@ const ExperienceList = () => (
 );
 
 /* ─── Card shell ─────────────────────────────────────── */
-const Card = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
-    <div className={`border border-black/10 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-[#111] ${className}`}>
+const Card = ({ children, className = '', style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => (
+    <div className={`border border-black/10 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-[#111] ${className}`} style={style}>
         {children}
     </div>
 );
