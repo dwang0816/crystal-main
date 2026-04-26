@@ -80,6 +80,13 @@ const ImgPlaceholder = ({ label, className }: { label: string; className?: strin
   </div>
 );
 
+const CaseImg = ({ src, alt, className }: { src: string; alt: string; className?: string }) => (
+  <div className={`rounded-lg overflow-hidden ${className ?? ''}`}
+       style={{ border: `1px solid ${T.border}` }}>
+    <img src={src} alt={alt} className="w-full object-cover block" />
+  </div>
+);
+
 const SectionWrap = ({ children, id }: { children: React.ReactNode; id?: string }) => (
   <section id={id} className="py-10 sm:py-14" style={{ borderBottom: `1px solid ${T.border}` }}>
     {children}
@@ -153,10 +160,7 @@ export const XometryCase = () => {
           </div>
 
           {/* Hero image */}
-          <ImgPlaceholder
-            label="Hero Image — Full phone mockup of app dashboard or job offers screen"
-            className="!min-h-[220px] sm:!min-h-[320px] rounded-xl"
-          />
+          <CaseImg src="/xometry/mockup-hero.png" alt="Xometry WorkCenter Hero" className="rounded-xl" />
         </section>
 
         {/* ═══ OVERVIEW ═══ */}
@@ -337,32 +341,32 @@ export const XometryCase = () => {
               num: '01', heading: 'Reviewing Job Offers',
               title: 'Evaluate & Accept Opportunities On-the-Go',
               desc: 'Users can quickly evaluate job details and accept opportunities directly from their phone — no desk required. The offer card surfaces the most critical information upfront: part specs, quantity, due date, and payout.',
-              imgLabel: 'Job Offer Screen', flip: false,
+              img: '/xometry/Job-offer-screen.png', imgAlt: 'Job Offer Screen', flip: false,
             },
             {
               num: '02', heading: 'Managing Active Jobs',
               title: 'One Dashboard for Every Active Project',
               desc: 'A centralized dashboard allows users to track progress across multiple projects simultaneously. Status indicators, deadlines, and next actions are surfaced at a glance to minimize context-switching.',
-              imgLabel: 'Dashboard Screen', flip: true,
+              img: '/xometry/Dashboard-Screen.png', imgAlt: 'Dashboard Screen', flip: true,
             },
             {
               num: '03', heading: 'Uploading Documentation',
               title: 'Capture & Submit Directly from Mobile',
               desc: 'Users can capture and upload photos directly from their phone with minimal steps. The upload flow was designed to be fast and forgiving — supporting multiple file types with clear progress feedback.',
-              imgLabel: 'Upload Flow', flip: false,
+              img: '/xometry/flow.gif', imgAlt: 'Upload Flow', flip: false,
             },
             {
               num: '04', heading: 'Quote-to-Cash Workflow',
               title: 'The Full Lifecycle in One Place',
               desc: 'The platform supports the complete job lifecycle — from receiving an offer, through production, to final payment. Each step was mapped and designed to reduce drop-off and increase manufacturer confidence.',
-              imgLabel: 'Quote-to-Cash Flow', flip: true,
+              img: '/xometry/full-cycle.png', imgAlt: 'Quote-to-Cash Flow', flip: true,
             },
           ].map((f, i, arr) => (
             <div key={f.num}
                  className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 py-7 items-start
                              ${i < arr.length - 1 ? 'border-b' : ''}`}
                  style={{ borderColor: T.border }}>
-              {/* Content — on desktop flip: push to col 2 */}
+              {/* Content */}
               <div className={f.flip ? 'sm:order-2' : ''}>
                 <div className="font-mono text-[11px] mb-2.5 tracking-[0.08em]" style={{ color: T.text3 }}>
                   {f.num} / {f.heading}
@@ -373,9 +377,9 @@ export const XometryCase = () => {
                 </h3>
                 <p className="text-[13px] sm:text-[13.5px] leading-[1.7]" style={{ color: T.text2 }}>{f.desc}</p>
               </div>
-              {/* Image — on desktop flip: push to col 1 */}
+              {/* Image */}
               <div className={f.flip ? 'sm:order-1' : ''}>
-                <ImgPlaceholder label={f.imgLabel} className="sm:!min-h-[260px]" />
+                <CaseImg src={f.img} alt={f.imgAlt} />
               </div>
             </div>
           ))}

@@ -23,6 +23,8 @@ export const homeFiles: DraggableItem[] = [
             <img src="https://ik.imagekit.io/cch0/applications/Figma-logo.svg?updatedAt=1772659997879" alt="Figma" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 6 }} />,
             <img src="https://ik.imagekit.io/cch0/applications/Adobe_Creative_Cloud_rainbow_icon.svg.png?updatedAt=1772660005522" alt="Adobe Creative Cloud" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 6 }} />,
             <img src="https://ik.imagekit.io/cch0/applications/notion.png?updatedAt=1772660125350" alt="Notion" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 6 }} />,
+            <img src="/gcal-logo.png" alt="Google Calendar" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 6 }} />,
+            <img src="/discord-logo.webp" alt="Discord" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 6 }} />,
         ]
     },
     {

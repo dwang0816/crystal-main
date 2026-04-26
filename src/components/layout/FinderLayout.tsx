@@ -1,43 +1,57 @@
-import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
-    ChevronLeft,
-    ChevronRight,
     Puzzle,
     Paperclip,
     Contact,
     Frame,
     PenTool,
-    Menu,
     X,
+    Menu,
     Linkedin,
     Mail,
     FileText,
-    LayoutGrid
 } from 'lucide-react';
 import { TypewriterTitles } from './TypewriterTitles';
 import { cn } from '@/lib/utils';
-import { TextMorph } from 'torph/react';
 import { useState, useEffect } from 'react';
 
+/* ─── Section label ─────────────────────────────────────── */
+/* sans/nav — 12px extrabold, 25% opacity, ALL CAPS */
+const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+    <div className="px-4 mb-1 text-[12px] font-sans font-extrabold tracking-[0.12em] uppercase text-[#1a1a1a]/25 dark:text-white/25">
+        {children}
+    </div>
+);
 
-const SIDEBAR_ITEM = 'flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-[13px] font-normal font-hanken transition-colors dark:text-[#cccccc]';
-const SIDEBAR_HEADING = 'px-3 text-[11px] font-heading font-medium text-black/40 dark:text-white/30 mb-2 uppercase tracking-wider';
+/* ─── Nav item class builder ─────────────────────────────── */
+/* sans/body — 16px medium, icon 20px */
+const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+    cn(
+        'flex items-center gap-3 mx-2 px-3 py-2 rounded-lg text-[16px] font-sans font-medium transition-colors [&>svg]:shrink-0',
+        isActive
+            ? 'bg-[rgba(0,9,255,0.05)] text-[#0009ff] dark:bg-[rgba(132,204,22,0.08)] dark:text-[#84cc16]'
+            : 'text-[#1a1a1a] dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/5'
+    );
 
-/* Path → human-readable title map */
+
 const PATH_TITLES: Record<string, string> = {
-    '':          'Home',
-    'featured':  'Featured',
-    'about-me':  'About Me',
-    'product':   'Product',
-    'visual':    'Visual',
-    'projects':  'Projects',
+    '':         'Home',
+    'featured': 'Featured',
+    'about-me': 'About Me',
+    'product':  'Product',
+    'visual':   'Visual',
+    'projects': 'Projects',
 };
 
 export const FinderLayout = () => {
     const location = useLocation();
-    const navigate = useNavigate();
     const [isCopied, setCopy] = useState("Email");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const getTitle = () => {
+        const segment = location.pathname.split('/')[1] ?? '';
+        return PATH_TITLES[segment] ?? (segment.charAt(0).toUpperCase() + segment.slice(1));
+    };
 
     // Close sidebar on route change
     useEffect(() => {
@@ -46,154 +60,177 @@ export const FinderLayout = () => {
 
     function handleCopy() {
         navigator.clipboard.writeText("crystalcho.official@gmail.com");
-        setCopy("Copied");
+        setCopy("Copied!");
         setTimeout(() => setCopy("Email"), 1400);
     }
 
-    const getTitle = () => {
-        const segment = location.pathname.split('/')[1] ?? '';
-        return PATH_TITLES[segment] ?? (segment.charAt(0).toUpperCase() + segment.slice(1));
-    };
-
-    const iconSize = 16;
-
-    const sidebarLinkClass = ({ isActive }: { isActive: boolean }) =>
-        cn(SIDEBAR_ITEM, isActive ? 'bg-[#E5E5E5] dark:bg-[#2a2a2a] text-black dark:text-white' : 'text-[#333333] dark:text-[#bbbbbb] hover:bg-black/5 dark:hover:bg-white/5');
-
-    const sidebarAnchorClass = cn(SIDEBAR_ITEM, 'text-[#333333] dark:text-[#bbbbbb] hover:bg-black/5 dark:hover:bg-white/5');
+    const iconSize = 20;
 
     const sidebarContent = (
-        <>
-            <div className="pt-3 pb-2 px-4 flex flex-col items-center">
-                <NavLink to="/">
-                    <img src="/logo-b.svg" width={150} className='cursor-pointer block dark:hidden' />
-                    <img src="/logo-w.svg" width={150} className='cursor-pointer hidden dark:block' />
+        <div className="flex flex-col h-full">
+
+            {/* ── Logo + Name + Subtitle ── */}
+            <div className="flex flex-col items-center pt-8 pb-4 px-5 gap-2">
+                <NavLink to="/" className="mb-1">
+                    <img src="/logo-b.svg" width={137} className="block dark:hidden" />
+                    <img src="/logo-w.svg" width={137} className="hidden dark:block" />
                 </NavLink>
-                <p className="text-[13px] font-heading font-semibold text-black dark:text-white tracking-[0.04em] mb-0">Crystal Cho</p>
-                <TypewriterTitles />
+                {/* serif/quote — 20px, centered */}
+                <p className="font-serif text-[20px] font-normal text-[#1a1a1a] dark:text-white text-center leading-tight">
+                    Crystal Cho
+                </p>
+                {/* sans/meta — 12px medium, 40% opacity */}
+                <div className="flex flex-col items-center gap-0">
+                    <div className="text-[12px] font-sans font-medium text-[#1a1a1a]/40 dark:text-white/40 text-center">
+                        <TypewriterTitles />
+                    </div>
+                    <p className="text-[12px] font-sans font-medium text-[#1a1a1a]/40 dark:text-white/40 text-center">
+                        Based in NYC
+                    </p>
+                </div>
             </div>
 
-            <nav className="flex flex-col px-3 pb-8 pt-12 gap-8">
-                <div>
-                    <div className={SIDEBAR_HEADING}>Favorites</div>
-                    <div className="flex flex-col gap-0.5">
-                        <NavLink to="/" end className={sidebarLinkClass}>
-                            <Puzzle size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Home
-                        </NavLink>
-                        <NavLink to="/featured" className={sidebarLinkClass}>
-                            <Paperclip size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Featured
-                        </NavLink>
-                    </div>
+            {/* ── Divider ── */}
+            <div className="mx-4 my-5 border-t border-black/10 dark:border-white/10" />
+
+            {/* ── Nav ── */}
+            <nav className="flex flex-col gap-6 px-3 pt-4 pb-4 flex-1">
+                {/* Favorites */}
+                <div className="flex flex-col gap-0.5">
+                    <SectionLabel>Favorites</SectionLabel>
+                    <NavLink to="/" end className={navLinkClass}>
+                        <Puzzle size={iconSize} className="shrink-0" />
+                        Home
+                    </NavLink>
+                    <NavLink to="/featured" className={navLinkClass}>
+                        <Paperclip size={iconSize} className="shrink-0" />
+                        Featured
+                    </NavLink>
                 </div>
 
-                <div>
-                    <div className={SIDEBAR_HEADING}>Work</div>
-                    <div className="flex flex-col gap-0.5">
-                        <NavLink to="/product" className={sidebarLinkClass}>
-                            <Frame size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Product
-                        </NavLink>
-                        <NavLink to="/visual" className={sidebarLinkClass}>
-                            <PenTool size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Visual
-                        </NavLink>
-                    </div>
+                {/* Work */}
+                <div className="flex flex-col gap-0.5">
+                    <SectionLabel>Work</SectionLabel>
+                    <NavLink to="/product" className={navLinkClass}>
+                        <Frame size={iconSize} className="shrink-0" />
+                        Product
+                    </NavLink>
+                    <NavLink to="/visual" className={navLinkClass}>
+                        <PenTool size={iconSize} className="shrink-0" />
+                        Visual
+                    </NavLink>
                 </div>
 
-                <div>
-                    <div className={SIDEBAR_HEADING}>More</div>
-                    <div className="flex flex-col gap-0.5">
-                        <NavLink to="/about-me" className={sidebarLinkClass}>
-                            <Contact size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> About Me
-                        </NavLink>
-                    </div>
-                </div>
-
-                <div>
-                    <div className={SIDEBAR_HEADING}>Locations</div>
-                    <div className="flex flex-col gap-0.5">
-                        <a href="https://www.linkedin.com/in/cch0/" className={sidebarAnchorClass}>
-                            <Linkedin size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Linkedin
-                        </a>
-                        <div className={sidebarAnchorClass} onClick={handleCopy}>
-                            <Mail size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> <TextMorph>{isCopied}</TextMorph>
-                        </div>
-                        <a href="https://drive.google.com/file/d/1W6JRUbUujetsAFSYz608EYB9ce5NvTph/view?usp=drive_link" className={sidebarAnchorClass}>
-                            <FileText size={iconSize} className="text-[#0011FF] dark:text-[#84cc16]" /> Resume
-                        </a>
-                    </div>
+                {/* More */}
+                <div className="flex flex-col gap-0.5">
+                    <SectionLabel>More</SectionLabel>
+                    <NavLink to="/about-me" className={navLinkClass}>
+                        <Contact size={iconSize} className="shrink-0" />
+                        About Me
+                    </NavLink>
                 </div>
             </nav>
-        </>
+
+            {/* ── Let's Connect box ── */}
+            <div className="mx-4 mb-4">
+                <div className="border border-black/10 dark:border-white/10 rounded-xl p-4 flex flex-col gap-3">
+                    {/* sans/button — 12px medium, ALL CAPS */}
+                    <span className="text-[12px] font-sans font-extrabold text-[#1a1a1a40] dark:text-[#ffffff40] uppercase tracking-[0.24px]">
+                        Let's Connect
+                    </span>
+                    <div className="flex items-center justify-center gap-3 w-full">
+                        {/* LinkedIn */}
+                        <a
+                            href="https://www.linkedin.com/in/cch0/"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="w-14 h-14 rounded-full bg-[rgba(26,26,26,0.05)] dark:bg-[rgba(255,255,255,0.05)] flex items-center justify-center hover:bg-[rgba(26,26,26,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)] transition-colors text-[#1a1a1a] dark:text-white"
+                            title="LinkedIn"
+                        >
+                            <Linkedin size={24} />
+                        </a>
+                        {/* Email copy */}
+                        <button
+                            onClick={handleCopy}
+                            className="w-14 h-14 rounded-full bg-[rgba(26,26,26,0.05)] dark:bg-[rgba(255,255,255,0.05)] flex items-center justify-center hover:bg-[rgba(26,26,26,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)] transition-colors text-[#1a1a1a] dark:text-white"
+                            title={isCopied === "Copied!" ? "Copied!" : "Copy email"}
+                        >
+                            <Mail size={24} />
+                        </button>
+                        {/* Resume */}
+                        <a
+                            href="https://drive.google.com/file/d/1W6JRUbUujetsAFSYz608EYB9ce5NvTph/view?usp=drive_link"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="w-14 h-14 rounded-full bg-[rgba(26,26,26,0.05)] dark:bg-[rgba(255,255,255,0.05)] flex items-center justify-center hover:bg-[rgba(26,26,26,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)] transition-colors text-[#1a1a1a] dark:text-white"
+                            title="Resume"
+                        >
+                            <FileText size={24} />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {/* ── Copyright ── */}
+            <p className="text-center text-[10px] font-sans font-medium text-[#1a1a1a]/40 dark:text-white/40 pb-4 px-4">
+                © 2026 Crystal Cho
+            </p>
+
+        </div>
     );
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-slate-100 font-sans">
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-100 -z-10" />
+        <div className="fixed inset-0 flex bg-white dark:bg-[#0f0f0f]">
 
-            <div className="w-full h-full overflow-hidden flex relative z-10 bg-white dark:bg-[#0f0f0f]">
-                {/* Sidebar — desktop: always visible, mobile: hidden by default */}
-                <aside className="hidden md:flex w-[230px] h-full shrink-0 border-r border-[#E5E5E5] dark:border-[#2a2a2a] flex-col overflow-y-auto bg-[#F6F6F6] dark:bg-[#161616] z-20">
-                    {sidebarContent}
-                </aside>
+            {/* ── Sidebar desktop ── */}
+            <aside className="hidden md:flex w-[260px] h-full shrink-0 flex-col overflow-y-auto border-r border-black/[0.06] dark:border-white/[0.06] z-20 bg-[rgba(26,26,26,0.05)] dark:bg-[rgba(255,255,255,0.05)]">
+                {sidebarContent}
+            </aside>
 
-                {/* Mobile sidebar overlay */}
-                {isSidebarOpen && (
-                    <div
-                        className="fixed inset-0 bg-black/30 z-30 md:hidden"
-                        onClick={() => setIsSidebarOpen(false)}
-                    />
+            {/* ── Mobile overlay ── */}
+            {isSidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black/30 z-30 md:hidden"
+                    onClick={() => setIsSidebarOpen(false)}
+                />
+            )}
+
+            {/* ── Mobile drawer ── */}
+            <aside
+                className={cn(
+                    'fixed top-0 left-0 h-full w-[260px] border-r border-black/[0.06] dark:border-white/[0.06] flex flex-col overflow-y-auto z-40 transition-transform duration-300 ease-in-out md:hidden bg-[rgba(26,26,26,0.05)] dark:bg-[rgba(255,255,255,0.05)]',
+                    isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
                 )}
-
-                {/* Mobile sidebar drawer */}
-                <aside
-                    className={cn(
-                        "fixed top-0 left-0 h-full w-[230px] bg-[#F6F6F6] dark:bg-[#161616] border-r border-[#E5E5E5] dark:border-[#2a2a2a] flex flex-col overflow-y-auto z-40 transition-transform duration-300 ease-in-out md:hidden",
-                        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-                    )}
+            >
+                <button
+                    onClick={() => setIsSidebarOpen(false)}
+                    className="absolute top-3 right-3 p-1.5 rounded-md hover:bg-black/10 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400"
                 >
-                    <button
-                        onClick={() => setIsSidebarOpen(false)}
-                        className="absolute top-3 right-3 p-1.5 rounded-md hover:bg-black/10 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400"
-                    >
-                        <X size={16} />
-                    </button>
-                    {sidebarContent}
-                </aside>
+                    <X size={16} />
+                </button>
+                {sidebarContent}
+            </aside>
 
-                {/* Main content */}
-                <div className="flex-1 h-full overflow-hidden relative">
-                    <div className="absolute top-0 left-0 right-0 z-10 h-[52px] flex items-center px-4 bg-white/70 dark:bg-black/70 backdrop-blur-xl border-b border-black/5 dark:border-white/5">
-                        <div className="flex items-center gap-3">
-                            {/* Hamburger — mobile only */}
-                            <button
-                                onClick={() => setIsSidebarOpen(true)}
-                                className="md:hidden text-slate-500 hover:text-slate-700 p-1 -ml-1"
-                            >
-                                <Menu size={20} />
-                            </button>
-
-                            <div className="flex items-center gap-3 mr-2">
-                                <button onClick={() => navigate(-1)} className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
-                                    <ChevronLeft size={20} />
-                                </button>
-                                <button onClick={() => navigate(1)} className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
-                                    <ChevronRight size={20} />
-                                </button>
-                            </div>
-                            <span className="font-heading font-normal text-[17px] md:text-[19px] text-black dark:text-white tracking-[0.02em]">
-                                <TextMorph>{getTitle()}</TextMorph>
-                            </span>
-                        </div>
-
-                        <div className="absolute right-4">
-                            <LayoutGrid size={16} className="" />
-                        </div>
-                    </div>
-
-                    <main className="absolute inset-0 bg-white dark:bg-[#0f0f0f] overflow-hidden isolate">
-                        <Outlet />
-                    </main>
-                </div>
+            {/* ── Mobile top bar ── */}
+            <div className="md:hidden fixed top-0 left-0 right-0 z-20 h-12 bg-white/90 dark:bg-[#0f0f0f]/90 backdrop-blur-sm border-b border-black/[0.06] dark:border-white/[0.06] flex items-center px-4 gap-3">
+                <button
+                    onClick={() => setIsSidebarOpen(true)}
+                    className="p-1.5 rounded-md hover:bg-black/5 dark:hover:bg-white/5 text-[#1a1a1a] dark:text-white transition-colors"
+                >
+                    <Menu size={20} />
+                </button>
+                <span className="font-serif text-[18px] font-normal text-[#1a1a1a] dark:text-white">
+                    {getTitle()}
+                </span>
             </div>
+
+            {/* ── Main content ── */}
+            <div className="flex-1 h-full overflow-hidden relative">
+                <main className="absolute inset-0 bg-white dark:bg-[#0f0f0f] overflow-hidden isolate pt-12 md:pt-0">
+                    <Outlet />
+                </main>
+            </div>
+
         </div>
     );
 };

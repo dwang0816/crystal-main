@@ -1,123 +1,156 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { featuredProjects } from '../../data/files';
-import type { FeaturedProject } from '../../types';
 
-const FeaturedCard = ({ project }: { project: FeaturedProject }) => {
-  const navigate = useNavigate();
-  const isClickable = !!project.link;
+/* ─── Tag pill ───────────────────────────────────────── */
+const Tag = ({ children }: { children: React.ReactNode }) => (
+    <span className="text-[12px] font-sans font-medium bg-[#0009ff]/10 dark:bg-[#84cc16]/10 text-[#1a1a1a]/50 dark:text-white/50 rounded-full px-2.5 py-1">
+        {children}
+    </span>
+);
 
-  const handleClick = () => {
-    if (!project.link) return;
-    if (project.external) {
-      window.open(project.link, '_blank', 'noopener noreferrer');
-    } else {
-      navigate(project.link);
-    }
-  };
+/* ─── Project 1: full-width ──────────────────────────── */
+const FeaturedHero = ({ project, index }: { project: typeof featuredProjects[0]; index: number }) => {
+    const navigate = useNavigate();
+    const handleClick = () => project.link && navigate(project.link);
 
-  return (
-    <div
-      className="flex flex-col rounded-2xl overflow-hidden bg-white border border-black/[0.08] transition-shadow duration-300 hover:shadow-lg"
-      style={{ cursor: isClickable ? 'pointer' : 'default' }}
-      onClick={handleClick}
-    >
-      {/* Image */}
-      <div className="w-full overflow-hidden bg-[#EFEFEF]" style={{ height: 300 }}>
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.03]"
-        />
-      </div>
+    return (
+        <div className="flex flex-col gap-4 cursor-pointer" onClick={handleClick}>
+            {/* Title + tags + description */}
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-wrap items-center gap-3">
+                    {/* serif/quote — project name */}
+                    <h2 className="font-serif text-[20px] font-normal text-[#1a1a1a] dark:text-white leading-tight">
+                        {project.title}
+                    </h2>
+                    <div className="flex gap-2 flex-wrap">
+                        {project.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+                    </div>
+                </div>
+                {/* sans/meta */}
+                <p className="text-[12px] font-sans font-medium text-[#1a1a1a]/40 dark:text-white/40">
+                    {project.hmw}
+                </p>
+            </div>
 
-      {/* Content */}
-      <div className="flex flex-col px-5 pt-5 pb-5 flex-1">
-        {/* Title + badge */}
-        <div className="flex items-center gap-2.5 mb-3 flex-wrap">
-          <span
-            className="text-[18px] font-bold tracking-tight text-[#0a0a0a] dark:text-white"
-            style={{ fontFamily: '"Barlow", sans-serif' }}
-          >
-            {project.title}
-          </span>
-          {project.tags.map(tag => (
-            <span
-              key={tag}
-              className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full"
-              style={{ background: 'var(--color-brand-dim)', color: 'var(--color-brand)', fontFamily: '"Barlow", sans-serif' }}
-            >
-              {tag}
-            </span>
-          ))}
+            {/* Full-width image */}
+            <div className="w-full h-[312px] rounded-xl overflow-hidden border border-black/10 dark:border-white/10">
+                <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-500"
+                />
+            </div>
         </div>
-
-        {/* HMW */}
-        <p
-          className="text-[13px] leading-[1.7] mb-4 flex-1 text-[#555555] dark:text-[#aaaaaa]"
-          style={{ fontFamily: '"Hanken Grotesk", sans-serif' }}
-        >
-          {project.hmw}
-        </p>
-
-        {/* Dashed divider */}
-        <div className="w-full mb-3" style={{ borderTop: '1px dashed rgba(0,0,0,0.12)' }} />
-
-        {/* Tools + arrow */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            {project.tools.map(tool => (
-              <img
-                key={tool.alt}
-                src={tool.src}
-                alt={tool.alt}
-                className="w-6 h-6 rounded-md object-contain"
-                style={{ background: '#F0F0F0', padding: 2 }}
-              />
-            ))}
-          </div>
-          {isClickable && (
-            <span className="text-base text-[#0a0a0a] dark:text-white">
-              {project.external ? '↗' : '→'}
-            </span>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
+/* ─── Project 2+: split layout ───────────────────────── */
+const FeaturedSplit = ({ project, index }: { project: typeof featuredProjects[0]; index: number }) => {
+    const navigate = useNavigate();
+    const handleClick = () => project.link && navigate(project.link);
+
+    return (
+        <div className="flex gap-10 items-center cursor-pointer" onClick={handleClick}>
+            {/* Image — left, ~60% */}
+            <div className="flex-[3] h-[312px] rounded-xl overflow-hidden border border-black/10 dark:border-white/10 shrink-0">
+                <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-500"
+                />
+            </div>
+
+            {/* Text — right, ~40% */}
+            <div className="flex-[2] flex flex-col gap-5 min-w-0">
+                {/* Project number + tags */}
+                <div className="flex items-center gap-5 flex-wrap">
+                    {/* sans/nav — highlighted */}
+                    <span className="text-[12px] font-sans font-extrabold text-[#0009ff]/50 dark:text-[#84cc16]/50 whitespace-nowrap">
+                        ⸻ Project • {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <div className="flex gap-2 flex-wrap">
+                        {project.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+                    </div>
+                </div>
+
+                {/* serif/hero — 44px title */}
+                <h2 className="font-serif text-[44px] font-normal text-[#1a1a1a] dark:text-white leading-[1.05]">
+                    {project.title}
+                </h2>
+
+                {/* sans/body — description */}
+                <p className="text-[16px] font-sans font-normal text-[#1a1a1a]/50 dark:text-white/50 leading-relaxed">
+                    {project.hmw}
+                </p>
+            </div>
+        </div>
+    );
+};
+
+/* ════════════════════════════════════════════════════════════
+   FeaturedCards — main export
+════════════════════════════════════════════════════════════ */
+const FILTERS = ['Featured', 'Product', 'Visual'] as const;
+type Filter = typeof FILTERS[number];
+
 export const FeaturedCards = () => {
-  const navigate = useNavigate();
+    const [activeFilter, setActiveFilter] = useState<Filter>('Featured');
 
-  return (
-    <div className="absolute inset-0 w-full h-full pt-[52px] overflow-y-auto dotted-bg">
-      <div className="px-4 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10">
+    return (
+        <div className="absolute inset-0 overflow-y-auto">
+            <div className="flex flex-col gap-20 px-6 xl:px-10 2xl:px-16 pt-14 xl:pt-16 pb-12">
 
-        {/* Header */}
-        <div className="flex items-end justify-between mb-6 sm:mb-8">
-          <h2
-            className="text-[clamp(20px,3vw,28px)] font-bold tracking-tight leading-tight text-[#0a0a0a] dark:text-white"
-            style={{ fontFamily: '"Barlow", sans-serif' }}
-          >
-            Featured Case Studies
-          </h2>
-          <button
-            onClick={() => navigate('/product')}
-            className="text-[12px] font-semibold uppercase tracking-[0.08em] border-none bg-transparent cursor-pointer transition-opacity hover:opacity-60 shrink-0 ml-4 text-[#0a0a0a] dark:text-white"
-            style={{ fontFamily: '"Barlow", sans-serif' }}
-          >
-            View All →
-          </button>
+                {/* ── Header ───────────────────────────────────────── */}
+                <div className="flex flex-col gap-8 max-w-[560px]">
+                    <div className="flex flex-col gap-3">
+                        {/* sans/nav */}
+                        <p className="text-[12px] font-sans font-extrabold text-[#0009ff]/60 dark:text-[#84cc16]/60 uppercase">
+                            Featured
+                        </p>
+                        {/* serif/hero */}
+                        <h1 className="font-serif text-[44px] font-normal leading-[1.1] text-[#1a1a1a] dark:text-white">
+                            Selected Work
+                        </h1>
+                        {/* sans/body */}
+                        <p className="text-[16px] font-sans font-normal text-[#1a1a1a]/50 dark:text-white/50 leading-relaxed">
+                            A curated mix of product and visual projects that best represent how I think and design.
+                        </p>
+                    </div>
+
+                    {/* Filter pills */}
+                    <div className="flex gap-3 items-center">
+                        {FILTERS.map(filter => (
+                            <button
+                                key={filter}
+                                onClick={() => setActiveFilter(filter)}
+                                className={`text-[12px] font-sans font-medium rounded-full px-5 py-2 transition-colors ${
+                                    activeFilter === filter
+                                        ? 'bg-[#1a1a1a]/08 dark:bg-white/10 text-[#1a1a1a] dark:text-white'
+                                        : 'text-[#1a1a1a] dark:text-white underline underline-offset-2 hover:opacity-60'
+                                }`}
+                            >
+                                {filter} {filter === 'Featured' ? '(2)' : filter === 'Product' ? '(8)' : '(11)'}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* ── Projects ─────────────────────────────────────── */}
+                <div className="flex flex-col gap-20">
+                    {featuredProjects.map((project, i) =>
+                        i === 0
+                            ? <FeaturedHero key={project.id} project={project} index={i} />
+                            : <FeaturedSplit key={project.id} project={project} index={i} />
+                    )}
+                </div>
+
+                {/* ── Footer ───────────────────────────────────────── */}
+                <p className="text-center text-[12px] font-sans font-medium text-[#1a1a1a]/30 dark:text-white/20">
+                    Built with the immense help of Celcius, Claude, and my super cool friend &lt;3
+                </p>
+
+            </div>
         </div>
-
-        {/* Cards — full width, 2-col */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {featuredProjects.map(project => (
-            <FeaturedCard key={project.id} project={project} />
-          ))}
-        </div>
-
-      </div>
-    </div>
-  );
+    );
 };

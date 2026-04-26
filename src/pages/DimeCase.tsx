@@ -79,6 +79,13 @@ const ImgPlaceholder = ({ label, className }: { label: string; className?: strin
   </div>
 );
 
+const CaseImg = ({ src, alt, className }: { src: string; alt: string; className?: string }) => (
+  <div className={`rounded-lg overflow-hidden ${className ?? ''}`}
+       style={{ border: `1px solid ${T.border}` }}>
+    <img src={src} alt={alt} className="w-full object-cover block" />
+  </div>
+);
+
 const SectionWrap = ({ children, id }: { children: React.ReactNode; id?: string }) => (
   <section id={id} className="py-10 sm:py-14" style={{ borderBottom: `1px solid ${T.border}` }}>
     {children}
@@ -152,10 +159,7 @@ export const DimeCase = () => {
           </div>
 
           {/* Hero image */}
-          <ImgPlaceholder
-            label="Hero Image — Extension UI + Dashboard overview"
-            className="!min-h-[220px] sm:!min-h-[320px] rounded-xl"
-          />
+          <CaseImg src="/dime/hero.png" alt="Dime — Real-Time Credit Card Reward Optimization" className="rounded-xl" />
         </section>
 
         {/* ═══ OVERVIEW ═══ */}
@@ -272,34 +276,42 @@ export const DimeCase = () => {
             </p>
           </div>
 
+          {/* Feature 01 — System Diagram (both diagrams side by side) */}
+          <div className="py-7 border-b" style={{ borderColor: T.border }}>
+            <div className="font-mono text-[11px] mb-2.5 tracking-[0.08em]" style={{ color: T.text3 }}>01 / System Diagram</div>
+            <h3 className="text-base sm:text-[17px] font-bold mb-2.5 leading-snug tracking-tight"
+                style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+              Mapping the Full Ecosystem
+            </h3>
+            <p className="text-[13px] sm:text-[13.5px] leading-[1.7] mb-4" style={{ color: T.text2 }}>
+              A system diagram defined how the extension, dashboard, receipt scanner, and messaging agent
+              would connect — establishing a shared recommendation layer across all surfaces.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <CaseImg src="/dime/System-Diagram_1.png" alt="System Diagram 1" />
+              <CaseImg src="/dime/System-Diagram_2.png" alt="System Diagram 2" />
+            </div>
+          </div>
+
+          {/* Features 02–04 */}
           {[
-            {
-              num: '01', heading: 'System Diagram',
-              title: 'Mapping the Full Ecosystem',
-              desc: 'A system diagram defined how the extension, dashboard, receipt scanner, and messaging agent would connect — establishing a shared recommendation layer across all surfaces.',
-              imgLabel: 'System Diagram',
-              flip: false,
-            },
             {
               num: '02', heading: 'Browser Extension',
               title: 'Real-Time Checkout Recommendations',
               desc: 'The browser extension surfaces the best card recommendation directly at checkout — appearing contextually when users are on payment pages and requiring zero extra steps.',
-              imgLabel: 'Extension UI',
-              flip: true,
+              img: '/dime/Browser-Extension.png', imgAlt: 'Browser Extension UI', flip: true,
             },
             {
               num: '03', heading: 'Dashboard',
               title: 'Spending Overview & Reward Tracking',
               desc: 'The dashboard provides a full view of spending across cards, visualizing reward opportunities, historical performance, and upcoming optimization strategies.',
-              imgLabel: 'Dashboard UI',
-              flip: false,
+              img: '/dime/dashboard.png', imgAlt: 'Dashboard UI', flip: false,
             },
             {
               num: '04', heading: 'Messaging Agent',
               title: 'Conversational Reward Guidance',
               desc: 'A messaging interface allows users to ask questions about their cards and get personalized recommendations — extending the system into a conversational format.',
-              imgLabel: 'Messaging Agent UI',
-              flip: true,
+              img: '/dime/Messaging-Agent.png', imgAlt: 'Messaging Agent UI', flip: true,
             },
           ].map((f, i, arr) => (
             <div key={f.num}
@@ -317,7 +329,7 @@ export const DimeCase = () => {
                 <p className="text-[13px] sm:text-[13.5px] leading-[1.7]" style={{ color: T.text2 }}>{f.desc}</p>
               </div>
               <div className={f.flip ? 'sm:order-1' : ''}>
-                <ImgPlaceholder label={f.imgLabel} className="sm:!min-h-[260px]" />
+                <CaseImg src={f.img} alt={f.imgAlt} />
               </div>
             </div>
           ))}

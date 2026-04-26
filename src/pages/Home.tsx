@@ -30,9 +30,7 @@ const ExperienceList = () => (
                 {experiences.map((exp, i) => (
                     <div key={i} className="relative">
                         <div className="absolute -left-4 top-[5px] w-[9px] h-[9px] rounded-full bg-black dark:bg-white border-2 border-white dark:border-[#1a1a1a]" />
-                        {/* company → sans/body */}
                         <div className="text-[16px] font-sans font-normal text-black dark:text-white leading-tight">{exp.company}</div>
-                        {/* role + period → sans/meta */}
                         <div className="text-[12px] font-sans font-medium text-black/50 dark:text-white/50">{exp.role}</div>
                         <div className="text-[12px] font-sans font-medium text-black/35 dark:text-white/30">{exp.period}</div>
                     </div>
@@ -49,7 +47,7 @@ const Card = ({ children, className = '', style }: { children: React.ReactNode; 
     </div>
 );
 
-/* sans/meta — section tabs: 12px / medium / UPPERCASE (not extrabold) */
+/* sans/meta — section tabs */
 const CardLabel = ({ children }: { children: React.ReactNode }) => (
     <div className="px-5 py-3 shrink-0">
         <span className="text-[12px] font-sans font-medium text-[#1a1a1a] dark:text-white uppercase">
@@ -59,13 +57,30 @@ const CardLabel = ({ children }: { children: React.ReactNode }) => (
 );
 
 /* ─── Tool icon ──────────────────────────────────────── */
-const Tool = ({ label, emoji }: { label: string; emoji: string }) => (
-    <div className="flex flex-col items-center gap-2">
-        <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-xl flex items-center justify-center text-2xl shadow-sm border border-black/5 dark:border-white/5 bg-white dark:bg-[#1a1a1a]">
-            {emoji}
-        </div>
-        {/* sans/meta */}
-        <span className="text-[12px] font-sans font-medium text-[#1a1a1a]/40 dark:text-white/30 text-center">{label}</span>
+const Tool = ({ label, children }: { label: string; children: React.ReactNode }) => (
+    <div className="flex flex-col items-center justify-between h-[80px] shrink-0">
+        {children}
+        <span className="text-[12px] font-sans font-medium text-[#1a1a1a]/40 dark:text-white/30 text-center whitespace-nowrap">{label}</span>
+    </div>
+);
+
+/* ─── Snapshot card — shared markup ─────────────────── */
+const SnapshotCard = ({ className = '', style }: { className?: string; style?: React.CSSProperties }) => (
+    <div className={`relative rounded-xl overflow-hidden border border-black/10 dark:border-white/10 ${className}`} style={style}>
+        <img
+            src={crystalIcelandImg}
+            alt="Crystal in Iceland"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            draggable={false}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+        <span className="absolute top-3 left-4 text-white text-[12px] font-sans font-medium uppercase">
+            Snapshot
+        </span>
+        <span className="absolute top-3 right-4 text-white text-[24px] leading-none">✦</span>
+        <span className="absolute bottom-3 left-4 text-white font-serif text-[20px] font-normal italic">
+            Iceland | 2025
+        </span>
     </div>
 );
 
@@ -75,26 +90,29 @@ const Tool = ({ label, emoji }: { label: string; emoji: string }) => (
 export const Home = () => {
     return (
         <div className="absolute inset-0 overflow-y-auto">
-            <div className="flex flex-col gap-4 xl:gap-5 2xl:gap-6 px-6 xl:px-10 2xl:px-16 pt-14 xl:pt-16 pb-8 xl:pb-10 h-full">
+            <div className="flex flex-col gap-4 xl:gap-5 2xl:gap-6 px-4 md:px-6 xl:px-10 2xl:px-16 pt-4 md:pt-8 xl:pt-10 pb-8 xl:pb-10 md:h-full">
 
                 {/* ── Hero ─────────────────────────────────────────── */}
-                <div className="flex items-stretch gap-6 xl:gap-10 flex-[0_0_auto]" style={{ height: 'clamp(220px, 32%, 420px)' }}>
+                <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-6 xl:gap-10 flex-[0_0_auto] md:[height:clamp(220px,32%,420px)]">
 
-                    {/* Left: intro text + CTAs — grouped and centered as one unit */}
-                    <div className="flex flex-col justify-center items-center flex-1 min-w-0">
-                        <div className="flex flex-col gap-6 xl:gap-8 w-full max-w-[520px]">
+                    {/* Snapshot — full-width banner on mobile only */}
+                    <SnapshotCard className="h-[200px] md:hidden" />
 
-                            <div className="flex flex-col gap-3">
+                    {/* Left: intro text + CTAs */}
+                    <div className="flex flex-col justify-center items-start md:items-center flex-1 min-w-0">
+                        <div className="flex flex-col gap-5 md:gap-6 xl:gap-8 w-full md:max-w-[520px]">
+
+                            <div className="flex flex-col gap-2 md:gap-3">
                                 {/* sans/nav */}
                                 <p className="text-[12px] font-sans font-extrabold tracking-[0.24px] text-[#0009ff]/60 dark:text-[#84cc16]/60 uppercase">
                                     Welcome
                                 </p>
-                                {/* serif/hero — 44px, max ~10–12 words per line */}
-                                <h1 className="font-serif text-[44px] font-normal leading-[1.1] text-[#1a1a1a] dark:text-white">
+                                {/* serif/hero — scaled on mobile */}
+                                <h1 className="font-serif text-[32px] md:text-[44px] font-normal leading-[1.1] text-[#1a1a1a] dark:text-white">
                                     Hi! I'm Crystal,<br />
                                     a Product Designer.
                                 </h1>
-                                {/* sans/body — muted to support hierarchy */}
+                                {/* sans/body */}
                                 <p className="text-[16px] font-sans font-normal text-[#1a1a1a]/50 dark:text-white/50 leading-relaxed">
                                     I design digital experiences that are{' '}
                                     <em>efficient</em>, <em>thoughtful</em> and <em>human</em>.
@@ -124,33 +142,19 @@ export const Home = () => {
                         </div>
                     </div>
 
-                    {/* Right: Snapshot card */}
-                    <div className="relative rounded-xl overflow-hidden border border-black/10 dark:border-white/10 shrink-0"
-                        style={{ width: 'clamp(180px, 22%, 340px)' }}>
-                        <img
-                            src={crystalIcelandImg}
-                            alt="Crystal in Iceland"
-                            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
-                            draggable={false}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
-                        {/* sans/meta — section tab */}
-                        <span className="absolute top-3 left-4 text-white text-[12px] font-sans font-medium uppercase">
-                            Snapshot ✦
-                        </span>
-                        {/* sans/meta */}
-                        <span className="absolute bottom-3 left-4 text-white text-[12px] font-sans font-medium">
-                            Iceland | 2025
-                        </span>
-                    </div>
+                    {/* Snapshot — clamp width on desktop only */}
+                    <SnapshotCard
+                        className="hidden md:block shrink-0"
+                        style={{ width: 'clamp(180px, 22%, 340px)' }}
+                    />
+
                 </div>
 
                 {/* ── Row 1: Experience + Case Study ───────────────── */}
-                <div className="flex gap-4 xl:gap-5 flex-1 min-h-[240px] max-h-[420px]">
+                <div className="flex flex-col md:flex-row gap-4 xl:gap-5 md:flex-1 md:min-h-[240px] md:max-h-[420px]">
 
                     {/* Experience */}
-                    <Card className="flex flex-col h-full" style={{ width: 'clamp(220px, 26%, 340px)', flexShrink: 0 }}>
-                        {/* sans/nav */}
+                    <Card className="flex flex-col h-[260px] md:h-full w-full md:w-[clamp(220px,26%,340px)] md:shrink-0">
                         <CardLabel>Experience</CardLabel>
                         <div className="flex-1 overflow-hidden">
                             <ExperienceList />
@@ -158,14 +162,12 @@ export const Home = () => {
                     </Card>
 
                     {/* Featured Case Study */}
-                    <Card className="flex-1 flex flex-col justify-between p-5 min-w-0">
-                        <div className="flex items-center justify-between">
-                            {/* sans/meta — section tab */}
+                    <Card className="flex flex-col min-w-0 md:flex-1">
+                        <div className="px-5 py-3 flex items-center justify-between shrink-0 flex-wrap gap-2">
                             <span className="text-[12px] font-sans font-medium text-[#1a1a1a] dark:text-white uppercase">
                                 Featured Case Study
                             </span>
                             <div className="flex gap-2">
-                                {/* sans/meta */}
                                 <span className="text-[12px] font-sans font-medium bg-[#0009ff]/10 dark:bg-[#84cc16]/10 text-[#1a1a1a]/50 dark:text-white/50 rounded-full px-2.5 py-1">
                                     UX Design
                                 </span>
@@ -175,69 +177,73 @@ export const Home = () => {
                             </div>
                         </div>
 
-                        <div className="flex flex-col gap-3">
-                            {/* serif/quote — project name */}
-                            <h2 className="font-serif text-[20px] font-normal text-[#1a1a1a] dark:text-white leading-tight">
-                                Xometry
-                            </h2>
-                            {/* sans/meta — right-side secondary description */}
-                            <p className="text-[12px] font-sans font-medium text-[#1a1a1a]/40 dark:text-white/40 leading-relaxed max-w-[320px]">
-                                Designing a mobile-first platform to help manufacturers manage
-                                jobs from quote to payment.
-                            </p>
-                            {/* sans/meta */}
-                            <a
-                                href="/projects/xometry-workcenter"
-                                className="text-[12px] font-sans font-medium text-[#0009ff] dark:text-[#84cc16] underline underline-offset-2 flex items-center gap-1 hover:opacity-70 transition-opacity w-fit"
-                            >
-                                View Project <span className="inline-block -rotate-45">→</span>
-                            </a>
-                        </div>
+                        <div className="flex flex-col justify-between px-5 pb-5 gap-6 md:flex-1">
+                            <div className="flex flex-col gap-3">
+                                <h2 className="font-serif text-[20px] font-normal text-[#1a1a1a] dark:text-white leading-tight">
+                                    Xometry
+                                </h2>
+                                <p className="text-[12px] font-sans font-medium text-[#1a1a1a]/40 dark:text-white/40 leading-relaxed max-w-[320px]">
+                                    Designing a mobile-first platform to help manufacturers manage
+                                    jobs from quote to payment.
+                                </p>
+                                <a
+                                    href="/projects/xometry-workcenter"
+                                    className="text-[12px] font-sans font-medium text-[#0009ff] dark:text-[#84cc16] underline underline-offset-2 flex items-center gap-1 hover:opacity-70 transition-opacity w-fit"
+                                >
+                                    View Project <span className="inline-block -rotate-45">→</span>
+                                </a>
+                            </div>
 
-                        <div className="flex items-center gap-2">
-                            <div className="h-1 w-4 rounded-full bg-[#0009ff] dark:bg-[#84cc16]" />
-                            <div className="h-1 w-1 rounded-full bg-[#1a1a1a]/20 dark:bg-white/20" />
-                            <div className="h-1 w-1 rounded-full bg-[#1a1a1a]/20 dark:bg-white/20" />
+                            <div className="flex items-center gap-2">
+                                <div className="h-1 w-4 rounded-full bg-[#0009ff] dark:bg-[#84cc16]" />
+                                <div className="h-1 w-1 rounded-full bg-[#1a1a1a]/20 dark:bg-white/20" />
+                                <div className="h-1 w-1 rounded-full bg-[#1a1a1a]/20 dark:bg-white/20" />
+                            </div>
                         </div>
                     </Card>
                 </div>
 
                 {/* ── Row 2: Tools + Testimonials ──────────────────── */}
-                <div className="flex gap-4 xl:gap-5 shrink-0 h-[150px] xl:h-[160px] 2xl:h-[180px]">
+                <div className="flex flex-col md:flex-row gap-4 xl:gap-5 shrink-0 md:h-[150px] xl:h-[160px] 2xl:h-[180px]">
 
                     {/* Everyday Tools */}
-                    <Card className="flex flex-col" style={{ width: 'clamp(300px, 42%, 560px)', flexShrink: 0 }}>
-                        {/* sans/nav */}
+                    <Card className="flex flex-col w-full md:w-[clamp(300px,50%,640px)] md:shrink-0">
                         <CardLabel>Everyday Tools</CardLabel>
-                        <div className="flex-1 flex items-center justify-center gap-4 xl:gap-8 px-4 xl:px-6 pb-4 xl:pb-6">
-                            <Tool label="Adobe CC" emoji="🎨" />
-                            <Tool label="Figma"    emoji="🖌️" />
-                            <Tool label="Notion"   emoji="📝" />
-                            <Tool label="Gcal"     emoji="📅" />
-                            <Tool label="Discord"  emoji="💬" />
+                        <div className="flex items-center gap-8 xl:gap-10 px-4 xl:px-6 pb-4 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+                            <Tool label="Adobe CC">
+                                <img alt="Adobe CC" className="shrink-0 size-[56px] md:size-[72px] object-contain" src="/Logos/Adobe_Creative_Cloud_rainbow_icon-logo.png" />
+                            </Tool>
+                            <Tool label="Figma">
+                                <img alt="Figma" className="shrink-0 size-[56px] md:size-[72px] object-contain" src="/Logos/figma-logo.png" />
+                            </Tool>
+                            <Tool label="Notion">
+                                <img alt="Notion" className="shrink-0 size-[56px] md:size-[72px] object-contain" src="/Logos/notion-logo.png" />
+                            </Tool>
+                            <Tool label="Google Calendar">
+                                <img alt="Google Calendar" className="shrink-0 size-[56px] md:size-[72px] object-contain" src="/Logos/gcal-logo.png" />
+                            </Tool>
+                            <Tool label="Discord">
+                                <img alt="Discord" className="shrink-0 size-[56px] md:size-[72px] object-contain" src="/Logos/discord-logo.png" />
+                            </Tool>
                         </div>
                     </Card>
 
                     {/* Testimonials */}
-                    <Card className="flex-1 flex flex-col justify-between p-5 min-w-0">
-                        {/* sans/meta — section tab */}
-                        <span className="text-[12px] font-sans font-medium text-[#1a1a1a] dark:text-white uppercase">
-                            Testimonials
-                        </span>
-                        <div className="flex flex-col gap-1">
-                            {/* serif/quote */}
-                            <p className="font-serif text-[20px] font-normal text-[#1a1a1a] dark:text-white leading-snug">
-                                Anyone who keeps the ability to see beauty never grows old.
+                    <Card className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                        <CardLabel>Testimonials</CardLabel>
+                        <div className="flex-1 flex flex-col justify-between px-5 pb-5 gap-1.5 min-w-0">
+                            <p className="font-serif text-[14px] font-normal text-[#1a1a1a] dark:text-white leading-snug line-clamp-3">
+                                "Crystal contributed to the immersive installation Mood Cocoon as my research assistant and collaborator on the website design. She brings a thoughtful and detail-oriented approach, with a strong sensitivity to both concept and form."
                             </p>
-                            {/* serif/quote — attribution same style as quote */}
-                            <p className="font-serif text-[20px] font-normal text-[#c45e4d]">
-                                — Franz Kafka
-                            </p>
+                            <div className="flex flex-col">
+                                <span className="text-[12px] font-sans font-medium text-[#1a1a1a] dark:text-white">Shuang Wu</span>
+                                <span className="text-[12px] font-sans font-normal text-[#1a1a1a]/40 dark:text-white/40">Designer, Educator · Virginia Tech</span>
+                            </div>
                         </div>
                     </Card>
                 </div>
 
-                {/* ── Footer — sans/meta ────────────────────────────── */}
+                {/* ── Footer ────────────────────────────── */}
                 <p className="text-center text-[12px] font-sans font-medium text-[#1a1a1a]/30 dark:text-white/20 shrink-0">
                     Built with the immense help of Celcius, Claude, and my super cool friend &lt;3
                 </p>
