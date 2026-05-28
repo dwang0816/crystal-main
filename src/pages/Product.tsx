@@ -1,11 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 const T = {
-  card:       '#ffffff',
-  border:     'rgba(0,0,0,0.08)',
-  borderDash: 'rgba(0,0,0,0.12)',
-  text1:      '#0a0a0a',
-  text2:      '#555555',
   text3:      '#999999',
   tagBg:      'rgba(255,100,60,0.12)',
   tagColor:   '#E04A1F',
@@ -86,8 +81,8 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
   if (item.placeholder) {
     return (
       <div
-        className="rounded-2xl flex flex-col items-center justify-center"
-        style={{ minHeight: 240, border: `1.5px dashed ${T.borderDash}`, background: 'transparent' }}
+        className="rounded-2xl flex flex-col items-center justify-center border-[1.5px] border-dashed border-black/[0.12] dark:border-white/[0.12]"
+        style={{ minHeight: 240, background: 'transparent' }}
       >
         <span className="text-[11px] uppercase tracking-[0.1em]"
               style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
@@ -99,12 +94,12 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
 
   return (
     <div
-      className="flex flex-col rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg"
-      style={{ background: T.card, border: `1px solid ${T.border}`, cursor: isClickable ? 'pointer' : 'default' }}
+      className="flex flex-col rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg bg-white dark:bg-[#1a1a1a] border border-black/[0.08] dark:border-white/[0.08]"
+      style={{ cursor: isClickable ? 'pointer' : 'default' }}
       onClick={() => isClickable && navigate(item.link!)}
     >
       {/* Image */}
-      <div className="w-full overflow-hidden bg-[#EFEFEF]"
+      <div className="w-full overflow-hidden bg-[#EFEFEF] dark:bg-white/[0.04]"
            style={{ height: item.span === 'full' ? 340 : 240 }}>
         <img
           src={item.image}
@@ -134,14 +129,13 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
           {item.subtitle}
         </p>
 
-        <div className="w-full mb-3" style={{ borderTop: `1px dashed ${T.borderDash}` }} />
+        <div className="w-full mb-3 border-t border-dashed border-black/[0.12] dark:border-white/[0.12]" />
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             {item.tools.map(tool => (
               <img key={tool.alt} src={tool.src} alt={tool.alt}
-                   className="w-6 h-6 rounded-md object-contain"
-                   style={{ background: '#F0F0F0', padding: 2 }} />
+                   className="w-6 h-6 rounded-md object-contain bg-[#F0F0F0] dark:bg-white/10 p-0.5" />
             ))}
           </div>
           {isClickable && (

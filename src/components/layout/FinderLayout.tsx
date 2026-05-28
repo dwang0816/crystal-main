@@ -1,16 +1,55 @@
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
-    Puzzle,
-    Paperclip,
-    Contact,
-    Frame,
-    PenTool,
     X,
     Menu,
     Linkedin,
     Mail,
     FileText,
 } from 'lucide-react';
+
+/* ─── Custom nav icons ─── */
+
+type IconProps = { size?: number; className?: string };
+
+const IconHome = ({ size = 20, className }: IconProps) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width={size} height={size} fill="none" className={className}>
+        <path d="M3 13L14 4l11 9" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+        <rect x="6" y="13" width="16" height="12" stroke="currentColor" strokeWidth="1" />
+        <rect x="11" y="19" width="6" height="6" stroke="currentColor" strokeWidth="1" />
+        <line x1="14" y1="4" x2="14" y2="8" stroke="currentColor" strokeWidth="1" strokeDasharray="1 1" />
+    </svg>
+);
+
+const IconCaseStudies = ({ size = 20, className }: IconProps) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width={size} height={size} fill="none" className={className}>
+        <rect x="3" y="5" width="14" height="18" stroke="currentColor" strokeWidth="1" />
+        <rect x="8" y="5" width="14" height="18" stroke="currentColor" strokeWidth="1" strokeDasharray="1.5 1" />
+        <line x1="6" y1="10" x2="14" y2="10" stroke="currentColor" strokeWidth="1" />
+        <line x1="6" y1="13.5" x2="17" y2="13.5" stroke="currentColor" strokeWidth="1" />
+        <line x1="6" y1="17" x2="12" y2="17" stroke="currentColor" strokeWidth="1" />
+        <circle cx="20" cy="21" r="4" stroke="currentColor" strokeWidth="1" />
+        <path d="M22.8 23.8L25 26" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+    </svg>
+);
+
+const IconVisual = ({ size = 20, className }: IconProps) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width={size} height={size} fill="none" className={className}>
+        <rect x="3" y="3" width="10" height="10" stroke="currentColor" strokeWidth="1" />
+        <rect x="15" y="3" width="10" height="10" stroke="currentColor" strokeWidth="1" />
+        <rect x="3" y="15" width="10" height="10" stroke="currentColor" strokeWidth="1" />
+        <circle cx="20" cy="20" r="5" stroke="currentColor" strokeWidth="1" />
+        <line x1="20" y1="17" x2="20" y2="23" stroke="currentColor" strokeWidth="1" />
+        <line x1="17" y1="20" x2="23" y2="20" stroke="currentColor" strokeWidth="1" />
+    </svg>
+);
+
+const IconAboutMe = ({ size = 20, className }: IconProps) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width={size} height={size} fill="none" className={className}>
+        <circle cx="14" cy="10" r="5" stroke="currentColor" strokeWidth="1" />
+        <path d="M5 24c0-4.418 4.03-8 9-8s9 3.582 9 8" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+        <path d="M18 12.5c1.5.8 2.5 2.3 2.5 4.1" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeDasharray="1 1" />
+    </svg>
+);
 import { TypewriterTitles } from './TypewriterTitles';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
@@ -36,10 +75,9 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 
 const PATH_TITLES: Record<string, string> = {
     '':         'Home',
-    'featured': 'Featured',
     'about-me': 'About Me',
-    'product':  'Product',
-    'visual':   'Visual',
+    'product':  'Case Studies',
+    'visual':   'Visual Design',
     'projects': 'Projects',
 };
 
@@ -95,37 +133,22 @@ export const FinderLayout = () => {
 
             {/* ── Nav ── */}
             <nav className="flex flex-col gap-6 px-3 pt-4 pb-4 flex-1">
-                {/* Favorites */}
                 <div className="flex flex-col gap-0.5">
-                    <SectionLabel>Favorites</SectionLabel>
+                    <SectionLabel>Explore</SectionLabel>
                     <NavLink to="/" end className={navLinkClass}>
-                        <Puzzle size={iconSize} className="shrink-0" />
+                        <IconHome size={iconSize} className="shrink-0" />
                         Home
                     </NavLink>
-                    <NavLink to="/featured" className={navLinkClass}>
-                        <Paperclip size={iconSize} className="shrink-0" />
-                        Featured
-                    </NavLink>
-                </div>
-
-                {/* Work */}
-                <div className="flex flex-col gap-0.5">
-                    <SectionLabel>Work</SectionLabel>
                     <NavLink to="/product" className={navLinkClass}>
-                        <Frame size={iconSize} className="shrink-0" />
-                        Product
+                        <IconCaseStudies size={iconSize} className="shrink-0" />
+                        Case Studies
                     </NavLink>
                     <NavLink to="/visual" className={navLinkClass}>
-                        <PenTool size={iconSize} className="shrink-0" />
-                        Visual
+                        <IconVisual size={iconSize} className="shrink-0" />
+                        Visual Design
                     </NavLink>
-                </div>
-
-                {/* More */}
-                <div className="flex flex-col gap-0.5">
-                    <SectionLabel>More</SectionLabel>
                     <NavLink to="/about-me" className={navLinkClass}>
-                        <Contact size={iconSize} className="shrink-0" />
+                        <IconAboutMe size={iconSize} className="shrink-0" />
                         About Me
                     </NavLink>
                 </div>

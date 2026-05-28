@@ -76,6 +76,20 @@ const ImgPlaceholder = ({ label, className }: { label: string; className?: strin
   </div>
 );
 
+const CaseImg = ({ src, alt, className }: { src: string; alt: string; className?: string }) => (
+  <div className={`rounded-lg overflow-hidden ${className ?? ''}`}
+       style={{ border: `1px solid ${T.border}` }}>
+    <img src={src} alt={alt} className="w-full object-cover block" />
+  </div>
+);
+
+const CaseVideo = ({ src, className }: { src: string; className?: string }) => (
+  <div className={`rounded-lg overflow-hidden ${className ?? ''}`}
+       style={{ border: `1px solid ${T.border}` }}>
+    <video src={src} autoPlay loop muted playsInline className="w-full object-cover block" />
+  </div>
+);
+
 const SectionWrap = ({ children, id }: { children: React.ReactNode; id?: string }) => (
   <section id={id} className="py-10 sm:py-14" style={{ borderBottom: `1px solid ${T.border}` }}>
     {children}
@@ -149,10 +163,7 @@ export const OneumCase = () => {
           </div>
 
           {/* Hero image */}
-          <ImgPlaceholder
-            label="Hero Image — Hangul + Latin typographic composition"
-            className="!min-h-[220px] sm:!min-h-[320px] rounded-xl"
-          />
+          <CaseVideo src="/oneum/hero.mp4" className="rounded-xl" />
         </section>
 
         {/* ═══ OVERVIEW ═══ */}
@@ -217,10 +228,10 @@ export const OneumCase = () => {
             <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-2.5"
                  style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>Research Artifacts</div>
             <Grid2 className="mb-3">
-              <ImgPlaceholder label="Script Structure Comparisons" className="sm:!min-h-[220px]" />
-              <ImgPlaceholder label="K-pop Typography References" className="sm:!min-h-[220px]" />
+              <CaseVideo src="/oneum/research-artifacts1.mp4" />
+              <CaseVideo src="/oneum/research-artifacts2.mp4" />
             </Grid2>
-            <ImgPlaceholder label="Multi-Script Design System Examples" />
+            <CaseVideo src="/oneum/research-artifacts3.mp4" />
           </div>
         </SectionWrap>
 
@@ -267,11 +278,12 @@ export const OneumCase = () => {
           <SectionLabel>Process</SectionLabel>
           <SectionTitle>From Concept to Physical Artifact</SectionTitle>
 
-          {[
+          {([
             {
               num: '01', heading: 'Mapping the Experience',
               title: 'Structuring an Interactive User Flow',
               desc: 'A user flow was developed to guide an interactive experience centered on exploring Hangul typography — defining how users would move through typographic compositions and cultural references.',
+              img: '/oneum/01%20_%20Mapping%20the%20Experience.png',
               imgLabel: 'User Flow Diagram',
               flip: false,
             },
@@ -279,6 +291,7 @@ export const OneumCase = () => {
               num: '02', heading: 'Sketching & Wireframing',
               title: 'Defining the Digital Space',
               desc: 'Early wireframes focused on structuring a digital space where users could navigate between typographic compositions and cultural references — establishing hierarchy and pacing before visual execution.',
+              img: '/oneum/defining%20the%20digital%20space.png',
               imgLabel: 'Early Wireframes',
               flip: true,
             },
@@ -286,6 +299,7 @@ export const OneumCase = () => {
               num: '03', heading: 'Designing',
               title: 'Type-Driven Album Covers',
               desc: 'Type-driven album covers and CDs were created, blending Hangul calligraphy with contemporary Latin typography. Compositions emphasized rhythm, contrast, and balance across both scripts.',
+              img: '/oneum/type-driven-album-covers.gif',
               imgLabel: 'Album Cover Compositions',
               flip: false,
             },
@@ -293,6 +307,7 @@ export const OneumCase = () => {
               num: '04', heading: 'Making',
               title: 'Translating to Physical Artifacts',
               desc: 'Designs were printed, cut, and assembled into physical album packaging — translating digital typography into tactile artifacts and testing how the system held up in print.',
+              img: '/oneum/Translating%20to%20Physical%20Artifacts.jpeg',
               imgLabel: 'Physical Packaging Photos',
               flip: true,
             },
@@ -300,10 +315,14 @@ export const OneumCase = () => {
               num: '05', heading: 'Prototyping',
               title: 'Extending Into an Interactive Format',
               desc: 'A website prototype extended the system into an interactive format, allowing users to explore Hangul through motion, layout, and sound-inspired visuals.',
+              img: '/oneum/Extending%20Into%20an%20Interactive%20Format.png',
               imgLabel: 'Website Prototype',
               flip: false,
             },
-          ].map((f, i, arr) => (
+          ] as Array<{
+            num: string; heading: string; title: string; desc: string;
+            img?: string; imgLabel: string; flip: boolean;
+          }>).map((f, i, arr) => (
             <div key={f.num}
                  className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 py-7 items-start
                              ${i < arr.length - 1 ? 'border-b' : ''}`}
@@ -319,7 +338,9 @@ export const OneumCase = () => {
                 <p className="text-[13px] sm:text-[13.5px] leading-[1.7]" style={{ color: T.text2 }}>{f.desc}</p>
               </div>
               <div className={f.flip ? 'sm:order-1' : ''}>
-                <ImgPlaceholder label={f.imgLabel} className="sm:!min-h-[260px]" />
+                {f.img
+                  ? <CaseImg src={f.img} alt={f.imgLabel} />
+                  : <ImgPlaceholder label={f.imgLabel} className="sm:!min-h-[260px]" />}
               </div>
             </div>
           ))}
@@ -339,16 +360,13 @@ export const OneumCase = () => {
             </BodyText>
           </Box>
 
-          <Grid2 className="mb-3">
-            <ImgPlaceholder label="Album Cover — Front" className="sm:!min-h-[240px]" />
-            <ImgPlaceholder label="Album Cover — Back" className="sm:!min-h-[240px]" />
-          </Grid2>
-          <Grid2 className="mb-6">
-            <ImgPlaceholder label="Jewel Case Assembly" className="sm:!min-h-[240px]" />
-            <ImgPlaceholder label="Physical Packaging Detail" className="sm:!min-h-[240px]" />
-          </Grid2>
+          <CaseImg
+            src="/oneum/Physical-Digital-Deliverables-1.jpg"
+            alt="Physical artifacts — album covers and jewel cases"
+            className="mb-6"
+          />
 
-          <Box>
+          <Box className="mb-4">
             <BoxTitle>Interactive Prototype</BoxTitle>
             <BodyText>
               The website creates an immersive environment where users engage with Hangul typography
@@ -357,10 +375,10 @@ export const OneumCase = () => {
             </BodyText>
           </Box>
 
-          <Grid2 className="mt-3">
-            <ImgPlaceholder label="Website Prototype — Landing" className="sm:!min-h-[220px]" />
-            <ImgPlaceholder label="Website Prototype — Type Explorer" className="sm:!min-h-[220px]" />
-          </Grid2>
+          <CaseImg
+            src="/oneum/Physical-Digital-Deliverables-2.png"
+            alt="Interactive prototype — Hangul typography web experience"
+          />
         </SectionWrap>
 
         {/* ═══ REFLECTION ═══ */}

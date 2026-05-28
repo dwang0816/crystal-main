@@ -64,25 +64,241 @@ const Grid2 = ({ children, className }: { children: React.ReactNode; className?:
   </div>
 );
 
-const ImgPlaceholder = ({ label, className }: { label: string; className?: string }) => (
-  <div className={`flex flex-col items-center justify-center gap-2 rounded-lg min-h-[160px] sm:min-h-[200px] ${className ?? ''}`}
-       style={{ background: T.imgBg, border: `1.5px dashed ${T.imgBorder}` }}>
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="opacity-30" style={{ color: T.text3 }}>
-      <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M3 16l5-5 4 4 3-3 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-    <span className="text-[10px] uppercase tracking-[0.1em] opacity-40 text-center px-4"
-          style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
-      {label}
-    </span>
-  </div>
-);
-
 const CaseImg = ({ src, alt, className }: { src: string; alt: string; className?: string }) => (
   <div className={`rounded-lg overflow-hidden ${className ?? ''}`}
        style={{ border: `1px solid ${T.border}` }}>
     <img src={src} alt={alt} className="w-full object-cover block" />
+  </div>
+);
+
+/* ─── Dime data-viz widgets ─── */
+
+const DimeCardComparison = () => (
+  <div className="dime-cc">
+    <style>{`
+      .dime-cc, .dime-cc *{box-sizing:border-box;margin:0;padding:0;}
+      .dime-cc{background:#121212;border-radius:16px;padding:24px;font-family:'Inter',sans-serif;}
+      .dime-cc .label{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;}
+      .dime-cc .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+      .dime-cc .card{border-radius:14px;overflow:hidden;}
+      .dime-cc .card-chip{padding:16px 18px 14px;background:linear-gradient(180deg,rgba(55,0,179,0.75),#BB86FC);}
+      .dime-cc .chip-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+      .dime-cc .chip-net{font-size:9px;font-weight:600;letter-spacing:0.12em;color:rgba(255,255,255,0.5);text-transform:uppercase;}
+      .dime-cc .chip-badge{font-size:9px;padding:2px 7px;border-radius:10px;background:rgba(3,218,198,0.2);color:#03DAC6;letter-spacing:0.04em;}
+      .dime-cc .chip-name{font-size:13px;color:rgba(255,255,255,0.87);letter-spacing:0.04em;margin-bottom:8px;line-height:1.35;}
+      .dime-cc .chip-num{font-size:10px;letter-spacing:0.2em;color:rgba(255,255,255,0.45);}
+      .dime-cc .card-body{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-top:none;padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
+      .dime-cc .util-row{display:flex;justify-content:space-between;margin-bottom:2px;}
+      .dime-cc .util-label{font-size:10px;color:rgba(255,255,255,0.35);}
+      .dime-cc .util-pct{font-size:10px;font-weight:500;color:#03DAC6;}
+      .dime-cc .util-track{height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;}
+      .dime-cc .util-fill{height:5px;border-radius:3px;background:#03DAC6;}
+      .dime-cc .stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px;}
+      .dime-cc .stat{display:flex;flex-direction:column;gap:1px;}
+      .dime-cc .stat-l{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.06em;text-transform:uppercase;}
+      .dime-cc .stat-v{font-size:13px;font-weight:300;color:rgba(255,255,255,0.87);}
+      .dime-cc .stat-v.purple{color:#BB86FC;}
+      .dime-cc .reward-chip{border-radius:8px;padding:7px 10px;border:1px solid rgba(3,218,198,0.15);background:rgba(3,218,198,0.05);margin-top:2px;}
+      .dime-cc .rw-l{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:2px;}
+      .dime-cc .rw-v{font-size:12px;color:rgba(3,218,198,0.88);font-weight:300;}
+    `}</style>
+    <div className="label">card comparison</div>
+    <div className="cards">
+      <div className="card">
+        <div className="card-chip">
+          <div className="chip-row"><div className="chip-net">VISA</div><div className="chip-badge">excellent</div></div>
+          <div className="chip-name">Chase Sapphire<br />Reserve</div>
+          <div className="chip-num">**** **** **** 4567</div>
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="util-row"><span className="util-label">utilization</span><span className="util-pct">14.7%</span></div>
+            <div className="util-track"><div className="util-fill" style={{ width: '15%' }} /></div>
+          </div>
+          <div className="stats">
+            <div className="stat"><div className="stat-l">limit</div><div className="stat-v">$25,000</div></div>
+            <div className="stat"><div className="stat-l">balance</div><div className="stat-v purple">$3,420</div></div>
+            <div className="stat"><div className="stat-l">APR</div><div className="stat-v">22.99%</div></div>
+            <div className="stat"><div className="stat-l">ann. fee</div><div className="stat-v">$550</div></div>
+          </div>
+          <div className="reward-chip"><div className="rw-l">rewards rate</div><div className="rw-v">3× travel &amp; dining</div></div>
+        </div>
+      </div>
+      <div className="card">
+        <div className="card-chip">
+          <div className="chip-row"><div className="chip-net">AMEX</div><div className="chip-badge">excellent</div></div>
+          <div className="chip-name">American Express<br />Gold</div>
+          <div className="chip-num">**** **** **** 8901</div>
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="util-row"><span className="util-label">utilization</span><span className="util-pct" style={{ color: '#E8A020' }}>35.2%</span></div>
+            <div className="util-track"><div className="util-fill" style={{ width: '35%', background: '#E8A020' }} /></div>
+          </div>
+          <div className="stats">
+            <div className="stat"><div className="stat-l">limit</div><div className="stat-v">$15,000</div></div>
+            <div className="stat"><div className="stat-l">balance</div><div className="stat-v purple">$5,280</div></div>
+            <div className="stat"><div className="stat-l">APR</div><div className="stat-v">19.99%</div></div>
+            <div className="stat"><div className="stat-l">ann. fee</div><div className="stat-v">$0</div></div>
+          </div>
+          <div className="reward-chip"><div className="rw-l">rewards rate</div><div className="rw-v">1.5% all purchases</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const DimeSpendingCategories = () => (
+  <div className="dime-sc">
+    <style>{`
+      .dime-sc, .dime-sc *{box-sizing:border-box;margin:0;padding:0;}
+      .dime-sc{background:#121212;border-radius:16px;padding:28px;font-family:'Inter',sans-serif;}
+      .dime-sc .label{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:20px;}
+      .dime-sc .row{display:flex;gap:20px;align-items:center;}
+      .dime-sc .donut{position:relative;width:160px;height:160px;flex-shrink:0;}
+      .dime-sc .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+      .dime-sc .dc-val{font-size:22px;font-weight:300;color:rgba(255,255,255,0.87);letter-spacing:0.06em;}
+      .dime-sc .dc-sub{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:0.05em;margin-top:1px;}
+      .dime-sc .legend{display:flex;flex-direction:column;gap:10px;flex:1;}
+      .dime-sc .leg-row{display:flex;align-items:center;gap:10px;}
+      .dime-sc .leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+      .dime-sc .leg-name{font-size:13px;color:rgba(255,255,255,0.6);flex:1;letter-spacing:0.03em;}
+      .dime-sc .leg-bar{height:5px;border-radius:3px;background:rgba(255,255,255,0.08);flex:1;overflow:hidden;}
+      .dime-sc .leg-fill{height:5px;border-radius:3px;}
+      .dime-sc .leg-pct{font-size:12px;color:rgba(255,255,255,0.35);min-width:30px;text-align:right;}
+    `}</style>
+    <div className="label">by category</div>
+    <div className="row">
+      <div className="donut">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="60" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="26" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#BB86FC" strokeWidth="26" strokeDasharray="117 377" strokeDashoffset="0" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#03DAC6" strokeWidth="26" strokeDasharray="90 377" strokeDashoffset="-117" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#8051EA" strokeWidth="26" strokeDasharray="68 377" strokeDashoffset="-207" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#E8A020" strokeWidth="26" strokeDasharray="49 377" strokeDashoffset="-275" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#52EA7A" strokeWidth="26" strokeDasharray="38 377" strokeDashoffset="-324" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="26" strokeDasharray="15 377" strokeDashoffset="-362" transform="rotate(-90 80 80)" />
+        </svg>
+        <div className="donut-center">
+          <div className="dc-val">$3,280</div>
+          <div className="dc-sub">monthly</div>
+        </div>
+      </div>
+      <div className="legend">
+        <div className="leg-row"><div className="leg-dot" style={{ background: '#BB86FC' }} /><div className="leg-name">dining</div><div className="leg-bar"><div className="leg-fill" style={{ width: '78%', background: '#BB86FC', opacity: 0.7 }} /></div><div className="leg-pct">31%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: '#03DAC6' }} /><div className="leg-name">shopping</div><div className="leg-bar"><div className="leg-fill" style={{ width: '54%', background: '#03DAC6', opacity: 0.7 }} /></div><div className="leg-pct">24%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: '#8051EA' }} /><div className="leg-name">transport</div><div className="leg-bar"><div className="leg-fill" style={{ width: '40%', background: '#8051EA', opacity: 0.7 }} /></div><div className="leg-pct">18%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: '#E8A020' }} /><div className="leg-name">bills</div><div className="leg-bar"><div className="leg-fill" style={{ width: '28%', background: '#E8A020', opacity: 0.7 }} /></div><div className="leg-pct">13%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: '#52EA7A' }} /><div className="leg-name">groceries</div><div className="leg-bar"><div className="leg-fill" style={{ width: '18%', background: '#52EA7A', opacity: 0.7 }} /></div><div className="leg-pct">10%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: 'rgba(255,255,255,0.2)' }} /><div className="leg-name">other</div><div className="leg-bar"><div className="leg-fill" style={{ width: '6%', background: 'rgba(255,255,255,0.2)' }} /></div><div className="leg-pct">4%</div></div>
+      </div>
+    </div>
+  </div>
+);
+
+const DimeRewardIndicators = () => (
+  <div className="dime-ri">
+    <style>{`
+      .dime-ri, .dime-ri *{box-sizing:border-box;margin:0;padding:0;}
+      .dime-ri{background:#121212;border-radius:16px;padding:24px;font-family:'Inter',sans-serif;}
+      .dime-ri .label{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;}
+      .dime-ri .mult-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+      .dime-ri .mult{border-radius:12px;padding:14px 16px;border:1px solid rgba(255,255,255,0.08);}
+      .dime-ri .mx{font-size:28px;font-weight:300;letter-spacing:0.04em;line-height:1;}
+      .dime-ri .mc{font-size:11px;color:rgba(255,255,255,0.55);margin-top:5px;letter-spacing:0.03em;}
+      .dime-ri .mn{font-size:9px;color:rgba(255,255,255,0.25);margin-top:4px;letter-spacing:0.03em;}
+      .dime-ri .divider{height:1px;background:rgba(255,255,255,0.07);margin-bottom:14px;}
+      .dime-ri .txn-list{display:flex;flex-direction:column;gap:0;}
+      .dime-ri .txn{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+      .dime-ri .txn:last-child{border-bottom:none;}
+      .dime-ri .txn-icon{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.07);border:0.75px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+      .dime-ri .txn-info{flex:1;}
+      .dime-ri .txn-name{font-size:13px;color:rgba(255,255,255,0.87);}
+      .dime-ri .txn-cat{font-size:10px;color:rgba(255,255,255,0.35);}
+      .dime-ri .txn-pts{font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px;background:linear-gradient(90deg,rgba(55,0,179,0.5),rgba(55,0,179,0.08));}
+      .dime-ri .txn-amt{font-size:12px;font-weight:300;padding:3px 10px;border-radius:20px;min-width:72px;text-align:right;background:linear-gradient(90deg,rgba(187,134,252,0.05),rgba(187,134,252,0.45));}
+    `}</style>
+    <div className="label">reward indicators &amp; multipliers</div>
+    <div className="mult-row">
+      <div className="mult" style={{ background: 'linear-gradient(135deg,rgba(3,218,198,0.08),rgba(3,218,198,0.01))' }}>
+        <div className="mx" style={{ color: '#03DAC6' }}>3×</div>
+        <div className="mc">travel &amp; dining</div>
+        <div className="mn">Chase Sapphire Reserve</div>
+      </div>
+      <div className="mult" style={{ background: 'linear-gradient(135deg,rgba(187,134,252,0.08),rgba(187,134,252,0.01))' }}>
+        <div className="mx" style={{ color: '#BB86FC' }}>4×</div>
+        <div className="mc">dining &amp; supermarkets</div>
+        <div className="mn">Amex Gold</div>
+      </div>
+      <div className="mult" style={{ background: 'linear-gradient(135deg,rgba(128,81,234,0.08),rgba(128,81,234,0.01))' }}>
+        <div className="mx" style={{ color: '#8051EA' }}>2×</div>
+        <div className="mc">gas &amp; groceries</div>
+        <div className="mn">Chase Freedom</div>
+      </div>
+      <div className="mult" style={{ background: 'rgba(255,255,255,0.03)' }}>
+        <div className="mx" style={{ color: 'rgba(255,255,255,0.45)' }}>1.5%</div>
+        <div className="mc">all purchases</div>
+        <div className="mn">Freedom Unlimited</div>
+      </div>
+    </div>
+    <div className="divider" />
+    <div className="txn-list">
+      <div className="txn">
+        <div className="txn-icon">🛒</div>
+        <div className="txn-info"><div className="txn-name">Whole Foods</div><div className="txn-cat">Groceries · Freedom Unlimited ··3897</div></div>
+        <div className="txn-pts" style={{ color: 'rgba(255,255,255,0.87)' }}>+86</div>
+        <div className="txn-amt" style={{ color: 'rgba(255,255,255,0.87)' }}>−$85.50</div>
+      </div>
+      <div className="txn">
+        <div className="txn-icon">📦</div>
+        <div className="txn-info"><div className="txn-name">Amazon</div><div className="txn-cat">Shopping · Sapphire Reserve ··4567</div></div>
+        <div className="txn-pts" style={{ color: 'rgba(255,255,255,0.87)' }}>+625</div>
+        <div className="txn-amt" style={{ color: 'rgba(255,255,255,0.87)' }}>−$124.99</div>
+      </div>
+    </div>
+  </div>
+);
+
+const DimeRewardBreakdown = () => (
+  <div className="dime-rb">
+    <style>{`
+      .dime-rb, .dime-rb *{box-sizing:border-box;margin:0;padding:0;}
+      .dime-rb{background:#121212;border-radius:16px;padding:28px;font-family:'Inter',sans-serif;}
+      .dime-rb .label{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:20px;}
+      .dime-rb .kpi-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;}
+      .dime-rb .kpi{border-radius:12px;padding:14px 16px;border:1px solid rgba(255,255,255,0.08);}
+      .dime-rb .kpi-l{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;}
+      .dime-rb .kpi-v{font-size:20px;font-weight:300;letter-spacing:0.06em;}
+      .dime-rb .bar-list{display:flex;flex-direction:column;gap:11px;}
+      .dime-rb .bar-row{display:flex;align-items:center;gap:12px;}
+      .dime-rb .br-name{font-size:12px;color:rgba(255,255,255,0.55);width:70px;flex-shrink:0;}
+      .dime-rb .br-track{flex:1;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;}
+      .dime-rb .br-fill{height:6px;border-radius:3px;}
+      .dime-rb .br-pts{font-size:12px;min-width:50px;text-align:right;letter-spacing:0.03em;}
+    `}</style>
+    <div className="label">reward breakdown</div>
+    <div className="kpi-row">
+      <div className="kpi" style={{ background: 'linear-gradient(135deg,rgba(187,134,252,0.1),rgba(187,134,252,0.01))' }}>
+        <div className="kpi-l">total spent</div>
+        <div className="kpi-v" style={{ color: 'rgba(187,134,252,0.88)' }}>−$2,317</div>
+      </div>
+      <div className="kpi" style={{ background: 'linear-gradient(135deg,rgba(3,218,198,0.08),rgba(3,218,198,0.01))' }}>
+        <div className="kpi-l">total earned</div>
+        <div className="kpi-v" style={{ color: '#03DAC6' }}>+$6,271</div>
+      </div>
+      <div className="kpi" style={{ background: 'linear-gradient(135deg,rgba(128,81,234,0.14),rgba(128,81,234,0.02))' }}>
+        <div className="kpi-l">points</div>
+        <div className="kpi-v" style={{ color: '#8051EA' }}>5,291</div>
+      </div>
+    </div>
+    <div className="bar-list">
+      <div className="bar-row"><div className="br-name">dining</div><div className="br-track"><div className="br-fill" style={{ width: '78%', background: '#BB86FC', opacity: 0.75 }} /></div><div className="br-pts" style={{ color: '#BB86FC' }}>1,840 pts</div></div>
+      <div className="bar-row"><div className="br-name">shopping</div><div className="br-track"><div className="br-fill" style={{ width: '54%', background: '#03DAC6', opacity: 0.75 }} /></div><div className="br-pts" style={{ color: '#03DAC6' }}>1,260 pts</div></div>
+      <div className="bar-row"><div className="br-name">travel</div><div className="br-track"><div className="br-fill" style={{ width: '40%', background: '#8051EA', opacity: 0.75 }} /></div><div className="br-pts" style={{ color: '#8051EA' }}>950 pts</div></div>
+      <div className="bar-row"><div className="br-name">groceries</div><div className="br-track"><div className="br-fill" style={{ width: '28%', background: '#E8A020', opacity: 0.75 }} /></div><div className="br-pts" style={{ color: '#E8A020' }}>680 pts</div></div>
+      <div className="bar-row"><div className="br-name">transit</div><div className="br-track"><div className="br-fill" style={{ width: '18%', background: '#52EA7A', opacity: 0.75 }} /></div><div className="br-pts" style={{ color: '#52EA7A' }}>420 pts</div></div>
+      <div className="bar-row"><div className="br-name">other</div><div className="br-track"><div className="br-fill" style={{ width: '6%', background: 'rgba(255,255,255,0.2)' }} /></div><div className="br-pts" style={{ color: 'rgba(255,255,255,0.3)' }}>141 pts</div></div>
+    </div>
   </div>
 );
 
@@ -133,12 +349,40 @@ export const DimeCase = () => {
           {/* Meta strip */}
           <div className="flex flex-wrap rounded-[10px] overflow-hidden mb-10"
                style={{ border: `1px solid ${T.border}` }}>
-            {[
+            {([
               { label: 'Role',     value: 'Product Design · Frontend' },
               { label: 'Timeline', value: 'Hackathon' },
-              { label: 'Team',     value: 'Designers · Engineers' },
+              {
+                label: 'Team',
+                value: (
+                  <span className="inline-flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
+                    {[
+                      { name: 'Joe Do',           href: 'https://www.linkedin.com/in/hoanglehuydo/' },
+                      { name: 'Aman Anwar',       href: 'https://www.linkedin.com/in/amanwastaken/' },
+                      { name: 'Shiva Pochampally', href: 'https://www.linkedin.com/in/shivapochampally/' },
+                    ].map((p, i, arr) => (
+                      <span key={p.href} className="inline-flex items-center gap-x-1.5">
+                        <a href={p.href} target="_blank" rel="noopener noreferrer"
+                           className="transition-colors"
+                           style={{ color: T.text1, borderBottom: `1px solid ${T.border}` }}
+                           onMouseEnter={e => {
+                             (e.currentTarget as HTMLAnchorElement).style.color = T.brand;
+                             (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = T.brand;
+                           }}
+                           onMouseLeave={e => {
+                             (e.currentTarget as HTMLAnchorElement).style.color = T.text1;
+                             (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = T.border;
+                           }}>
+                          {p.name}
+                        </a>
+                        {i < arr.length - 1 && <span style={{ color: T.text3 }}>·</span>}
+                      </span>
+                    ))}
+                  </span>
+                ),
+              },
               { label: 'Platform', value: 'Extension · Dashboard' },
-            ].map(m => (
+            ] as Array<{ label: string; value: React.ReactNode }>).map(m => (
               <div key={m.label} className="flex-[1_1_130px] px-4 py-3.5"
                    style={{ background: T.surface, borderRight: `1px solid ${T.border}` }}>
                 <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1"
@@ -153,7 +397,7 @@ export const DimeCase = () => {
                    style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>Award</div>
               <span className="inline-block text-[11px] font-semibold px-2 py-0.5 rounded"
                     style={{ background: T.greenDim, color: T.green, border: `1px solid ${T.greenBorder}` }}>
-                🏆 Best Financial Hack
+                🏆 Capital One Best Financial Hack
               </span>
             </div>
           </div>
@@ -350,12 +594,12 @@ export const DimeCase = () => {
           </Box>
 
           <Grid2 className="mb-3">
-            <ImgPlaceholder label="Spending Category Charts" className="sm:!min-h-[240px]" />
-            <ImgPlaceholder label="Reward Breakdown UI" className="sm:!min-h-[240px]" />
+            <DimeSpendingCategories />
+            <DimeRewardBreakdown />
           </Grid2>
           <Grid2>
-            <ImgPlaceholder label="Card Comparison View" className="sm:!min-h-[240px]" />
-            <ImgPlaceholder label="Reward Indicators & Multipliers" className="sm:!min-h-[240px]" />
+            <DimeCardComparison />
+            <DimeRewardIndicators />
           </Grid2>
         </SectionWrap>
 
@@ -372,10 +616,35 @@ export const DimeCase = () => {
             </BodyText>
           </Box>
 
-          <Grid2>
-            <ImgPlaceholder label="Ideation & Whiteboarding" className="sm:!min-h-[220px]" />
-            <ImgPlaceholder label="Prototype Iterations" className="sm:!min-h-[220px]" />
-          </Grid2>
+          <CaseImg
+            src="/dime/Design%20and%20Engineering%20in%20Parallel.JPEG"
+            alt="Design and Engineering in Parallel"
+          />
+          <div className="mt-3 text-[11px] uppercase tracking-[0.1em] flex flex-wrap items-center gap-x-1.5 gap-y-1"
+               style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+            {[
+              { name: 'Joe Do',           href: 'https://www.linkedin.com/in/hoanglehuydo/' },
+              { name: 'Aman Anwar',       href: 'https://www.linkedin.com/in/amanwastaken/' },
+              { name: 'Shiva Pochampally', href: 'https://www.linkedin.com/in/shivapochampally/' },
+            ].map((p, i, arr) => (
+              <span key={p.href} className="flex items-center gap-x-1.5">
+                <a href={p.href} target="_blank" rel="noopener noreferrer"
+                   className="transition-colors"
+                   style={{ color: T.text2, borderBottom: `1px solid ${T.border}` }}
+                   onMouseEnter={e => {
+                     (e.currentTarget as HTMLAnchorElement).style.color = T.brand;
+                     (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = T.brand;
+                   }}
+                   onMouseLeave={e => {
+                     (e.currentTarget as HTMLAnchorElement).style.color = T.text2;
+                     (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = T.border;
+                   }}>
+                  {p.name}
+                </a>
+                {i < arr.length - 1 && <span>·</span>}
+              </span>
+            ))}
+          </div>
         </SectionWrap>
 
         {/* ═══ IMPACT ═══ */}
