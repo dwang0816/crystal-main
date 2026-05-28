@@ -42,7 +42,8 @@ const getCircularPosition = (index: number, total: number, radius: number) => {
 
 const EXPAND_RADIUS = 76;
 
-const Folder: React.FC<FolderProps> = ({ color = '#5227FF', size = 1, expandScale = 1.6, items = [], className = '' }) => {
+// Default falls back to the site palette's pale prussian (#C8D4E4).
+const Folder: React.FC<FolderProps> = ({ color = '#C8D4E4', size = 1, expandScale = 1.6, items = [], className = '' }) => {
   const papers = useMemo(() => items.slice(0, 6), [items]);
   const [open, setOpen] = useState(false);
 

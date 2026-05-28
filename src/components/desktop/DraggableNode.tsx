@@ -33,11 +33,11 @@ export const DraggableNode: React.FC<DraggableNodeProps> = ({ item, constraintsR
             onDragStart={() => setZIndex(50)}
             onDragEnd={() => setZIndex(1)}
             style={{ zIndex, ...item.pos }}
-            className="absolute cursor-grab active:cursor-grabbing flex flex-col items-center gap-1 p-2 rounded-md hover:bg-black/5 transition-colors group select-none"
+            className="absolute cursor-grab active:cursor-grabbing flex flex-col items-center gap-1 p-2 rounded-md hover:bg-ink/5 transition-colors group select-none"
         >
             <NodeContent item={item} />
             {hasLabel(item) && (
-                <span className="text-[11px] text-slate-900/75 dark:text-white/90 text-center font-normal leading-tight px-1.5 py-0.5 rounded group-hover:bg-[#0011FF] dark:group-hover:bg-[#84cc16] group-hover:text-white mt-1.5 pointer-events-none">
+                <span className="text-[11px] text-ink/75 text-center font-normal leading-tight px-1.5 py-0.5 rounded group-hover:bg-ink group-hover:text-paper-light mt-1.5 pointer-events-none">
                     {item.name}
                 </span>
             )}

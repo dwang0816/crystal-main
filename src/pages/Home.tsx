@@ -1,17 +1,19 @@
 import crystalIcelandImg from '../assets/crystal_in_iceland.jpg';
+import { XometryHero } from '../components/case-hero/XometryHero';
 
 /*
-  Typography tokens (strict)
+  Palette tokens (see PALETTE.md / index.css)
   ─────────────────────────────────────────────
-  serif/hero   → font-serif  44px  font-normal          headline only, sentence case
-  serif/quote  → font-serif  20px  font-normal          testimonial + attribution
-  sans/nav     → font-sans   12px  font-extrabold  ALL CAPS   nav + WELCOME label only
-  sans/body    → font-sans   16px  font-normal          hero subtext only, sentence case
-  sans/meta    → font-sans   12px  font-medium          section tabs, secondary info, buttons
-  sans/button  → font-sans   12px  font-medium    ALL CAPS   CTAs (same size as meta)
-
-  Only two sans sizes: 12px and 16px. No 14px anywhere.
-  Extrabold only on nav. Serif only on hero + quote.
+  bg-paper           page bg (warm paper, #F3F2EC)
+  bg-paper-light     secondary bg (light paper, #FCFBF6)
+  bg-canvas          section bg (warm grey, #ECEAE2)
+  bg-nav-card        nav/card bg (warm mid, #E4E4DC)
+  text-ink           primary text, CTAs, active nav (#121418)
+  text-prussian      accent — role text, tagline, subtle links (#2A4468)
+  bg-prussian-pale   pill fills, icon button bg (#C8D4E4)
+  text-prussian-dark icon glyphs (#182840)
+  text-ink-muted     inactive nav, metadata (rgba(18,20,24,0.38))
+  border-hairline    section/card borders (rgba(18,20,24,0.09))
 */
 
 const experiences = [
@@ -22,51 +24,30 @@ const experiences = [
     { company: 'Photo Store Digital Express',  role: 'Assistant Photo Editor',  period: 'Jan 2018 – Jan 2020' },
 ];
 
-const ExperienceList = () => (
-    <div className="overflow-y-auto h-full px-5 pt-2 pb-5" style={{ scrollbarWidth: 'none' }}>
-        <div className="relative pl-4">
-            <div className="absolute left-[5px] top-[6px] bottom-[6px] w-px bg-slate-200 dark:bg-[#333]" />
-            <div className="flex flex-col gap-4">
-                {experiences.map((exp, i) => (
-                    <div key={i} className="relative">
-                        <div className="absolute -left-4 top-[5px] w-[9px] h-[9px] rounded-full bg-black dark:bg-white border-2 border-white dark:border-[#1a1a1a]" />
-                        <div className="text-[16px] font-sans font-normal text-black dark:text-white leading-tight">{exp.company}</div>
-                        <div className="text-[12px] font-sans font-medium text-black/50 dark:text-white/50">{exp.role}</div>
-                        <div className="text-[12px] font-sans font-medium text-black/35 dark:text-white/30">{exp.period}</div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    </div>
-);
+const tools = [
+    { label: 'Adobe CC',        src: '/Logos/Adobe_Creative_Cloud_rainbow_icon-logo.png' },
+    { label: 'Figma',           src: '/Logos/figma-logo.png' },
+    { label: 'Notion',          src: '/Logos/notion-logo.png' },
+    { label: 'Google Calendar', src: '/Logos/gcal-logo.png' },
+    { label: 'Discord',         src: '/Logos/discord-logo.png' },
+];
 
-/* ─── Card shell ─────────────────────────────────────── */
-const Card = ({ children, className = '', style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => (
-    <div className={`border border-black/10 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-[#111] ${className}`} style={style}>
-        {children}
-    </div>
-);
-
-/* sans/meta — section tabs */
-const CardLabel = ({ children }: { children: React.ReactNode }) => (
-    <div className="px-5 py-3 shrink-0">
-        <span className="text-[12px] font-sans font-medium text-[#1a1a1a] dark:text-white uppercase">
-            {children}
+/* ─── Section eyebrow ─── */
+const SectionEyebrow = ({ number, label }: { number: string; label: string }) => (
+    <div className="flex items-center gap-4 mb-7">
+        <span className="font-mono text-[11px] tracking-[0.18em] text-ink-muted">
+            {number}
+        </span>
+        <span className="h-px w-10 bg-hairline" />
+        <span className="text-[12px] font-sans font-extrabold tracking-[0.18em] uppercase text-ink-muted">
+            {label}
         </span>
     </div>
 );
 
-/* ─── Tool icon ──────────────────────────────────────── */
-const Tool = ({ label, children }: { label: string; children: React.ReactNode }) => (
-    <div className="flex flex-col items-center justify-between h-[80px] shrink-0">
-        {children}
-        <span className="text-[12px] font-sans font-medium text-[#1a1a1a]/40 dark:text-white/30 text-center whitespace-nowrap">{label}</span>
-    </div>
-);
-
-/* ─── Snapshot card — shared markup ─────────────────── */
+/* ─── Snapshot photo card ─── */
 const SnapshotCard = ({ className = '', style }: { className?: string; style?: React.CSSProperties }) => (
-    <div className={`relative rounded-xl overflow-hidden border border-black/10 dark:border-white/10 ${className}`} style={style}>
+    <div className={`relative rounded-2xl overflow-hidden border border-hairline ${className}`} style={style}>
         <img
             src={crystalIcelandImg}
             alt="Crystal in Iceland"
@@ -74,58 +55,45 @@ const SnapshotCard = ({ className = '', style }: { className?: string; style?: R
             draggable={false}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
-        <span className="absolute top-3 left-4 text-white text-[12px] font-sans font-medium uppercase">
+        <span className="absolute top-3 left-4 text-paper-light text-[12px] font-sans font-medium uppercase">
             Snapshot
         </span>
-        <span className="absolute top-3 right-4 text-white text-[24px] leading-none">✦</span>
-        <span className="absolute bottom-3 left-4 text-white font-serif text-[20px] font-normal italic">
+        <span className="absolute top-3 right-4 text-paper-light text-[24px] leading-none">✦</span>
+        <span className="absolute bottom-3 left-4 text-paper-light font-serif text-[20px] font-normal italic">
             Iceland | 2025
         </span>
     </div>
 );
 
 /* ════════════════════════════════════════════════════════════
-   Home Page
+   Home Page — vertical scroll narrative
 ════════════════════════════════════════════════════════════ */
 export const Home = () => {
     return (
-        <div className="absolute inset-0 overflow-y-auto">
-            <div className="flex flex-col gap-4 xl:gap-5 2xl:gap-6 px-4 md:px-6 xl:px-10 2xl:px-16 pt-4 md:pt-8 xl:pt-10 pb-8 xl:pb-10 md:h-full">
+        <div className="absolute inset-0 overflow-y-auto bg-paper">
+            <div className="max-w-[920px] mx-auto px-5 md:px-8 lg:px-12 pt-10 md:pt-16 pb-20">
 
-                {/* ── Hero ─────────────────────────────────────────── */}
-                <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-6 xl:gap-10 flex-[0_0_auto] md:[height:clamp(220px,32%,420px)]">
+                {/* ═══ HERO ═════════════════════════════════════════════ */}
+                <section className="mb-20 md:mb-28">
+                    <div className="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-8 md:gap-12 items-center">
 
-                    {/* Snapshot — full-width banner on mobile only */}
-                    <SnapshotCard className="h-[200px] md:hidden" />
-
-                    {/* Left: intro text + CTAs */}
-                    <div className="flex flex-col justify-center items-start md:items-center flex-1 min-w-0">
-                        <div className="flex flex-col gap-5 md:gap-6 xl:gap-8 w-full md:max-w-[520px]">
-
-                            <div className="flex flex-col gap-2 md:gap-3">
-                                {/* sans/nav */}
-                                <p className="text-[12px] font-sans font-extrabold tracking-[0.24px] text-[#0009ff]/60 dark:text-[#84cc16]/60 uppercase">
-                                    Welcome
-                                </p>
-                                {/* serif/hero — scaled on mobile */}
-                                <h1 className="font-serif text-[32px] md:text-[44px] font-normal leading-[1.1] text-[#1a1a1a] dark:text-white">
-                                    Hi! I'm Crystal,<br />
-                                    a Product Designer.
-                                </h1>
-                                {/* sans/body */}
-                                <p className="text-[16px] font-sans font-normal text-[#1a1a1a]/50 dark:text-white/50 leading-relaxed">
-                                    I design digital experiences that are{' '}
-                                    <em>efficient</em>, <em>thoughtful</em> and <em>human</em>.
-                                </p>
-                            </div>
-
-                            {/* sans/button */}
-                            <div className="flex items-center gap-1">
+                        <div className="flex flex-col gap-5 md:gap-6 order-2 md:order-1">
+                            <p className="text-[12px] font-sans font-extrabold tracking-[0.24px] text-prussian uppercase">
+                                Welcome
+                            </p>
+                            <h1 className="font-serif text-[40px] md:text-[52px] xl:text-[56px] font-normal leading-[1.05] text-ink">
+                                Hi! I'm Crystal,<br />a Product Designer.
+                            </h1>
+                            <p className="text-[16px] font-sans font-normal text-prussian leading-relaxed max-w-[480px]">
+                                I design digital experiences that are{' '}
+                                <em>efficient</em>, <em>thoughtful</em>, and <em>human</em>.
+                            </p>
+                            <div className="flex items-center gap-1 mt-2">
                                 <a
                                     href="https://drive.google.com/file/d/1W6JRUbUujetsAFSYz608EYB9ce5NvTph/view?usp=drive_link"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="bg-[#1a1a1a] dark:bg-white text-white dark:text-[#1a1a1a] text-[12px] font-sans font-medium rounded-full px-5 py-2 flex items-center gap-2 hover:opacity-80 transition-opacity"
+                                    className="bg-ink text-paper-light text-[12px] font-sans font-medium rounded-full px-5 py-2 flex items-center gap-2 hover:opacity-80 transition-opacity"
                                 >
                                     RESUME <span>→</span>
                                 </a>
@@ -133,120 +101,129 @@ export const Home = () => {
                                     href="https://www.linkedin.com/in/cch0/"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="text-[#1a1a1a] dark:text-white text-[12px] font-sans font-medium underline underline-offset-2 px-5 py-2 hover:opacity-60 transition-opacity flex items-center gap-1.5"
+                                    className="text-prussian text-[12px] font-sans font-medium underline underline-offset-2 px-5 py-2 hover:opacity-60 transition-opacity flex items-center gap-1.5"
                                 >
                                     CONNECT <span className="inline-block -rotate-45">→</span>
                                 </a>
                             </div>
-
                         </div>
+
+                        <SnapshotCard
+                            className="order-1 md:order-2 w-full md:w-[260px] aspect-[3/4] md:aspect-[3/4] shrink-0"
+                        />
+
                     </div>
+                </section>
 
-                    {/* Snapshot — clamp width on desktop only */}
-                    <SnapshotCard
-                        className="hidden md:block shrink-0"
-                        style={{ width: 'clamp(180px, 22%, 340px)' }}
-                    />
-
-                </div>
-
-                {/* ── Row 1: Experience + Case Study ───────────────── */}
-                <div className="flex flex-col md:flex-row gap-4 xl:gap-5 md:flex-1 md:min-h-[240px] md:max-h-[420px]">
-
-                    {/* Experience */}
-                    <Card className="flex flex-col h-[260px] md:h-full w-full md:w-[clamp(220px,26%,340px)] md:shrink-0">
-                        <CardLabel>Experience</CardLabel>
-                        <div className="flex-1 overflow-hidden">
-                            <ExperienceList />
+                {/* ═══ FEATURED WORK ════════════════════════════════════ */}
+                <section className="mb-20 md:mb-28">
+                    <SectionEyebrow number="01" label="Featured Work" />
+                    <a
+                        href="/projects/xometry-workcenter"
+                        className="block group rounded-2xl overflow-hidden border border-hairline bg-paper-light transition-shadow duration-300 hover:shadow-lg"
+                    >
+                        <div className="aspect-[16/9]">
+                            <XometryHero />
                         </div>
-                    </Card>
-
-                    {/* Featured Case Study */}
-                    <Card className="flex flex-col min-w-0 md:flex-1">
-                        <div className="px-5 py-3 flex items-center justify-between shrink-0 flex-wrap gap-2">
-                            <span className="text-[12px] font-sans font-medium text-[#1a1a1a] dark:text-white uppercase">
-                                Featured Case Study
-                            </span>
-                            <div className="flex gap-2">
-                                <span className="text-[12px] font-sans font-medium bg-[#0009ff]/10 dark:bg-[#84cc16]/10 text-[#1a1a1a]/50 dark:text-white/50 rounded-full px-2.5 py-1">
+                        <div className="px-6 md:px-8 py-6 md:py-8">
+                            <div className="flex items-center gap-2 mb-3 flex-wrap">
+                                <span className="text-[12px] font-sans font-medium bg-prussian-pale text-prussian-dark rounded-full px-2.5 py-1">
                                     UX Design
                                 </span>
-                                <span className="text-[12px] font-sans font-medium bg-[#0009ff]/10 dark:bg-[#84cc16]/10 text-[#1a1a1a]/50 dark:text-white/50 rounded-full px-2.5 py-1">
+                                <span className="text-[12px] font-sans font-medium bg-prussian-pale text-prussian-dark rounded-full px-2.5 py-1">
                                     Mobile
                                 </span>
                             </div>
-                        </div>
-
-                        <div className="flex flex-col justify-between px-5 pb-5 gap-6 md:flex-1">
-                            <div className="flex flex-col gap-3">
-                                <h2 className="font-serif text-[20px] font-normal text-[#1a1a1a] dark:text-white leading-tight">
-                                    Xometry
-                                </h2>
-                                <p className="text-[12px] font-sans font-medium text-[#1a1a1a]/40 dark:text-white/40 leading-relaxed max-w-[320px]">
-                                    Designing a mobile-first platform to help manufacturers manage
-                                    jobs from quote to payment.
-                                </p>
-                                <a
-                                    href="/projects/xometry-workcenter"
-                                    className="text-[12px] font-sans font-medium text-[#0009ff] dark:text-[#84cc16] underline underline-offset-2 flex items-center gap-1 hover:opacity-70 transition-opacity w-fit"
-                                >
-                                    View Project <span className="inline-block -rotate-45">→</span>
-                                </a>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                                <div className="h-1 w-4 rounded-full bg-[#0009ff] dark:bg-[#84cc16]" />
-                                <div className="h-1 w-1 rounded-full bg-[#1a1a1a]/20 dark:bg-white/20" />
-                                <div className="h-1 w-1 rounded-full bg-[#1a1a1a]/20 dark:bg-white/20" />
-                            </div>
-                        </div>
-                    </Card>
-                </div>
-
-                {/* ── Row 2: Tools + Testimonials ──────────────────── */}
-                <div className="flex flex-col md:flex-row gap-4 xl:gap-5 shrink-0 md:h-[150px] xl:h-[160px] 2xl:h-[180px]">
-
-                    {/* Everyday Tools */}
-                    <Card className="flex flex-col w-full md:w-[clamp(300px,50%,640px)] md:shrink-0">
-                        <CardLabel>Everyday Tools</CardLabel>
-                        <div className="flex items-center gap-8 xl:gap-10 px-4 xl:px-6 pb-4 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
-                            <Tool label="Adobe CC">
-                                <img alt="Adobe CC" className="shrink-0 size-[56px] md:size-[72px] object-contain" src="/Logos/Adobe_Creative_Cloud_rainbow_icon-logo.png" />
-                            </Tool>
-                            <Tool label="Figma">
-                                <img alt="Figma" className="shrink-0 size-[56px] md:size-[72px] object-contain" src="/Logos/figma-logo.png" />
-                            </Tool>
-                            <Tool label="Notion">
-                                <img alt="Notion" className="shrink-0 size-[56px] md:size-[72px] object-contain" src="/Logos/notion-logo.png" />
-                            </Tool>
-                            <Tool label="Google Calendar">
-                                <img alt="Google Calendar" className="shrink-0 size-[56px] md:size-[72px] object-contain" src="/Logos/gcal-logo.png" />
-                            </Tool>
-                            <Tool label="Discord">
-                                <img alt="Discord" className="shrink-0 size-[56px] md:size-[72px] object-contain" src="/Logos/discord-logo.png" />
-                            </Tool>
-                        </div>
-                    </Card>
-
-                    {/* Testimonials */}
-                    <Card className="flex-1 flex flex-col min-w-0 overflow-hidden">
-                        <CardLabel>Testimonials</CardLabel>
-                        <div className="flex-1 flex flex-col justify-between px-5 pb-5 gap-1.5 min-w-0">
-                            <p className="font-serif text-[14px] font-normal text-[#1a1a1a] dark:text-white leading-snug line-clamp-3">
-                                "Crystal contributed to the immersive installation Mood Cocoon as my research assistant and collaborator on the website design. She brings a thoughtful and detail-oriented approach, with a strong sensitivity to both concept and form."
+                            <h2 className="font-serif text-[26px] md:text-[32px] font-normal text-ink leading-tight mb-3">
+                                Xometry WorkCenter
+                            </h2>
+                            <p className="text-[15px] font-sans font-normal text-prussian leading-relaxed max-w-[560px] mb-5">
+                                Designing a mobile-first platform to help manufacturers manage jobs from quote to payment.
                             </p>
-                            <div className="flex flex-col">
-                                <span className="text-[12px] font-sans font-medium text-[#1a1a1a] dark:text-white">Shuang Wu</span>
-                                <span className="text-[12px] font-sans font-normal text-[#1a1a1a]/40 dark:text-white/40">Designer, Educator · Virginia Tech</span>
-                            </div>
+                            <span className="text-[12px] font-sans font-medium text-prussian inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                                View Project <span className="inline-block -rotate-45">→</span>
+                            </span>
                         </div>
-                    </Card>
-                </div>
+                    </a>
+                </section>
 
-                {/* ── Footer ────────────────────────────── */}
-                <p className="text-center text-[12px] font-sans font-medium text-[#1a1a1a]/30 dark:text-white/20 shrink-0">
-                    Built with the immense help of Celcius, Claude, and my super cool friend &lt;3
-                </p>
+                {/* ═══ EXPERIENCE ═══════════════════════════════════════ */}
+                <section className="mb-20 md:mb-28">
+                    <SectionEyebrow number="02" label="Experience" />
+                    <div className="relative pl-6">
+                        <div className="absolute left-[5px] top-[10px] bottom-[10px] w-px bg-hairline" />
+                        <div className="flex flex-col gap-7">
+                            {experiences.map((exp, i) => (
+                                <div key={i} className="relative">
+                                    <div className="absolute -left-6 top-[7px] w-[11px] h-[11px] rounded-full bg-ink border-2 border-paper" />
+                                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                                        <div className="min-w-0">
+                                            <div className="text-[17px] font-sans font-normal text-ink leading-tight">
+                                                {exp.company}
+                                            </div>
+                                            <div className="text-[13px] font-sans font-medium text-prussian mt-0.5">
+                                                {exp.role}
+                                            </div>
+                                        </div>
+                                        <div className="text-[12px] font-sans font-medium text-ink-muted whitespace-nowrap">
+                                            {exp.period}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* ═══ EVERYDAY TOOLS ═══════════════════════════════════ */}
+                <section className="mb-20 md:mb-28">
+                    <SectionEyebrow number="03" label="Everyday Tools" />
+                    <div className="flex items-start justify-between gap-6 md:gap-8 overflow-x-auto pb-2"
+                         style={{ scrollbarWidth: 'none' }}>
+                        {tools.map(tool => (
+                            <div key={tool.label} className="flex flex-col items-center gap-3 shrink-0">
+                                <img
+                                    src={tool.src}
+                                    alt={tool.label}
+                                    className="size-[56px] md:size-[64px] object-contain"
+                                />
+                                <span className="text-[12px] font-sans font-medium text-ink-muted text-center whitespace-nowrap">
+                                    {tool.label}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* ═══ TESTIMONIAL ══════════════════════════════════════ */}
+                <section className="mb-20 md:mb-24">
+                    <SectionEyebrow number="04" label="Kind Words" />
+                    <figure className="flex flex-col gap-6">
+                        <blockquote className="relative font-serif text-[20px] md:text-[24px] font-normal text-ink leading-[1.5] max-w-[700px]">
+                            <span className="absolute -left-3 md:-left-6 -top-2 text-prussian-pale text-[40px] md:text-[56px] leading-none font-serif select-none">
+                                "
+                            </span>
+                            Crystal contributed to the immersive installation Mood Cocoon as my research assistant
+                            and collaborator on the website design. She brings a thoughtful and detail-oriented approach,
+                            with a strong sensitivity to both concept and form.
+                        </blockquote>
+                        <figcaption className="flex flex-col gap-0.5 pl-1">
+                            <span className="text-[14px] font-sans font-medium text-ink">
+                                — Shuang Wu
+                            </span>
+                            <span className="text-[12px] font-sans font-normal text-ink-muted">
+                                Designer, Educator · Virginia Tech
+                            </span>
+                        </figcaption>
+                    </figure>
+                </section>
+
+                {/* ═══ FOOTER ═══════════════════════════════════════════ */}
+                <div className="pt-8 border-t border-hairline">
+                    <p className="text-center text-[12px] font-sans font-medium text-ink-muted">
+                        Built with the immense help of Celcius, Claude, and my super cool friend &lt;3
+                    </p>
+                </div>
 
             </div>
         </div>

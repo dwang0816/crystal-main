@@ -1,28 +1,28 @@
 import { useNavigate } from 'react-router-dom';
 
-/* ─── Design tokens ─── */
+/* ─── Design tokens (mapped to site palette — see PALETTE.md) ─── */
 const T = {
-  bg:           '#ffffff',
-  surface:      '#F6F6F6',
-  border:       '#E5E5E5',
-  borderStrong: 'rgba(0,0,0,0.12)',
-  brand:        'var(--color-brand)',
-  brandDim:     'var(--color-brand-dim)',
-  brandBorder:  'var(--color-brand-border)',
-  text1:        '#0a0a0a',
-  text2:        '#555555',
-  text3:        '#999999',
-  imgBg:        '#F6F6F6',
-  imgBorder:    '#D8D8D8',
-  tagBg:        '#F0F0F0',
-  tagBorder:    '#E0E0E0',
+  bg:           'var(--paper-light)',          /* #FCFBF6 secondary background */
+  surface:      'var(--canvas)',               /* #ECEAE2 section canvas       */
+  border:       'var(--border-line)',          /* rgba(18,20,24,0.09)          */
+  borderStrong: 'var(--border-line)',
+  brand:        'var(--prussian)',             /* #2A4468 supporting accent    */
+  brandDim:     'rgba(42, 68, 104, 0.08)',
+  brandBorder:  'rgba(42, 68, 104, 0.20)',
+  text1:        'var(--ink)',                  /* #121418 primary text         */
+  text2:        'rgba(18,20,24,0.70)',         /* body text                    */
+  text3:        'var(--muted)',                /* metadata, captions           */
+  imgBg:        'var(--canvas)',
+  imgBorder:    'var(--border-line)',
+  tagBg:        'var(--nav-card)',             /* #E4E4DC pill bg              */
+  tagBorder:    'var(--border-line)',
 } as const;
 
 /* ─── Primitive components ─── */
 
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <div className="flex items-center gap-1.5 mb-4 uppercase tracking-[0.14em] text-[10px] font-bold"
-       style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+       style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
     <span className="w-1 h-1 rounded-full shrink-0" style={{ background: T.brand }} />
     {children}
   </div>
@@ -30,7 +30,7 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
   <h2 className="text-xl sm:text-[22px] font-bold mb-5 leading-snug tracking-tight"
-      style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+      style={{ color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif' }}>
     {children}
   </h2>
 );
@@ -44,7 +44,7 @@ const Box = ({ children, className }: { children: React.ReactNode; className?: s
 
 const BoxTitle = ({ children }: { children: React.ReactNode }) => (
   <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-2.5"
-       style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+       style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
     {children}
   </div>
 );
@@ -70,7 +70,7 @@ const ImgPlaceholder = ({ label, className }: { label: string; className?: strin
       <path d="M3 16l5-5 4 4 3-3 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
     <span className="text-[10px] uppercase tracking-[0.1em] opacity-40 text-center px-4"
-          style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+          style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
       {label}
     </span>
   </div>
@@ -112,7 +112,7 @@ export const OneumCase = () => {
           {/* Back */}
           <button onClick={() => navigate('/')}
                   className="flex items-center gap-1.5 mb-8 text-[12px] uppercase tracking-[0.06em] cursor-pointer bg-transparent border-none p-0 transition-colors"
-                  style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}
+                  style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}
                   onMouseEnter={e => (e.currentTarget.style.color = T.brand)}
                   onMouseLeave={e => (e.currentTarget.style.color = T.text3)}>
             ← All Work
@@ -120,13 +120,13 @@ export const OneumCase = () => {
 
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2 mb-3 text-[11px] font-semibold uppercase tracking-[0.1em]"
-               style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+               style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
             <span className="w-5 h-px" style={{ background: T.text3 }} />
             Case Study · 02
           </div>
 
           <h1 className="text-[clamp(22px,4vw,42px)] font-bold leading-[1.15] tracking-tight mb-4 max-w-[620px]"
-              style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+              style={{ color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif' }}>
             Oneum — Multi-Script Typography Through K-Pop
           </h1>
 
@@ -146,7 +146,7 @@ export const OneumCase = () => {
               <div key={m.label} className="flex-[1_1_130px] px-4 py-3.5"
                    style={{ background: T.surface, borderRight: `1px solid ${T.border}` }}>
                 <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1"
-                     style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+                     style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
                   {m.label}
                 </div>
                 <div className="text-[13px] font-medium" style={{ color: T.text1 }}>{m.value}</div>
@@ -154,7 +154,7 @@ export const OneumCase = () => {
             ))}
             <div className="flex-[1_1_130px] px-4 py-3.5" style={{ background: T.surface }}>
               <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1"
-                   style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>Type</div>
+                   style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>Type</div>
               <span className="inline-block text-[11px] font-semibold px-2 py-0.5 rounded"
                     style={{ background: T.brandDim, color: T.brand, border: `1px solid ${T.brandBorder}` }}>
                 Visual Design
@@ -226,7 +226,7 @@ export const OneumCase = () => {
 
           <div>
             <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-2.5"
-                 style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>Research Artifacts</div>
+                 style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>Research Artifacts</div>
             <Grid2 className="mb-3">
               <CaseVideo src="/oneum/research-artifacts1.mp4" />
               <CaseVideo src="/oneum/research-artifacts2.mp4" />
@@ -264,7 +264,7 @@ export const OneumCase = () => {
             ].map(card => (
               <div key={card.title} className="px-5 py-5" style={{ background: T.bg }}>
                 <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-2"
-                     style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+                     style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
                   {card.title}
                 </div>
                 <p className="text-[13px] sm:text-[13.5px] leading-[1.7]" style={{ color: T.text2 }}>{card.body}</p>
@@ -332,7 +332,7 @@ export const OneumCase = () => {
                   {f.num} / {f.heading}
                 </div>
                 <h3 className="text-base sm:text-[17px] font-bold mb-2.5 leading-snug tracking-tight"
-                    style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+                    style={{ color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif' }}>
                   {f.title}
                 </h3>
                 <p className="text-[13px] sm:text-[13.5px] leading-[1.7]" style={{ color: T.text2 }}>{f.desc}</p>
@@ -403,7 +403,7 @@ export const OneumCase = () => {
             ].map(item => (
               <div key={item.label} className="px-5 py-5" style={{ background: T.bg }}>
                 <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-2"
-                     style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+                     style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
                   {item.label}
                 </div>
                 <p className="text-[13px] leading-[1.7]" style={{ color: T.text2 }}>{item.body}</p>
@@ -415,17 +415,17 @@ export const OneumCase = () => {
         {/* ═══ NEXT CASE STUDY ═══ */}
         <section className="pt-10 pb-20">
           <div className="text-[10px] font-bold uppercase tracking-[0.14em] mb-3.5"
-               style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+               style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
             Next Case Study
           </div>
           <div className="flex items-center justify-between p-6 sm:p-8 rounded-xl cursor-pointer transition-colors"
                style={{ background: T.surface, border: `1px solid ${T.border}` }}
                onClick={() => navigate('/projects/dime')}
-               onMouseEnter={e => ((e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(0,0,0,0.12)')}
+               onMouseEnter={e => ((e.currentTarget as HTMLDivElement).style.borderColor = T.borderStrong)}
                onMouseLeave={e => ((e.currentTarget as HTMLDivElement).style.borderColor = T.border)}>
             <div>
               <div className="text-base sm:text-[18px] font-bold mb-1 tracking-tight"
-                   style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+                   style={{ color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif' }}>
                 Dime — Real-Time Credit Card Reward Optimization
               </div>
               <div className="text-[13px]" style={{ color: T.text2 }}>Product design · Frontend support · Hackathon</div>

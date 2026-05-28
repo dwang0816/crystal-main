@@ -80,30 +80,239 @@ interface LightboxProps {
   onClose: () => void;
 }
 
+const MIN_SCALE = 1;
+const MAX_SCALE = 6;
+const HOLD_MS = 500;
+
 const Lightbox: React.FC<LightboxProps> = ({ item, onClose }) => {
-  // Close on Escape
+  const [scale, setScale] = useState(1);
+  const [tx, setTx] = useState(0);
+  const [ty, setTy] = useState(0);
+  const [isPanning, setIsPanning] = useState(false);
+  const [closeProgress, setCloseProgress] = useState(0);
+
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const drag = useRef({ active: false, startX: 0, startY: 0, startTx: 0, startTy: 0 });
+  const pinch = useRef({ active: false, startDist: 0, startScale: 1 });
+  const lastTap = useRef(0);
+  const holdRaf = useRef<number | null>(null);
+  const scaleRef = useRef(scale);
+  const txRef = useRef(tx);
+  const tyRef = useRef(ty);
+
+  scaleRef.current = scale;
+  txRef.current = tx;
+  tyRef.current = ty;
+
+  const clamp = (s: number) => Math.min(MAX_SCALE, Math.max(MIN_SCALE, s));
+
+  const setZoom = (s: number) => {
+    const n = clamp(s);
+    setScale(n);
+    if (n === 1) { setTx(0); setTy(0); }
+  };
+
+  const resetView = () => { setScale(1); setTx(0); setTy(0); };
+
+  // Esc to close
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
+  // Lock body scroll while the lightbox is open
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
+  // Global mouse handlers for pan
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      if (!drag.current.active) return;
+      setTx(drag.current.startTx + (e.clientX - drag.current.startX));
+      setTy(drag.current.startTy + (e.clientY - drag.current.startY));
+    };
+    const onUp = () => {
+      if (drag.current.active) {
+        drag.current.active = false;
+        setIsPanning(false);
+      }
+    };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    };
+  }, []);
+
+  // Non-passive wheel + touchmove listeners so we can preventDefault
+  useEffect(() => {
+    const el = canvasRef.current;
+    if (!el) return;
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const factor = 1 - e.deltaY * 0.0015;
+      setZoom(scaleRef.current * factor);
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && pinch.current.active) {
+        e.preventDefault();
+        const t = e.touches;
+        const d = Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+        setZoom(pinch.current.startScale * (d / pinch.current.startDist));
+      } else if (e.touches.length === 1 && drag.current.active) {
+        e.preventDefault();
+        setTx(drag.current.startTx + (e.touches[0].clientX - drag.current.startX));
+        setTy(drag.current.startTy + (e.touches[0].clientY - drag.current.startY));
+      }
+    };
+
+    el.addEventListener('wheel', onWheel, { passive: false });
+    el.addEventListener('touchmove', onTouchMove, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', onWheel);
+      el.removeEventListener('touchmove', onTouchMove);
+    };
+  }, []);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (scale <= 1) return;
+    drag.current = { active: true, startX: e.clientX, startY: e.clientY, startTx: tx, startTy: ty };
+    setIsPanning(true);
+  };
+
+  const handleDoubleClick = () => {
+    if (scale > 1) resetView();
+    else setZoom(2.5);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      const t = e.touches;
+      pinch.current = {
+        active: true,
+        startDist: Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY),
+        startScale: scaleRef.current,
+      };
+    } else if (e.touches.length === 1) {
+      const now = Date.now();
+      if (now - lastTap.current < 300) {
+        if (scaleRef.current > 1) resetView();
+        else setZoom(2.5);
+        lastTap.current = 0;
+      } else {
+        lastTap.current = now;
+        if (scaleRef.current > 1) {
+          drag.current = {
+            active: true,
+            startX: e.touches[0].clientX,
+            startY: e.touches[0].clientY,
+            startTx: txRef.current,
+            startTy: tyRef.current,
+          };
+        }
+      }
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (e.touches.length < 2) pinch.current.active = false;
+    if (e.touches.length === 0) drag.current.active = false;
+  };
+
+  // Hold-to-close
+  const startHold = () => {
+    const start = Date.now();
+    const step = () => {
+      const p = Math.min(1, (Date.now() - start) / HOLD_MS);
+      setCloseProgress(p);
+      if (p < 1) holdRaf.current = requestAnimationFrame(step);
+      else onClose();
+    };
+    holdRaf.current = requestAnimationFrame(step);
+  };
+
+  const stopHold = () => {
+    if (holdRaf.current !== null) {
+      cancelAnimationFrame(holdRaf.current);
+      holdRaf.current = null;
+    }
+    setCloseProgress(0);
+  };
+
+  // Progress ring math: circumference = 2 * PI * r (r = 15) ≈ 94.25
+  const ringCirc = 2 * Math.PI * 15;
+
   return (
-    <div
-      className="lightbox-overlay"
-      onClick={onClose}
-    >
-      <button className="lightbox-close" onClick={onClose} aria-label="Close">✕</button>
-      <div className="lightbox-content" onClick={e => e.stopPropagation()}>
-        {item.img.endsWith('.gif') ? (
-          <img src={item.img} alt={item.description ?? ''} className="lightbox-img" />
-        ) : (
-          <img src={item.img} alt={item.description ?? ''} className="lightbox-img" />
-        )}
-        {item.description && (
-          <p className="lightbox-caption">{item.description}</p>
-        )}
+    <div className="lightbox-overlay">
+      {/* Hold-to-close button (top-right, intentionally requires a press) */}
+      <button
+        className="lightbox-close"
+        aria-label="Hold to close"
+        title="Hold to close"
+        onMouseDown={startHold}
+        onMouseUp={stopHold}
+        onMouseLeave={stopHold}
+        onTouchStart={(e) => { e.preventDefault(); startHold(); }}
+        onTouchEnd={stopHold}
+        onTouchCancel={stopHold}
+      >
+        <svg viewBox="0 0 36 36" className="lightbox-close-ring" aria-hidden="true">
+          <circle cx="18" cy="18" r="15" fill="none" stroke="rgba(18,20,24,0.18)" strokeWidth="2" />
+          <circle
+            cx="18" cy="18" r="15" fill="none"
+            stroke="var(--ink)" strokeWidth="2" strokeLinecap="round"
+            strokeDasharray={`${closeProgress * ringCirc} ${ringCirc}`}
+            transform="rotate(-90 18 18)"
+          />
+        </svg>
+        <span className="lightbox-close-x">✕</span>
+      </button>
+
+      {/* Hint */}
+      <div className="lightbox-hint">
+        {scale > 1
+          ? 'Drag to pan · Double-tap to reset'
+          : 'Scroll or pinch to zoom · Double-tap for 2.5× · Hold ✕ to close'}
       </div>
+
+      {/* Canvas */}
+      <div
+        ref={canvasRef}
+        className="lightbox-canvas"
+        onMouseDown={handleMouseDown}
+        onDoubleClick={handleDoubleClick}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        style={{ cursor: scale > 1 ? (isPanning ? 'grabbing' : 'grab') : 'zoom-in' }}
+      >
+        <img
+          src={item.img}
+          alt={item.description ?? ''}
+          className="lightbox-img"
+          style={{
+            transform: `translate(${tx}px, ${ty}px) scale(${scale})`,
+            transition: isPanning || pinch.current.active ? 'none' : 'transform 0.2s ease',
+            willChange: 'transform',
+          }}
+          draggable={false}
+        />
+      </div>
+
+      {/* Zoom controls */}
+      <div className="lightbox-zoom-controls">
+        <button onClick={() => setZoom(scale - 0.5)} aria-label="Zoom out" disabled={scale <= MIN_SCALE}>−</button>
+        <button onClick={resetView} aria-label="Reset zoom">{Math.round(scale * 100)}%</button>
+        <button onClick={() => setZoom(scale + 0.5)} aria-label="Zoom in" disabled={scale >= MAX_SCALE}>+</button>
+      </div>
+
+      {item.description && <p className="lightbox-caption-bottom">{item.description}</p>}
     </div>
   );
 };
@@ -181,7 +390,6 @@ const Masonry: React.FC<MasonryProps> = ({
       return { ...child, x, y, w: columnWidth, h: height };
     });
 
-    // Extra padding so captions at the bottom aren't clipped
     const totalHeight = Math.max(...colHeights) + 40;
 
     return { grid, totalHeight };
@@ -292,9 +500,8 @@ const Masonry: React.FC<MasonryProps> = ({
               onMouseEnter={e => handleMouseEnter(e, item)}
               onMouseLeave={e => handleMouseLeave(e, item)}
             >
-              {/* GIFs use <img> to preserve animation; stills use background-image */}
               {item.img.endsWith('.gif') ? (
-                <div className="item-img" style={{ background: '#000' }}>
+                <div className="item-img" style={{ background: 'var(--canvas)' }}>
                   <img
                     src={item.img}
                     alt={item.description ?? ''}
@@ -312,7 +519,7 @@ const Masonry: React.FC<MasonryProps> = ({
                         left: 0,
                         width: '100%',
                         height: '100%',
-                        background: 'linear-gradient(45deg, rgba(255,0,150,0.5), rgba(0,150,255,0.5))',
+                        background: 'linear-gradient(45deg, rgba(42,68,104,0.35), rgba(18,20,24,0.35))',
                         opacity: 0,
                         pointerEvents: 'none',
                         borderRadius: '8px'

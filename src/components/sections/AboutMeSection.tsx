@@ -6,17 +6,14 @@ export const AboutMeSection = () => {
                 {/* Name + pronouns */}
                 <div className="mb-10">
                     <h1
-                        className="font-bold tracking-tight leading-tight mb-1 text-[#0a0a0a] dark:text-white"
-                        style={{ fontFamily: '"Barlow", sans-serif', fontSize: 'clamp(48px,7.5vw,72px)' }}
+                        className="font-serif font-normal tracking-tight leading-tight mb-1 text-ink"
+                        style={{ fontSize: 'clamp(48px,7.5vw,72px)' }}
                     >
                         hi, i'm{' '}
-                        <span style={{ color: 'var(--color-brand)' }}>Crystal</span>{' '}
+                        <span className="text-prussian">Crystal</span>{' '}
                         <span>:)</span>
                     </h1>
-                    <p
-                        className="italic text-[#888888] dark:text-[#666]"
-                        style={{ fontFamily: '"Hanken Grotesk", sans-serif', fontSize: '20px' }}
-                    >
+                    <p className="italic text-ink-muted font-sans text-[20px]">
                         (SHE/HER)
                     </p>
                 </div>
@@ -33,15 +30,11 @@ export const AboutMeSection = () => {
                         ].map((text, i) => (
                             <li key={i} className="flex gap-5">
                                 <span
-                                    className="font-semibold shrink-0 mt-[2px] w-9 text-right"
-                                    style={{ color: '#BBBBBB', fontFamily: '"Barlow", sans-serif', fontSize: '20px' }}
+                                    className="font-serif font-normal shrink-0 mt-[2px] w-9 text-right text-ink-muted text-[20px]"
                                 >
                                     {String(i + 1).padStart(2, '0')}.
                                 </span>
-                                <p
-                                    className="leading-[1.75] text-[#444444] dark:text-[#aaaaaa]"
-                                    style={{ fontFamily: '"Hanken Grotesk", sans-serif', fontSize: '21px' }}
-                                >
+                                <p className="leading-[1.75] text-ink font-sans text-[21px]">
                                     {text}
                                 </p>
                             </li>
@@ -61,20 +54,17 @@ export const AboutMeSection = () => {
                 </div>
 
                 {/* Dashed divider */}
-                <div className="w-full mb-8 border-t border-dashed border-black/15 dark:border-white/10" />
+                <div className="w-full mb-8 border-t border-dashed border-hairline" />
 
                 {/* Education */}
                 <div>
                     <p
-                        className="font-semibold uppercase mb-3 text-[#AAAAAA] dark:text-[#555]"
-                        style={{ fontFamily: '"Barlow", sans-serif', fontSize: '17px', letterSpacing: '0.12em' }}
+                        className="font-sans font-semibold uppercase mb-3 text-ink-muted text-[17px]"
+                        style={{ letterSpacing: '0.12em' }}
                     >
                         Education
                     </p>
-                    <p
-                        className="text-[#444444] dark:text-[#aaaaaa]"
-                        style={{ fontFamily: '"Hanken Grotesk", sans-serif', fontSize: '21px' }}
-                    >
+                    <p className="text-ink font-sans text-[21px]">
                         2026 BFA Graphic Design, Human-Computer Interaction from Virginia Tech
                     </p>
                 </div>

@@ -170,7 +170,7 @@ export function MemoWidget({ content, staticContent }: { content: string; static
     });
 
     return (
-        <div className="relative w-full bg-white dark:bg-[#1a1a1a] border border-slate-200 dark:border-[#333] rounded-sm shadow text-xl sm:text-[1.75rem] lg:text-[2.275rem] leading-relaxed font-serif text-black dark:text-white text-left whitespace-pre-wrap cursor-default">
+        <div className="relative w-full bg-paper-light border border-hairline rounded-sm shadow text-xl sm:text-[1.75rem] lg:text-[2.275rem] leading-relaxed font-serif text-ink text-left whitespace-pre-wrap cursor-default">
             {/* Ghost layer — invisible, sets the final dimensions */}
             <div aria-hidden="true" className="p-4 sm:p-6 lg:p-8 invisible select-none pointer-events-none">
                 {ghostNodes}
@@ -182,7 +182,7 @@ export function MemoWidget({ content, staticContent }: { content: string; static
                 {animNodes}
                 {typed < total && (
                     <span
-                        className="inline-block w-[2px] h-[1em] bg-black align-middle ml-[1px] relative top-[-1px]"
+                        className="inline-block w-[2px] h-[1em] bg-ink align-middle ml-[1px] relative top-[-1px]"
                         style={{ animation: 'tw-blink 0.85s step-end infinite' }}
                     />
                 )}

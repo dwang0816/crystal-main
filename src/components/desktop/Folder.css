@@ -1,9 +1,12 @@
+/* Folder illustration fallbacks — palette-aligned (see PALETTE.md).
+   In practice Folder.tsx overrides --folder-color / --folder-back-color
+   inline via the `color` prop. */
 :root {
-  --folder-color: #63c4ef;
-  --folder-back-color: #55a9ce;
-  --paper-1: #e6e6e6;
-  --paper-2: #f2f2f2;
-  --paper-3: #ffffff;
+  --folder-color:       #C8D4E4; /* pale prussian        */
+  --folder-back-color:  #B7C2D3; /* slightly darker      */
+  --paper-1:            #E4E4DC; /* nav-card warm grey   */
+  --paper-2:            #ECEAE2; /* canvas               */
+  --paper-3:            #FCFBF6; /* paper-light          */
 }
 
 .folder {

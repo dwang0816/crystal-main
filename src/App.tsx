@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { FinderLayout } from './components/layout/FinderLayout';
 import { SectionProvider } from './context/SectionContext';
-import { ThemeProvider } from './context/ThemeContext';
 import { Home } from './pages/Home';
 import { Featured } from './pages/Featured';
 import { AboutMe } from './pages/AboutMe';
@@ -14,7 +13,6 @@ import { BlogPost } from './pages/BlogPost';
 
 function App() {
   return (
-    <ThemeProvider>
     <SectionProvider>
       <Routes>
         <Route path="/" element={<FinderLayout />}>
@@ -30,7 +28,6 @@ function App() {
         </Route>
       </Routes>
     </SectionProvider>
-    </ThemeProvider>
   );
 }
 

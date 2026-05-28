@@ -7,12 +7,12 @@ export const Visual = () => {
       {galleryGroups.map((group, i) => (
         <div key={group.folder?.id ?? 'root'} className={i > 0 ? 'mt-12' : ''}>
           {group.folder && (
-            <div className="mb-6 border-b border-black/10 dark:border-white/10 pb-3">
-              <h2 className="text-xs font-semibold uppercase tracking-widest text-black/60 dark:text-white/60 font-['Hanken_Grotesk']">
+            <div className="mb-6 border-b border-hairline pb-3">
+              <h2 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink/60">
                 {group.folder.name}
               </h2>
               {group.folder.description && (
-                <p className="mt-1 text-sm text-black/40 dark:text-white/35 font-['Hanken_Grotesk']">
+                <p className="mt-1 text-sm text-ink-muted font-sans">
                   {group.folder.description}
                 </p>
               )}

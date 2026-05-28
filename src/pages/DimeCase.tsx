@@ -1,31 +1,36 @@
 import { useNavigate } from 'react-router-dom';
 
-/* ─── Design tokens ─── */
+/* ─── Design tokens (mapped to site palette — see PALETTE.md)
+   Note: the embedded "dime-cc" / "dime-sc" / "dime-ri" / "dime-rb"
+   credit-card mockups deeper in this file are intentionally dark-themed —
+   they're product UI representations, not site chrome, and stay as-is. ─── */
 const T = {
-  bg:           '#ffffff',
-  surface:      '#F6F6F6',
-  border:       '#E5E5E5',
-  borderStrong: 'rgba(0,0,0,0.12)',
-  brand:        'var(--color-brand)',
-  brandDim:     'var(--color-brand-dim)',
-  brandBorder:  'var(--color-brand-border)',
-  text1:        '#0a0a0a',
-  text2:        '#555555',
-  text3:        '#999999',
-  imgBg:        '#F6F6F6',
-  imgBorder:    '#D8D8D8',
-  green:        '#16a34a',
-  greenDim:     'rgba(22,163,74,0.08)',
-  greenBorder:  'rgba(22,163,74,0.2)',
-  tagBg:        '#F0F0F0',
-  tagBorder:    '#E0E0E0',
+  bg:           'var(--paper-light)',          /* #FCFBF6 secondary background */
+  surface:      'var(--canvas)',               /* #ECEAE2 section canvas       */
+  border:       'var(--border-line)',          /* rgba(18,20,24,0.09)          */
+  borderStrong: 'var(--border-line)',
+  brand:        'var(--prussian)',             /* #2A4468 supporting accent    */
+  brandDim:     'rgba(42, 68, 104, 0.08)',
+  brandBorder:  'rgba(42, 68, 104, 0.20)',
+  text1:        'var(--ink)',                  /* #121418 primary text         */
+  text2:        'rgba(18,20,24,0.70)',         /* body text                    */
+  text3:        'var(--muted)',                /* metadata, captions           */
+  imgBg:        'var(--canvas)',
+  imgBorder:    'var(--border-line)',
+  /* "Positive state" callouts reuse the prussian accent — the site is on
+     a single palette, no separate semantic green. */
+  green:        'var(--prussian)',
+  greenDim:     'rgba(42, 68, 104, 0.08)',
+  greenBorder:  'rgba(42, 68, 104, 0.20)',
+  tagBg:        'var(--nav-card)',             /* #E4E4DC pill bg              */
+  tagBorder:    'var(--border-line)',
 } as const;
 
 /* ─── Primitive components ─── */
 
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <div className="flex items-center gap-1.5 mb-4 uppercase tracking-[0.14em] text-[10px] font-bold"
-       style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+       style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
     <span className="w-1 h-1 rounded-full shrink-0" style={{ background: T.brand }} />
     {children}
   </div>
@@ -33,7 +38,7 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
   <h2 className="text-xl sm:text-[22px] font-bold mb-5 leading-snug tracking-tight"
-      style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+      style={{ color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif' }}>
     {children}
   </h2>
 );
@@ -47,7 +52,7 @@ const Box = ({ children, className }: { children: React.ReactNode; className?: s
 
 const BoxTitle = ({ children }: { children: React.ReactNode }) => (
   <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-2.5"
-       style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+       style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
     {children}
   </div>
 );
@@ -77,30 +82,31 @@ const DimeCardComparison = () => (
   <div className="dime-cc">
     <style>{`
       .dime-cc, .dime-cc *{box-sizing:border-box;margin:0;padding:0;}
-      .dime-cc{background:#121212;border-radius:16px;padding:24px;font-family:'Inter',sans-serif;}
-      .dime-cc .label{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;}
+      .dime-cc{background:var(--paper-light);border-radius:16px;padding:24px;font-family:'Inter',sans-serif;border:1px solid var(--border-line);}
+      .dime-cc .label{font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;}
       .dime-cc .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-      .dime-cc .card{border-radius:14px;overflow:hidden;}
-      .dime-cc .card-chip{padding:16px 18px 14px;background:linear-gradient(180deg,rgba(55,0,179,0.75),#BB86FC);}
+      .dime-cc .card{border-radius:14px;overflow:hidden;border:1px solid var(--border-line);}
+      .dime-cc .card-chip{padding:16px 18px 14px;background:var(--prussian);}
       .dime-cc .chip-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-      .dime-cc .chip-net{font-size:9px;font-weight:600;letter-spacing:0.12em;color:rgba(255,255,255,0.5);text-transform:uppercase;}
-      .dime-cc .chip-badge{font-size:9px;padding:2px 7px;border-radius:10px;background:rgba(3,218,198,0.2);color:#03DAC6;letter-spacing:0.04em;}
-      .dime-cc .chip-name{font-size:13px;color:rgba(255,255,255,0.87);letter-spacing:0.04em;margin-bottom:8px;line-height:1.35;}
-      .dime-cc .chip-num{font-size:10px;letter-spacing:0.2em;color:rgba(255,255,255,0.45);}
-      .dime-cc .card-body{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-top:none;padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
+      .dime-cc .chip-net{font-size:9px;font-weight:600;letter-spacing:0.12em;color:rgba(252,251,246,0.7);text-transform:uppercase;}
+      .dime-cc .chip-badge{font-size:9px;padding:2px 7px;border-radius:10px;background:rgba(252,251,246,0.15);color:var(--paper-light);letter-spacing:0.04em;}
+      .dime-cc .chip-name{font-size:13px;color:var(--paper-light);letter-spacing:0.04em;margin-bottom:8px;line-height:1.35;}
+      .dime-cc .chip-num{font-size:10px;letter-spacing:0.2em;color:rgba(252,251,246,0.55);}
+      .dime-cc .card-body{background:var(--canvas);border-top:none;padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
       .dime-cc .util-row{display:flex;justify-content:space-between;margin-bottom:2px;}
-      .dime-cc .util-label{font-size:10px;color:rgba(255,255,255,0.35);}
-      .dime-cc .util-pct{font-size:10px;font-weight:500;color:#03DAC6;}
-      .dime-cc .util-track{height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;}
-      .dime-cc .util-fill{height:5px;border-radius:3px;background:#03DAC6;}
+      .dime-cc .util-label{font-size:10px;color:var(--muted);}
+      .dime-cc .util-pct{font-size:10px;font-weight:500;color:var(--prussian);}
+      .dime-cc .util-track{height:5px;background:rgba(18,20,24,0.09);border-radius:3px;overflow:hidden;}
+      .dime-cc .util-fill{height:5px;border-radius:3px;background:var(--prussian);}
       .dime-cc .stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px;}
       .dime-cc .stat{display:flex;flex-direction:column;gap:1px;}
-      .dime-cc .stat-l{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.06em;text-transform:uppercase;}
-      .dime-cc .stat-v{font-size:13px;font-weight:300;color:rgba(255,255,255,0.87);}
-      .dime-cc .stat-v.purple{color:#BB86FC;}
-      .dime-cc .reward-chip{border-radius:8px;padding:7px 10px;border:1px solid rgba(3,218,198,0.15);background:rgba(3,218,198,0.05);margin-top:2px;}
-      .dime-cc .rw-l{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:2px;}
-      .dime-cc .rw-v{font-size:12px;color:rgba(3,218,198,0.88);font-weight:300;}
+      .dime-cc .stat-l{font-size:9px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;}
+      .dime-cc .stat-v{font-size:13px;font-weight:400;color:var(--ink);}
+      .dime-cc .stat-v.accent{color:var(--prussian);}
+      .dime-cc .reward-chip{border-radius:8px;padding:7px 10px;border:1px solid rgba(42,68,104,0.20);background:rgba(42,68,104,0.08);margin-top:2px;}
+      .dime-cc .rw-l{font-size:9px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:2px;}
+      .dime-cc .rw-v{font-size:12px;color:var(--prussian);font-weight:500;}
+      .dime-cc .util-pct.warn,.dime-cc .util-fill.warn{color:var(--ink);background:var(--ink);}
     `}</style>
     <div className="label">card comparison</div>
     <div className="cards">
@@ -117,7 +123,7 @@ const DimeCardComparison = () => (
           </div>
           <div className="stats">
             <div className="stat"><div className="stat-l">limit</div><div className="stat-v">$25,000</div></div>
-            <div className="stat"><div className="stat-l">balance</div><div className="stat-v purple">$3,420</div></div>
+            <div className="stat"><div className="stat-l">balance</div><div className="stat-v accent">$3,420</div></div>
             <div className="stat"><div className="stat-l">APR</div><div className="stat-v">22.99%</div></div>
             <div className="stat"><div className="stat-l">ann. fee</div><div className="stat-v">$550</div></div>
           </div>
@@ -132,12 +138,12 @@ const DimeCardComparison = () => (
         </div>
         <div className="card-body">
           <div>
-            <div className="util-row"><span className="util-label">utilization</span><span className="util-pct" style={{ color: '#E8A020' }}>35.2%</span></div>
-            <div className="util-track"><div className="util-fill" style={{ width: '35%', background: '#E8A020' }} /></div>
+            <div className="util-row"><span className="util-label">utilization</span><span className="util-pct warn">35.2%</span></div>
+            <div className="util-track"><div className="util-fill warn" style={{ width: '35%' }} /></div>
           </div>
           <div className="stats">
             <div className="stat"><div className="stat-l">limit</div><div className="stat-v">$15,000</div></div>
-            <div className="stat"><div className="stat-l">balance</div><div className="stat-v purple">$5,280</div></div>
+            <div className="stat"><div className="stat-l">balance</div><div className="stat-v accent">$5,280</div></div>
             <div className="stat"><div className="stat-l">APR</div><div className="stat-v">19.99%</div></div>
             <div className="stat"><div className="stat-l">ann. fee</div><div className="stat-v">$0</div></div>
           </div>
@@ -148,36 +154,47 @@ const DimeCardComparison = () => (
   </div>
 );
 
+/* Category palette: a single warm-ink series at decreasing opacity so the
+   chart still reads cleanly without leaving the site palette. */
+const CAT_SHADES = [
+  'rgba(18,20,24,1.00)',
+  'rgba(18,20,24,0.78)',
+  'rgba(18,20,24,0.58)',
+  'rgba(18,20,24,0.42)',
+  'rgba(18,20,24,0.28)',
+  'rgba(18,20,24,0.16)',
+];
+
 const DimeSpendingCategories = () => (
   <div className="dime-sc">
     <style>{`
       .dime-sc, .dime-sc *{box-sizing:border-box;margin:0;padding:0;}
-      .dime-sc{background:#121212;border-radius:16px;padding:28px;font-family:'Inter',sans-serif;}
-      .dime-sc .label{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:20px;}
+      .dime-sc{background:var(--paper-light);border-radius:16px;padding:28px;font-family:'Inter',sans-serif;border:1px solid var(--border-line);}
+      .dime-sc .label{font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:20px;}
       .dime-sc .row{display:flex;gap:20px;align-items:center;}
       .dime-sc .donut{position:relative;width:160px;height:160px;flex-shrink:0;}
       .dime-sc .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-      .dime-sc .dc-val{font-size:22px;font-weight:300;color:rgba(255,255,255,0.87);letter-spacing:0.06em;}
-      .dime-sc .dc-sub{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:0.05em;margin-top:1px;}
+      .dime-sc .dc-val{font-size:22px;font-weight:400;color:var(--ink);letter-spacing:0.06em;}
+      .dime-sc .dc-sub{font-size:10px;color:var(--muted);letter-spacing:0.05em;margin-top:1px;}
       .dime-sc .legend{display:flex;flex-direction:column;gap:10px;flex:1;}
       .dime-sc .leg-row{display:flex;align-items:center;gap:10px;}
       .dime-sc .leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
-      .dime-sc .leg-name{font-size:13px;color:rgba(255,255,255,0.6);flex:1;letter-spacing:0.03em;}
-      .dime-sc .leg-bar{height:5px;border-radius:3px;background:rgba(255,255,255,0.08);flex:1;overflow:hidden;}
+      .dime-sc .leg-name{font-size:13px;color:var(--ink);flex:1;letter-spacing:0.03em;}
+      .dime-sc .leg-bar{height:5px;border-radius:3px;background:rgba(18,20,24,0.09);flex:1;overflow:hidden;}
       .dime-sc .leg-fill{height:5px;border-radius:3px;}
-      .dime-sc .leg-pct{font-size:12px;color:rgba(255,255,255,0.35);min-width:30px;text-align:right;}
+      .dime-sc .leg-pct{font-size:12px;color:var(--muted);min-width:30px;text-align:right;}
     `}</style>
     <div className="label">by category</div>
     <div className="row">
       <div className="donut">
         <svg width="160" height="160" viewBox="0 0 160 160">
-          <circle cx="80" cy="80" r="60" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="26" />
-          <circle cx="80" cy="80" r="60" fill="none" stroke="#BB86FC" strokeWidth="26" strokeDasharray="117 377" strokeDashoffset="0" transform="rotate(-90 80 80)" />
-          <circle cx="80" cy="80" r="60" fill="none" stroke="#03DAC6" strokeWidth="26" strokeDasharray="90 377" strokeDashoffset="-117" transform="rotate(-90 80 80)" />
-          <circle cx="80" cy="80" r="60" fill="none" stroke="#8051EA" strokeWidth="26" strokeDasharray="68 377" strokeDashoffset="-207" transform="rotate(-90 80 80)" />
-          <circle cx="80" cy="80" r="60" fill="none" stroke="#E8A020" strokeWidth="26" strokeDasharray="49 377" strokeDashoffset="-275" transform="rotate(-90 80 80)" />
-          <circle cx="80" cy="80" r="60" fill="none" stroke="#52EA7A" strokeWidth="26" strokeDasharray="38 377" strokeDashoffset="-324" transform="rotate(-90 80 80)" />
-          <circle cx="80" cy="80" r="60" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="26" strokeDasharray="15 377" strokeDashoffset="-362" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke="rgba(18,20,24,0.06)" strokeWidth="26" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke={CAT_SHADES[0]} strokeWidth="26" strokeDasharray="117 377" strokeDashoffset="0" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke={CAT_SHADES[1]} strokeWidth="26" strokeDasharray="90 377" strokeDashoffset="-117" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke={CAT_SHADES[2]} strokeWidth="26" strokeDasharray="68 377" strokeDashoffset="-207" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke={CAT_SHADES[3]} strokeWidth="26" strokeDasharray="49 377" strokeDashoffset="-275" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke={CAT_SHADES[4]} strokeWidth="26" strokeDasharray="38 377" strokeDashoffset="-324" transform="rotate(-90 80 80)" />
+          <circle cx="80" cy="80" r="60" fill="none" stroke={CAT_SHADES[5]} strokeWidth="26" strokeDasharray="15 377" strokeDashoffset="-362" transform="rotate(-90 80 80)" />
         </svg>
         <div className="donut-center">
           <div className="dc-val">$3,280</div>
@@ -185,12 +202,12 @@ const DimeSpendingCategories = () => (
         </div>
       </div>
       <div className="legend">
-        <div className="leg-row"><div className="leg-dot" style={{ background: '#BB86FC' }} /><div className="leg-name">dining</div><div className="leg-bar"><div className="leg-fill" style={{ width: '78%', background: '#BB86FC', opacity: 0.7 }} /></div><div className="leg-pct">31%</div></div>
-        <div className="leg-row"><div className="leg-dot" style={{ background: '#03DAC6' }} /><div className="leg-name">shopping</div><div className="leg-bar"><div className="leg-fill" style={{ width: '54%', background: '#03DAC6', opacity: 0.7 }} /></div><div className="leg-pct">24%</div></div>
-        <div className="leg-row"><div className="leg-dot" style={{ background: '#8051EA' }} /><div className="leg-name">transport</div><div className="leg-bar"><div className="leg-fill" style={{ width: '40%', background: '#8051EA', opacity: 0.7 }} /></div><div className="leg-pct">18%</div></div>
-        <div className="leg-row"><div className="leg-dot" style={{ background: '#E8A020' }} /><div className="leg-name">bills</div><div className="leg-bar"><div className="leg-fill" style={{ width: '28%', background: '#E8A020', opacity: 0.7 }} /></div><div className="leg-pct">13%</div></div>
-        <div className="leg-row"><div className="leg-dot" style={{ background: '#52EA7A' }} /><div className="leg-name">groceries</div><div className="leg-bar"><div className="leg-fill" style={{ width: '18%', background: '#52EA7A', opacity: 0.7 }} /></div><div className="leg-pct">10%</div></div>
-        <div className="leg-row"><div className="leg-dot" style={{ background: 'rgba(255,255,255,0.2)' }} /><div className="leg-name">other</div><div className="leg-bar"><div className="leg-fill" style={{ width: '6%', background: 'rgba(255,255,255,0.2)' }} /></div><div className="leg-pct">4%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: CAT_SHADES[0] }} /><div className="leg-name">dining</div><div className="leg-bar"><div className="leg-fill" style={{ width: '78%', background: CAT_SHADES[0] }} /></div><div className="leg-pct">31%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: CAT_SHADES[1] }} /><div className="leg-name">shopping</div><div className="leg-bar"><div className="leg-fill" style={{ width: '54%', background: CAT_SHADES[1] }} /></div><div className="leg-pct">24%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: CAT_SHADES[2] }} /><div className="leg-name">transport</div><div className="leg-bar"><div className="leg-fill" style={{ width: '40%', background: CAT_SHADES[2] }} /></div><div className="leg-pct">18%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: CAT_SHADES[3] }} /><div className="leg-name">bills</div><div className="leg-bar"><div className="leg-fill" style={{ width: '28%', background: CAT_SHADES[3] }} /></div><div className="leg-pct">13%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: CAT_SHADES[4] }} /><div className="leg-name">groceries</div><div className="leg-bar"><div className="leg-fill" style={{ width: '18%', background: CAT_SHADES[4] }} /></div><div className="leg-pct">10%</div></div>
+        <div className="leg-row"><div className="leg-dot" style={{ background: CAT_SHADES[5] }} /><div className="leg-name">other</div><div className="leg-bar"><div className="leg-fill" style={{ width: '6%', background: CAT_SHADES[5] }} /></div><div className="leg-pct">4%</div></div>
       </div>
     </div>
   </div>
@@ -200,43 +217,44 @@ const DimeRewardIndicators = () => (
   <div className="dime-ri">
     <style>{`
       .dime-ri, .dime-ri *{box-sizing:border-box;margin:0;padding:0;}
-      .dime-ri{background:#121212;border-radius:16px;padding:24px;font-family:'Inter',sans-serif;}
-      .dime-ri .label{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;}
+      .dime-ri{background:var(--paper-light);border-radius:16px;padding:24px;font-family:'Inter',sans-serif;border:1px solid var(--border-line);}
+      .dime-ri .label{font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;}
       .dime-ri .mult-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
-      .dime-ri .mult{border-radius:12px;padding:14px 16px;border:1px solid rgba(255,255,255,0.08);}
-      .dime-ri .mx{font-size:28px;font-weight:300;letter-spacing:0.04em;line-height:1;}
-      .dime-ri .mc{font-size:11px;color:rgba(255,255,255,0.55);margin-top:5px;letter-spacing:0.03em;}
-      .dime-ri .mn{font-size:9px;color:rgba(255,255,255,0.25);margin-top:4px;letter-spacing:0.03em;}
-      .dime-ri .divider{height:1px;background:rgba(255,255,255,0.07);margin-bottom:14px;}
+      .dime-ri .mult{border-radius:12px;padding:14px 16px;border:1px solid var(--border-line);background:var(--canvas);}
+      .dime-ri .mx{font-size:28px;font-weight:400;letter-spacing:0.04em;line-height:1;color:var(--prussian);}
+      .dime-ri .mx.muted{color:var(--muted);}
+      .dime-ri .mc{font-size:11px;color:var(--ink);margin-top:5px;letter-spacing:0.03em;}
+      .dime-ri .mn{font-size:9px;color:var(--muted);margin-top:4px;letter-spacing:0.03em;}
+      .dime-ri .divider{height:1px;background:var(--border-line);margin-bottom:14px;}
       .dime-ri .txn-list{display:flex;flex-direction:column;gap:0;}
-      .dime-ri .txn{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+      .dime-ri .txn{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-line);}
       .dime-ri .txn:last-child{border-bottom:none;}
-      .dime-ri .txn-icon{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.07);border:0.75px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+      .dime-ri .txn-icon{width:36px;height:36px;border-radius:8px;background:var(--canvas);border:0.75px solid var(--border-line);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
       .dime-ri .txn-info{flex:1;}
-      .dime-ri .txn-name{font-size:13px;color:rgba(255,255,255,0.87);}
-      .dime-ri .txn-cat{font-size:10px;color:rgba(255,255,255,0.35);}
-      .dime-ri .txn-pts{font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px;background:linear-gradient(90deg,rgba(55,0,179,0.5),rgba(55,0,179,0.08));}
-      .dime-ri .txn-amt{font-size:12px;font-weight:300;padding:3px 10px;border-radius:20px;min-width:72px;text-align:right;background:linear-gradient(90deg,rgba(187,134,252,0.05),rgba(187,134,252,0.45));}
+      .dime-ri .txn-name{font-size:13px;color:var(--ink);}
+      .dime-ri .txn-cat{font-size:10px;color:var(--muted);}
+      .dime-ri .txn-pts{font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px;background:var(--prussian-pale);color:var(--prussian-dark);}
+      .dime-ri .txn-amt{font-size:12px;font-weight:400;padding:3px 10px;border-radius:20px;min-width:72px;text-align:right;background:var(--canvas);color:var(--ink);}
     `}</style>
     <div className="label">reward indicators &amp; multipliers</div>
     <div className="mult-row">
-      <div className="mult" style={{ background: 'linear-gradient(135deg,rgba(3,218,198,0.08),rgba(3,218,198,0.01))' }}>
-        <div className="mx" style={{ color: '#03DAC6' }}>3×</div>
+      <div className="mult">
+        <div className="mx">3×</div>
         <div className="mc">travel &amp; dining</div>
         <div className="mn">Chase Sapphire Reserve</div>
       </div>
-      <div className="mult" style={{ background: 'linear-gradient(135deg,rgba(187,134,252,0.08),rgba(187,134,252,0.01))' }}>
-        <div className="mx" style={{ color: '#BB86FC' }}>4×</div>
+      <div className="mult">
+        <div className="mx">4×</div>
         <div className="mc">dining &amp; supermarkets</div>
         <div className="mn">Amex Gold</div>
       </div>
-      <div className="mult" style={{ background: 'linear-gradient(135deg,rgba(128,81,234,0.08),rgba(128,81,234,0.01))' }}>
-        <div className="mx" style={{ color: '#8051EA' }}>2×</div>
+      <div className="mult">
+        <div className="mx">2×</div>
         <div className="mc">gas &amp; groceries</div>
         <div className="mn">Chase Freedom</div>
       </div>
-      <div className="mult" style={{ background: 'rgba(255,255,255,0.03)' }}>
-        <div className="mx" style={{ color: 'rgba(255,255,255,0.45)' }}>1.5%</div>
+      <div className="mult">
+        <div className="mx muted">1.5%</div>
         <div className="mc">all purchases</div>
         <div className="mn">Freedom Unlimited</div>
       </div>
@@ -246,14 +264,14 @@ const DimeRewardIndicators = () => (
       <div className="txn">
         <div className="txn-icon">🛒</div>
         <div className="txn-info"><div className="txn-name">Whole Foods</div><div className="txn-cat">Groceries · Freedom Unlimited ··3897</div></div>
-        <div className="txn-pts" style={{ color: 'rgba(255,255,255,0.87)' }}>+86</div>
-        <div className="txn-amt" style={{ color: 'rgba(255,255,255,0.87)' }}>−$85.50</div>
+        <div className="txn-pts">+86</div>
+        <div className="txn-amt">−$85.50</div>
       </div>
       <div className="txn">
         <div className="txn-icon">📦</div>
         <div className="txn-info"><div className="txn-name">Amazon</div><div className="txn-cat">Shopping · Sapphire Reserve ··4567</div></div>
-        <div className="txn-pts" style={{ color: 'rgba(255,255,255,0.87)' }}>+625</div>
-        <div className="txn-amt" style={{ color: 'rgba(255,255,255,0.87)' }}>−$124.99</div>
+        <div className="txn-pts">+625</div>
+        <div className="txn-amt">−$124.99</div>
       </div>
     </div>
   </div>
@@ -263,41 +281,42 @@ const DimeRewardBreakdown = () => (
   <div className="dime-rb">
     <style>{`
       .dime-rb, .dime-rb *{box-sizing:border-box;margin:0;padding:0;}
-      .dime-rb{background:#121212;border-radius:16px;padding:28px;font-family:'Inter',sans-serif;}
-      .dime-rb .label{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:20px;}
+      .dime-rb{background:var(--paper-light);border-radius:16px;padding:28px;font-family:'Inter',sans-serif;border:1px solid var(--border-line);}
+      .dime-rb .label{font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:20px;}
       .dime-rb .kpi-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;}
-      .dime-rb .kpi{border-radius:12px;padding:14px 16px;border:1px solid rgba(255,255,255,0.08);}
-      .dime-rb .kpi-l{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;}
-      .dime-rb .kpi-v{font-size:20px;font-weight:300;letter-spacing:0.06em;}
+      .dime-rb .kpi{border-radius:12px;padding:14px 16px;border:1px solid var(--border-line);background:var(--canvas);}
+      .dime-rb .kpi-l{font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;}
+      .dime-rb .kpi-v{font-size:20px;font-weight:400;letter-spacing:0.06em;color:var(--ink);}
+      .dime-rb .kpi-v.accent{color:var(--prussian);}
       .dime-rb .bar-list{display:flex;flex-direction:column;gap:11px;}
       .dime-rb .bar-row{display:flex;align-items:center;gap:12px;}
-      .dime-rb .br-name{font-size:12px;color:rgba(255,255,255,0.55);width:70px;flex-shrink:0;}
-      .dime-rb .br-track{flex:1;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;}
+      .dime-rb .br-name{font-size:12px;color:var(--ink);width:70px;flex-shrink:0;}
+      .dime-rb .br-track{flex:1;height:6px;background:rgba(18,20,24,0.09);border-radius:3px;overflow:hidden;}
       .dime-rb .br-fill{height:6px;border-radius:3px;}
-      .dime-rb .br-pts{font-size:12px;min-width:50px;text-align:right;letter-spacing:0.03em;}
+      .dime-rb .br-pts{font-size:12px;min-width:50px;text-align:right;letter-spacing:0.03em;color:var(--ink);}
     `}</style>
     <div className="label">reward breakdown</div>
     <div className="kpi-row">
-      <div className="kpi" style={{ background: 'linear-gradient(135deg,rgba(187,134,252,0.1),rgba(187,134,252,0.01))' }}>
+      <div className="kpi">
         <div className="kpi-l">total spent</div>
-        <div className="kpi-v" style={{ color: 'rgba(187,134,252,0.88)' }}>−$2,317</div>
+        <div className="kpi-v">−$2,317</div>
       </div>
-      <div className="kpi" style={{ background: 'linear-gradient(135deg,rgba(3,218,198,0.08),rgba(3,218,198,0.01))' }}>
+      <div className="kpi">
         <div className="kpi-l">total earned</div>
-        <div className="kpi-v" style={{ color: '#03DAC6' }}>+$6,271</div>
+        <div className="kpi-v accent">+$6,271</div>
       </div>
-      <div className="kpi" style={{ background: 'linear-gradient(135deg,rgba(128,81,234,0.14),rgba(128,81,234,0.02))' }}>
+      <div className="kpi">
         <div className="kpi-l">points</div>
-        <div className="kpi-v" style={{ color: '#8051EA' }}>5,291</div>
+        <div className="kpi-v accent">5,291</div>
       </div>
     </div>
     <div className="bar-list">
-      <div className="bar-row"><div className="br-name">dining</div><div className="br-track"><div className="br-fill" style={{ width: '78%', background: '#BB86FC', opacity: 0.75 }} /></div><div className="br-pts" style={{ color: '#BB86FC' }}>1,840 pts</div></div>
-      <div className="bar-row"><div className="br-name">shopping</div><div className="br-track"><div className="br-fill" style={{ width: '54%', background: '#03DAC6', opacity: 0.75 }} /></div><div className="br-pts" style={{ color: '#03DAC6' }}>1,260 pts</div></div>
-      <div className="bar-row"><div className="br-name">travel</div><div className="br-track"><div className="br-fill" style={{ width: '40%', background: '#8051EA', opacity: 0.75 }} /></div><div className="br-pts" style={{ color: '#8051EA' }}>950 pts</div></div>
-      <div className="bar-row"><div className="br-name">groceries</div><div className="br-track"><div className="br-fill" style={{ width: '28%', background: '#E8A020', opacity: 0.75 }} /></div><div className="br-pts" style={{ color: '#E8A020' }}>680 pts</div></div>
-      <div className="bar-row"><div className="br-name">transit</div><div className="br-track"><div className="br-fill" style={{ width: '18%', background: '#52EA7A', opacity: 0.75 }} /></div><div className="br-pts" style={{ color: '#52EA7A' }}>420 pts</div></div>
-      <div className="bar-row"><div className="br-name">other</div><div className="br-track"><div className="br-fill" style={{ width: '6%', background: 'rgba(255,255,255,0.2)' }} /></div><div className="br-pts" style={{ color: 'rgba(255,255,255,0.3)' }}>141 pts</div></div>
+      <div className="bar-row"><div className="br-name">dining</div><div className="br-track"><div className="br-fill" style={{ width: '78%', background: CAT_SHADES[0] }} /></div><div className="br-pts">1,840 pts</div></div>
+      <div className="bar-row"><div className="br-name">shopping</div><div className="br-track"><div className="br-fill" style={{ width: '54%', background: CAT_SHADES[1] }} /></div><div className="br-pts">1,260 pts</div></div>
+      <div className="bar-row"><div className="br-name">travel</div><div className="br-track"><div className="br-fill" style={{ width: '40%', background: CAT_SHADES[2] }} /></div><div className="br-pts">950 pts</div></div>
+      <div className="bar-row"><div className="br-name">groceries</div><div className="br-track"><div className="br-fill" style={{ width: '28%', background: CAT_SHADES[3] }} /></div><div className="br-pts">680 pts</div></div>
+      <div className="bar-row"><div className="br-name">transit</div><div className="br-track"><div className="br-fill" style={{ width: '18%', background: CAT_SHADES[4] }} /></div><div className="br-pts">420 pts</div></div>
+      <div className="bar-row"><div className="br-name">other</div><div className="br-track"><div className="br-fill" style={{ width: '6%', background: CAT_SHADES[5] }} /></div><div className="br-pts">141 pts</div></div>
     </div>
   </div>
 );
@@ -324,7 +343,7 @@ export const DimeCase = () => {
           {/* Back */}
           <button onClick={() => navigate('/')}
                   className="flex items-center gap-1.5 mb-8 text-[12px] uppercase tracking-[0.06em] cursor-pointer bg-transparent border-none p-0 transition-colors"
-                  style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}
+                  style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}
                   onMouseEnter={e => (e.currentTarget.style.color = T.brand)}
                   onMouseLeave={e => (e.currentTarget.style.color = T.text3)}>
             ← All Work
@@ -332,13 +351,13 @@ export const DimeCase = () => {
 
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2 mb-3 text-[11px] font-semibold uppercase tracking-[0.1em]"
-               style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+               style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
             <span className="w-5 h-px" style={{ background: T.text3 }} />
             Case Study · 03
           </div>
 
           <h1 className="text-[clamp(22px,4vw,42px)] font-bold leading-[1.15] tracking-tight mb-4 max-w-[620px]"
-              style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+              style={{ color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif' }}>
             Dime — Real-Time Credit Card Reward Optimization
           </h1>
 
@@ -386,7 +405,7 @@ export const DimeCase = () => {
               <div key={m.label} className="flex-[1_1_130px] px-4 py-3.5"
                    style={{ background: T.surface, borderRight: `1px solid ${T.border}` }}>
                 <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1"
-                     style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+                     style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
                   {m.label}
                 </div>
                 <div className="text-[13px] font-medium" style={{ color: T.text1 }}>{m.value}</div>
@@ -394,7 +413,7 @@ export const DimeCase = () => {
             ))}
             <div className="flex-[1_1_130px] px-4 py-3.5" style={{ background: T.surface }}>
               <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1"
-                   style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>Award</div>
+                   style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>Award</div>
               <span className="inline-block text-[11px] font-semibold px-2 py-0.5 rounded"
                     style={{ background: T.greenDim, color: T.green, border: `1px solid ${T.greenBorder}` }}>
                 🏆 Capital One Best Financial Hack
@@ -524,7 +543,7 @@ export const DimeCase = () => {
           <div className="py-7 border-b" style={{ borderColor: T.border }}>
             <div className="font-mono text-[11px] mb-2.5 tracking-[0.08em]" style={{ color: T.text3 }}>01 / System Diagram</div>
             <h3 className="text-base sm:text-[17px] font-bold mb-2.5 leading-snug tracking-tight"
-                style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+                style={{ color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif' }}>
               Mapping the Full Ecosystem
             </h3>
             <p className="text-[13px] sm:text-[13.5px] leading-[1.7] mb-4" style={{ color: T.text2 }}>
@@ -567,7 +586,7 @@ export const DimeCase = () => {
                   {f.num} / {f.heading}
                 </div>
                 <h3 className="text-base sm:text-[17px] font-bold mb-2.5 leading-snug tracking-tight"
-                    style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+                    style={{ color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif' }}>
                   {f.title}
                 </h3>
                 <p className="text-[13px] sm:text-[13.5px] leading-[1.7]" style={{ color: T.text2 }}>{f.desc}</p>
@@ -621,7 +640,7 @@ export const DimeCase = () => {
             alt="Design and Engineering in Parallel"
           />
           <div className="mt-3 text-[11px] uppercase tracking-[0.1em] flex flex-wrap items-center gap-x-1.5 gap-y-1"
-               style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+               style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
             {[
               { name: 'Joe Do',           href: 'https://www.linkedin.com/in/hoanglehuydo/' },
               { name: 'Aman Anwar',       href: 'https://www.linkedin.com/in/amanwastaken/' },
@@ -663,7 +682,7 @@ export const DimeCase = () => {
             ].map(s => (
               <div key={s.stat} className="px-4 sm:px-5 py-5" style={{ background: T.bg }}>
                 <div className="text-2xl sm:text-[26px] font-bold leading-none mb-1 tracking-tight"
-                     style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+                     style={{ color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif' }}>
                   {s.stat}
                 </div>
                 <div className="text-[11px] sm:text-[12px]" style={{ color: T.text2 }}>{s.label}</div>
@@ -684,7 +703,7 @@ export const DimeCase = () => {
             <div className="flex flex-wrap gap-2 items-center">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-[12px] font-semibold"
                     style={{ background: T.greenDim, color: T.green, border: `1px solid ${T.greenBorder}`,
-                             fontFamily: '"Barlow", sans-serif' }}>
+                             fontFamily: '"Hanken Grotesk", sans-serif' }}>
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: T.green, boxShadow: `0 0 5px ${T.green}` }} />
                 Capital One Best Financial Hack
               </span>
@@ -696,7 +715,7 @@ export const DimeCase = () => {
               ].map(b => (
                 <span key={b} className="inline-flex items-center px-3 py-1.5 rounded text-[12px] font-medium"
                       style={{ background: T.tagBg, color: T.text2, border: `1px solid ${T.tagBorder}`,
-                               fontFamily: '"Barlow", sans-serif' }}>
+                               fontFamily: '"Hanken Grotesk", sans-serif' }}>
                   {b}
                 </span>
               ))}
@@ -707,17 +726,17 @@ export const DimeCase = () => {
         {/* ═══ BACK TO ALL WORK ═══ */}
         <section className="pt-10 pb-20">
           <div className="text-[10px] font-bold uppercase tracking-[0.14em] mb-3.5"
-               style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+               style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>
             All Work
           </div>
           <div className="flex items-center justify-between p-6 sm:p-8 rounded-xl cursor-pointer transition-colors"
                style={{ background: T.surface, border: `1px solid ${T.border}` }}
                onClick={() => navigate('/')}
-               onMouseEnter={e => ((e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(0,0,0,0.12)')}
+               onMouseEnter={e => ((e.currentTarget as HTMLDivElement).style.borderColor = T.borderStrong)}
                onMouseLeave={e => ((e.currentTarget as HTMLDivElement).style.borderColor = T.border)}>
             <div>
               <div className="text-base sm:text-[18px] font-bold mb-1 tracking-tight"
-                   style={{ color: T.text1, fontFamily: '"Barlow", sans-serif' }}>
+                   style={{ color: T.text1, fontFamily: '"Hanken Grotesk", sans-serif' }}>
                 Back to All Work
               </div>
               <div className="text-[13px]" style={{ color: T.text2 }}>View all projects</div>

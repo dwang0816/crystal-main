@@ -17,37 +17,37 @@ export const BlogPost = () => {
     const isInternship = !!internship;
 
     return (
-        <div className="absolute inset-0 overflow-y-auto dark:bg-[#0f0f0f]">
+        <div className="absolute inset-0 overflow-y-auto bg-paper">
             <div className="max-w-2xl mx-auto px-6 py-16">
 
                 {/* Back */}
                 <button
                     onClick={() => navigate(-1)}
-                    className="text-[12px] text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 transition-colors mb-10 flex items-center gap-1.5"
+                    className="text-[12px] text-ink-muted hover:text-ink transition-colors mb-10 flex items-center gap-1.5"
                 >
                     ← back
                 </button>
 
                 {/* Tag */}
-                <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500 mb-3">
+                <p className="text-[11px] font-sans font-semibold uppercase tracking-[0.12em] text-prussian mb-3">
                     {isInternship ? 'Internship Experience' : 'Case Study'}
                 </p>
 
                 {/* Title */}
-                <h1 className="font-serif text-3xl font-medium text-black dark:text-white mb-2 leading-snug">
+                <h1 className="font-serif text-3xl font-normal text-ink mb-2 leading-snug">
                     {title}
                 </h1>
 
                 {internship && (
-                    <p className="text-[13px] text-slate-400 dark:text-slate-500 mb-12">{internship.period}</p>
+                    <p className="text-[13px] text-ink-muted mb-12">{internship.period}</p>
                 )}
                 {!internship && (
-                    <p className="text-[13px] text-slate-400 dark:text-slate-500 mb-12">Blog post — coming soon</p>
+                    <p className="text-[13px] text-ink-muted mb-12">Blog post — coming soon</p>
                 )}
 
                 {/* Content */}
                 {internship?.subtitle && (
-                    <p className="text-[15px] italic text-slate-500 dark:text-slate-400 mb-10 leading-relaxed">
+                    <p className="text-[15px] italic text-ink/70 mb-10 leading-relaxed">
                         {internship.subtitle}
                     </p>
                 )}
@@ -55,27 +55,27 @@ export const BlogPost = () => {
                 {internship?.body ? (
                     <div className="space-y-5">
                         {internship.body.map((paragraph, i) => (
-                            <p key={i} className="text-[15px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                            <p key={i} className="text-[15px] text-ink leading-relaxed">
                                 {paragraph}
                             </p>
                         ))}
                     </div>
                 ) : (
-                    <div className="min-h-[320px] rounded-sm border border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center">
-                        <span className="text-[13px] text-slate-300 dark:text-slate-600 select-none">content coming soon</span>
+                    <div className="min-h-[320px] rounded-sm border border-dashed border-hairline flex items-center justify-center">
+                        <span className="text-[13px] text-ink-muted select-none">content coming soon</span>
                     </div>
                 )}
 
                 {/* Case study link — only for featured projects */}
                 {project?.link && (
-                    <div className="mt-16 pt-8 border-t border-slate-100 dark:border-slate-800">
-                        <p className="text-[12px] text-slate-400 mb-3 uppercase tracking-widest">Case Study</p>
+                    <div className="mt-16 pt-8 border-t border-hairline">
+                        <p className="text-[12px] text-ink-muted mb-3 uppercase tracking-widest">Case Study</p>
                         <button
                             onClick={() => navigate(project.link!)}
-                            className="group flex items-center gap-2 text-[15px] font-medium text-black dark:text-white hover:text-[#0011FF] dark:hover:text-[#84cc16] transition-colors"
+                            className="group flex items-center gap-2 text-[15px] font-medium text-ink hover:text-prussian transition-colors"
                         >
                             {project.title}
-                            <span className="text-[#0011FF] dark:text-[#84cc16] group-hover:translate-x-1 transition-transform inline-block">→</span>
+                            <span className="text-prussian group-hover:translate-x-1 transition-transform inline-block">→</span>
                         </button>
                     </div>
                 )}

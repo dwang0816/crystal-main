@@ -1,10 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-
-const T = {
-  text3:      '#999999',
-  tagBg:      'rgba(255,100,60,0.12)',
-  tagColor:   '#E04A1F',
-} as const;
+import { XometryHero } from '../components/case-hero/XometryHero';
+import { DimeHero } from '../components/case-hero/DimeHero';
+import { OneumHero } from '../components/case-hero/OneumHero';
 
 type GalleryItem = {
   id: string;
@@ -13,6 +10,7 @@ type GalleryItem = {
   tags: string[];
   tools: { src: string; alt: string }[];
   image: string;
+  hero?: React.ReactNode;
   link?: string;
   span?: 'full' | 'half';
   placeholder?: boolean;
@@ -28,7 +26,8 @@ const galleryItems: GalleryItem[] = [
     subtitle: 'Mobile operations platform for manufacturers — from quote to payment. Shipped and live on the App Store.',
     tags: ['Product', 'B2B'],
     tools: [FIGMA],
-    image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    image: '',
+    hero: <XometryHero />,
     link: '/projects/xometry-workcenter',
     span: 'full',
   },
@@ -38,7 +37,8 @@ const galleryItems: GalleryItem[] = [
     subtitle: 'Real-time credit card reward optimization — a multi-platform system that helps users always choose the best card at checkout.',
     tags: ['Product', 'Fintech'],
     tools: [FIGMA],
-    image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '',
+    hero: <DimeHero />,
     link: '/projects/dime',
     span: 'half',
   },
@@ -48,7 +48,8 @@ const galleryItems: GalleryItem[] = [
     subtitle: 'Multi-script typography through K-pop — exploring Hangul and Latin type through language, culture, and visual design.',
     tags: ['Visual', 'Typography'],
     tools: [ADOBE, FIGMA],
-    image: 'https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '',
+    hero: <OneumHero />,
     link: '/projects/oneum',
     span: 'half',
   },
@@ -81,11 +82,10 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
   if (item.placeholder) {
     return (
       <div
-        className="rounded-2xl flex flex-col items-center justify-center border-[1.5px] border-dashed border-black/[0.12] dark:border-white/[0.12]"
+        className="rounded-2xl flex flex-col items-center justify-center border-[1.5px] border-dashed border-hairline"
         style={{ minHeight: 240, background: 'transparent' }}
       >
-        <span className="text-[11px] uppercase tracking-[0.1em]"
-              style={{ color: T.text3, fontFamily: '"Barlow", sans-serif' }}>
+        <span className="text-[11px] uppercase tracking-[0.1em] font-sans text-ink-muted">
           Coming Soon
         </span>
       </div>
@@ -94,52 +94,53 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
 
   return (
     <div
-      className="flex flex-col rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg bg-white dark:bg-[#1a1a1a] border border-black/[0.08] dark:border-white/[0.08]"
+      className="flex flex-col rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg bg-paper-light border border-hairline"
       style={{ cursor: isClickable ? 'pointer' : 'default' }}
       onClick={() => isClickable && navigate(item.link!)}
     >
-      {/* Image */}
-      <div className="w-full overflow-hidden bg-[#EFEFEF] dark:bg-white/[0.04]"
+      {/* Hero / image */}
+      <div className="w-full overflow-hidden bg-canvas"
            style={{ height: item.span === 'full' ? 340 : 240 }}>
-        <img
-          src={item.image}
-          alt={item.title}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.03]"
-        />
+        {item.hero ? (
+          item.hero
+        ) : (
+          <img
+            src={item.image}
+            alt={item.title}
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+          />
+        )}
       </div>
 
       {/* Content */}
       <div className="px-5 pt-5 pb-5 flex flex-col flex-1">
         <div className="flex items-center gap-2.5 mb-3 flex-wrap">
-          <span className="text-[18px] font-bold tracking-tight text-[#0a0a0a] dark:text-white"
-                style={{ fontFamily: '"Barlow", sans-serif' }}>
+          <span className="text-[18px] font-serif font-normal tracking-tight text-ink">
             {item.title}
           </span>
           {item.tags.map(tag => (
             <span key={tag}
-                  className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full"
-                  style={{ background: T.tagBg, color: T.tagColor, fontFamily: '"Barlow", sans-serif' }}>
+                  className="text-[11px] font-sans font-semibold px-2.5 py-0.5 rounded-full bg-prussian-pale text-prussian-dark">
               {tag}
             </span>
           ))}
         </div>
 
-        <p className="text-[13px] leading-[1.7] mb-4 flex-1 text-[#555555] dark:text-[#aaaaaa]"
-           style={{ fontFamily: '"Hanken Grotesk", sans-serif' }}>
+        <p className="text-[13px] leading-[1.7] mb-4 flex-1 text-ink/70 font-sans">
           {item.subtitle}
         </p>
 
-        <div className="w-full mb-3 border-t border-dashed border-black/[0.12] dark:border-white/[0.12]" />
+        <div className="w-full mb-3 border-t border-dashed border-hairline" />
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             {item.tools.map(tool => (
               <img key={tool.alt} src={tool.src} alt={tool.alt}
-                   className="w-6 h-6 rounded-md object-contain bg-[#F0F0F0] dark:bg-white/10 p-0.5" />
+                   className="w-6 h-6 rounded-md object-contain bg-canvas p-0.5" />
             ))}
           </div>
           {isClickable && (
-            <span className="text-base text-[#0a0a0a] dark:text-white">→</span>
+            <span className="text-base text-ink">→</span>
           )}
         </div>
       </div>
@@ -153,10 +154,7 @@ export const Product = () => (
 
       {/* Header */}
       <div className="mb-6 sm:mb-8">
-        <h2
-          className="text-[clamp(20px,3vw,28px)] font-bold tracking-tight leading-tight text-[#0a0a0a] dark:text-white"
-          style={{ fontFamily: '"Barlow", sans-serif' }}
-        >
+        <h2 className="text-[clamp(20px,3vw,28px)] font-serif font-normal tracking-tight leading-tight text-ink">
           All Work
         </h2>
       </div>

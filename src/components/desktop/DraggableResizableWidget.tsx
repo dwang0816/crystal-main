@@ -166,7 +166,7 @@ export function DraggableResizableWidget({
         >
             {/* Drag handle — whole surface except resize corner */}
             <div
-                className="rounded-md p-2 hover:bg-black/[0.04] transition-colors flex flex-col items-center gap-2 w-full h-full cursor-grab active:cursor-grabbing"
+                className="rounded-md p-2 hover:bg-ink/[0.04] transition-colors flex flex-col items-center gap-2 w-full h-full cursor-grab active:cursor-grabbing"
                 onPointerDown={(e) => {
                     if (!isResizing) dragControls.start(e);
                 }}
@@ -176,7 +176,7 @@ export function DraggableResizableWidget({
                 </div>
 
                 {label && (
-                    <span className="w-full text-[11px] text-slate-900/60 dark:text-white/40 text-center font-normal leading-tight px-1.5 py-0.5 rounded group-hover/drw:bg-[#0011FF] dark:group-hover/drw:bg-[#84cc16] group-hover/drw:text-white pointer-events-none shrink-0 block break-words">
+                    <span className="w-full text-[11px] text-ink/60 text-center font-normal leading-tight px-1.5 py-0.5 rounded group-hover/drw:bg-ink group-hover/drw:text-paper-light pointer-events-none shrink-0 block break-words">
                         {label}
                     </span>
                 )}
@@ -195,9 +195,9 @@ export function DraggableResizableWidget({
                         viewBox="0 0 10 10"
                         className="absolute bottom-1 right-1"
                     >
-                        <circle cx="8" cy="8" r="1.5" fill="rgba(0,0,0,0.25)" />
-                        <circle cx="4" cy="8" r="1.5" fill="rgba(0,0,0,0.25)" />
-                        <circle cx="8" cy="4" r="1.5" fill="rgba(0,0,0,0.25)" />
+                        <circle cx="8" cy="8" r="1.5" fill="rgba(18,20,24,0.25)" />
+                        <circle cx="4" cy="8" r="1.5" fill="rgba(18,20,24,0.25)" />
+                        <circle cx="8" cy="4" r="1.5" fill="rgba(18,20,24,0.25)" />
                     </svg>
                 </div>
             )}
