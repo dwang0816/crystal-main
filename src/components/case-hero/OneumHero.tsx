@@ -1,218 +1,118 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 /*
-  Animated hero thumbnail — Oneum
+  Splash thumbnail — Oneum
   ─────────────────────────────────────────────
-  Reflects the project: multi-script typography exploring Hangul + Latin
-  through K-pop. The composition shows the two scripts coexisting:
-  a large Hangul glyph (한) and a Latin specimen "Oneum", with annotation
-  lines that draw in to label each script.
-  Hover interactions:
-    · Cursor parallax separates the two glyphs (Hangul left, Latin right)
-    · Annotation lines draw in via stroke-dashoffset
-    · Lyric fragment fades in below
-    · ✦ rotates
-    · A second Hangul character (음) eases in behind
-  Fills its container.
+  Color world: dusty rose — dancheong warmth, K-pop, print.
+  · Dominant rose color field
+  · Ghosted "02" in Source Serif 4 behind everything
+  · Floating element: type-specimen card, Hangul + Latin (lifts on hover)
 */
 
-export const OneumHero = ({ className = '' }: { className?: string }) => {
-    const ref = useRef<HTMLDivElement>(null);
-    const [hover, setHover] = useState(false);
-    const [m, setM] = useState({ x: 0, y: 0 });
+const FIELD  = '#E4C6C2';                    /* rose tint of paper  */
+const DEEP   = '#9B5350';                    /* deep rose accent    */
+const GHOST  = 'rgba(155, 83, 80, 0.16)';    /* ghosted number      */
 
-    const onMove = (e: React.MouseEvent) => {
-        if (!ref.current) return;
-        const r = ref.current.getBoundingClientRect();
-        setM({
-            x: ((e.clientX - r.left) / r.width  - 0.5) * 2,
-            y: ((e.clientY - r.top)  / r.height - 0.5) * 2,
-        });
-    };
+export const OneumHero = ({ className = '' }: { className?: string }) => {
+    const [hover, setHover] = useState(false);
 
     return (
         <div
-            ref={ref}
             onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => { setHover(false); setM({ x: 0, y: 0 }); }}
-            onMouseMove={onMove}
-            className={`relative w-full h-full overflow-hidden bg-paper select-none ${className}`}
+            onMouseLeave={() => setHover(false)}
+            className={`relative w-full h-full overflow-hidden select-none ${className}`}
+            style={{ background: FIELD }}
         >
-            {/* ── Typographic baseline grid (horizontal lines only) ── */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none" aria-hidden>
-                <defs>
-                    <pattern id="oneum-baseline" width="100%" height="20%" patternUnits="userSpaceOnUse">
-                        <line x1="0" y1="0" x2="100%" y2="0" stroke="var(--nav-card)" strokeWidth="1" />
-                    </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#oneum-baseline)" opacity="0.55" />
-            </svg>
+            {/* ── Ghosted project number ── */}
+            <span
+                className="absolute font-serif font-normal leading-none pointer-events-none"
+                style={{
+                    fontFamily: '"Source Serif 4", serif',
+                    fontSize: 'clamp(180px, 34vw, 320px)',
+                    color: GHOST,
+                    right: '-2%',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                }}
+                aria-hidden
+            >
+                02
+            </span>
 
             {/* ── Eyebrow ── */}
             <div className="absolute top-4 sm:top-5 left-5 right-5 flex items-center justify-between z-10">
-                <div className="flex items-center gap-2 text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-extrabold text-ink-muted font-sans">
-                    <span>Case Study</span>
-                    <span className="font-mono">·</span>
-                    <span>02</span>
-                </div>
                 <span
-                    className="text-prussian text-[18px] leading-none font-serif transition-transform duration-700 ease-out"
-                    style={{ transform: `rotate(${hover ? 90 : 0}deg)` }}
-                    aria-hidden
+                    className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-extrabold font-sans"
+                    style={{ color: DEEP }}
                 >
+                    Case Study
+                </span>
+                <span className="text-[16px] leading-none font-serif" style={{ color: DEEP }} aria-hidden>
                     ✦
                 </span>
             </div>
 
-            {/* ── Center composition ── */}
-            <div className="absolute inset-0 flex items-center justify-center px-6 pt-12 pb-12">
-
-                <div className="relative flex items-center justify-center w-full max-w-[460px] h-full">
-
-                    {/* Ghost Hangul behind ("음") */}
-                    <div
-                        className="absolute font-serif text-ink select-none leading-none pointer-events-none"
-                        style={{
-                            fontSize: 'clamp(96px, 18vw, 200px)',
-                            color: 'var(--prussian)',
-                            opacity: hover ? 0.10 : 0,
-                            transform: hover
-                                ? `translate(${m.x * 12 + 14}px, ${m.y * 6 - 10}px)`
-                                : 'translate(20px, -4px)',
-                            transition: 'opacity 0.6s ease, transform 0.7s cubic-bezier(0.2,0.8,0.2,1)',
-                        }}
-                        aria-hidden
-                    >
-                        음
+            {/* ── Floating element: type-specimen card ── */}
+            <div className="absolute inset-0 flex items-center justify-center pt-4 pb-6">
+                <div
+                    className="relative rounded-[14px] border-[1.5px] bg-paper-light px-5 py-4"
+                    style={{
+                        borderColor: 'var(--ink)',
+                        transform: hover ? 'translateY(-7px) rotate(1deg)' : 'translateY(0) rotate(0deg)',
+                        boxShadow: hover
+                            ? '0 22px 40px -10px rgba(74, 35, 33, 0.38), 0 4px 10px rgba(74, 35, 33, 0.12)'
+                            : '0 8px 18px -6px rgba(74, 35, 33, 0.22)',
+                        transition: 'transform 0.6s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.6s ease',
+                    }}
+                >
+                    {/* Specimen header */}
+                    <div className="flex items-center justify-between gap-6 mb-2">
+                        <span className="text-[7px] uppercase tracking-[0.18em] font-sans" style={{ color: DEEP }}>
+                            Specimen
+                        </span>
+                        <span className="font-mono text-[7px] tracking-[0.15em] text-ink/50">온음 / sound</span>
                     </div>
 
-                    {/* Hangul focal glyph ("한") — drifts left with cursor */}
-                    <div
-                        className="relative font-serif text-ink leading-none z-10"
-                        style={{
-                            fontSize: 'clamp(72px, 14vw, 152px)',
-                            transform: hover
-                                ? `translate(${-22 + m.x * -8}px, ${m.y * 4}px)`
-                                : 'translate(0, 0)',
-                            transition: 'transform 0.7s cubic-bezier(0.2,0.8,0.2,1)',
-                        }}
-                    >
-                        한
-                    </div>
-
-                    {/* Latin specimen "Oneum" — drifts right */}
-                    <div
-                        className="absolute z-10 leading-none"
-                        style={{
-                            right: '8%',
-                            transform: hover
-                                ? `translate(${m.x * 6}px, ${m.y * 4}px)`
-                                : 'translate(-6px, 0)',
-                            transition: 'transform 0.7s cubic-bezier(0.2,0.8,0.2,1)',
-                        }}
-                    >
-                        <div
-                            className="font-serif italic text-prussian leading-[0.9]"
-                            style={{ fontSize: 'clamp(28px, 5.5vw, 56px)' }}
+                    {/* Hangul + Latin pairing */}
+                    <div className="flex items-baseline gap-3">
+                        <span
+                            className="font-serif text-ink leading-none"
+                            style={{ fontSize: 'clamp(40px, 6vw, 64px)' }}
+                        >
+                            한
+                        </span>
+                        <span
+                            className="font-serif italic leading-none"
+                            style={{ color: DEEP, fontSize: 'clamp(22px, 3.4vw, 36px)' }}
                         >
                             Oneum
-                        </div>
-                        <div
-                            className="font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.28em] text-ink-muted mt-2"
-                            style={{
-                                opacity: hover ? 1 : 0.45,
-                                transition: 'opacity 0.5s ease',
-                            }}
-                        >
-                            온음 / sound
-                        </div>
-                    </div>
-
-                    {/* Hangul label (annotation) — left */}
-                    <div
-                        className="absolute left-0 top-[12%] flex items-center gap-2 z-10"
-                        style={{
-                            opacity: hover ? 1 : 0,
-                            transform: hover ? 'translateX(0)' : 'translateX(-6px)',
-                            transition: 'opacity 0.45s ease 150ms, transform 0.5s cubic-bezier(0.2,0.8,0.2,1) 150ms',
-                        }}
-                    >
-                        <span className="font-mono text-[8px] sm:text-[9px] tracking-[0.18em] text-ink-muted">01</span>
-                        <svg width="22" height="6" overflow="visible" aria-hidden>
-                            <line
-                                x1="0" y1="3" x2="22" y2="3"
-                                stroke="var(--prussian)"
-                                strokeWidth="1"
-                                strokeDasharray="22"
-                                strokeDashoffset={hover ? 0 : 22}
-                                style={{ transition: 'stroke-dashoffset 0.55s ease 200ms' }}
-                            />
-                        </svg>
-                        <span className="font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.15em] text-ink">
-                            Hangul
                         </span>
                     </div>
 
-                    {/* Latin label (annotation) — right */}
-                    <div
-                        className="absolute right-0 bottom-[10%] flex items-center gap-2 z-10"
-                        style={{
-                            opacity: hover ? 1 : 0,
-                            transform: hover ? 'translateX(0)' : 'translateX(6px)',
-                            transition: 'opacity 0.45s ease 240ms, transform 0.5s cubic-bezier(0.2,0.8,0.2,1) 240ms',
-                        }}
-                    >
-                        <span className="font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.15em] text-ink">
-                            Latin
-                        </span>
-                        <svg width="22" height="6" overflow="visible" aria-hidden>
-                            <line
-                                x1="0" y1="3" x2="22" y2="3"
-                                stroke="var(--prussian)"
-                                strokeWidth="1"
-                                strokeDasharray="22"
-                                strokeDashoffset={hover ? 0 : 22}
-                                style={{ transition: 'stroke-dashoffset 0.55s ease 280ms' }}
-                            />
-                        </svg>
-                        <span className="font-mono text-[8px] sm:text-[9px] tracking-[0.18em] text-ink-muted">02</span>
-                    </div>
-
-                    {/* Lyric fragment — fades in below */}
-                    <div
-                        className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center z-10"
-                        style={{
-                            opacity: hover ? 0.7 : 0,
-                            transform: hover ? 'translate(-50%, 0)' : 'translate(-50%, 4px)',
-                            transition: 'opacity 0.5s ease 350ms, transform 0.55s cubic-bezier(0.2,0.8,0.2,1) 350ms',
-                        }}
-                    >
-                        <div className="font-serif italic text-[10px] sm:text-[11px] text-ink leading-tight">
-                            한국말로 노래해
-                        </div>
+                    {/* Baseline rule */}
+                    <div className="mt-2 h-px w-full" style={{ background: 'var(--border-line)' }} />
+                    <div className="mt-1.5 flex justify-between text-[7px] uppercase tracking-[0.15em] font-sans text-ink/50">
+                        <span>Hangul</span>
+                        <span>Latin</span>
                     </div>
                 </div>
             </div>
 
-            {/* ── Bottom label ── */}
+            {/* ── Bottom tagline ── */}
             <div className="absolute bottom-4 sm:bottom-5 left-5 right-5 flex items-end justify-between z-10">
-                <div>
-                    <div className="font-serif text-[14px] sm:text-[16px] lg:text-[18px] text-ink leading-none">
-                        Oneum
-                    </div>
-                    <div className="mt-1.5 text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-ink-muted font-sans">
-                        Two scripts. One voice.
-                    </div>
-                </div>
-                <div
-                    className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-prussian font-extrabold font-sans"
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.18em] font-sans text-ink/60">
+                    Two scripts. One voice.
+                </span>
+                <span
+                    className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-extrabold font-sans"
                     style={{
+                        color: DEEP,
                         transform: hover ? 'translateX(-4px)' : 'translateX(0)',
                         transition: 'transform 0.4s ease',
                     }}
                 >
                     View →
-                </div>
+                </span>
             </div>
         </div>
     );
