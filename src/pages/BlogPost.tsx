@@ -17,7 +17,7 @@ export const BlogPost = () => {
     const isInternship = !!internship;
 
     return (
-        <div className="absolute inset-0 overflow-y-auto bg-paper">
+        <div className="absolute inset-0 overflow-y-auto bg-paper-light">
             <div className="max-w-2xl mx-auto px-6 py-16">
 
                 {/* Back */}

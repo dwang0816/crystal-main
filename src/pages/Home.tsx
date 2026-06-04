@@ -70,7 +70,7 @@ const SnapshotCard = ({ className = '', style }: { className?: string; style?: R
 ════════════════════════════════════════════════════════════ */
 export const Home = () => {
     return (
-        <div className="absolute inset-0 overflow-y-auto bg-paper">
+        <div className="absolute inset-0 overflow-y-auto bg-paper-light">
             <div className="max-w-[920px] mx-auto px-5 md:px-8 lg:px-12 pt-10 md:pt-16 pb-20">
 
                 {/* ═══ HERO ═════════════════════════════════════════════ */}
@@ -155,7 +155,7 @@ export const Home = () => {
                         <div className="flex flex-col gap-7">
                             {experiences.map((exp, i) => (
                                 <div key={i} className="relative">
-                                    <div className="absolute -left-6 top-[7px] w-[11px] h-[11px] rounded-full bg-ink border-2 border-paper" />
+                                    <div className="absolute -left-6 top-[7px] w-[11px] h-[11px] rounded-full bg-ink border-2 border-paper-light" />
                                     <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                                         <div className="min-w-0">
                                             <div className="text-[17px] font-sans font-normal text-ink leading-tight">

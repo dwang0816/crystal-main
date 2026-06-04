@@ -76,5 +76,5 @@
     transparent 0
   );
   background-size: 24px 24px;
-  background-color: var(--paper);
+  background-color: var(--paper-light);
 }

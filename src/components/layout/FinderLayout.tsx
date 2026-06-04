@@ -51,25 +51,26 @@ const IconAboutMe = ({ size = 20, className }: IconProps) => (
     </svg>
 );
 import { TypewriterTitles } from './TypewriterTitles';
+import { CaseStudySidebar, getCaseMeta } from './CaseStudySidebar';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 
 /* ─── Section label ─────────────────────────────────────── */
-/* sans/nav — 12px extrabold, ALL CAPS */
+/* sans/nav — 14px medium, ALL CAPS */
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-    <div className="px-4 mb-1 text-[12px] font-sans font-extrabold tracking-[0.12em] uppercase text-ink-muted">
+    <div className="px-2 text-[14px] font-sans font-medium tracking-[0.28px] uppercase text-ink/50">
         {children}
     </div>
 );
 
 /* ─── Nav item class builder ─────────────────────────────── */
-/* sans/body — 16px medium, icon 20px */
+/* sans/body — 16px medium, icon 28px */
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     cn(
-        'flex items-center gap-3 mx-2 px-3 py-2 rounded-lg text-[16px] font-sans font-medium transition-colors [&>svg]:shrink-0',
+        'flex items-center gap-3 px-2 py-[7px] rounded-lg text-[16px] font-sans font-medium transition-colors [&>svg]:shrink-0',
         isActive
-            ? 'bg-prussian-pale text-ink'
-            : 'text-ink-muted hover:bg-nav-card hover:text-ink'
+            ? 'bg-ink text-white'
+            : 'text-ink/70 hover:bg-paper hover:text-ink'
     );
 
 
@@ -102,37 +103,38 @@ export const FinderLayout = () => {
         setTimeout(() => setCopy("Email"), 1400);
     }
 
-    const iconSize = 20;
+    const iconSize = 28;
+
+    const caseMeta = getCaseMeta(location.pathname);
 
     const sidebarContent = (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full justify-between px-7 pt-10 pb-7">
 
-            {/* ── Logo + Name + Subtitle ── */}
-            <div className="flex flex-col items-center pt-8 pb-4 px-5 gap-2">
-                <NavLink to="/" className="mb-1">
-                    <img src="/logo-b.svg" width={137} />
-                </NavLink>
-                {/* serif/quote — 20px, centered */}
-                <p className="font-serif text-[20px] font-normal text-ink text-center leading-tight">
-                    Crystal Cho
-                </p>
-                {/* sans/meta — 12px medium */}
-                <div className="flex flex-col items-center gap-0">
-                    <div className="text-[12px] font-sans font-medium text-prussian text-center">
-                        <TypewriterTitles />
+            {/* ── Top: identity + nav ── */}
+            <div className="flex flex-col gap-5 w-full">
+
+                {/* ── Logo + Name + Subtitle ── */}
+                <div className="flex flex-col items-start gap-5">
+                    <NavLink to="/">
+                        <img src="/logo-b.svg" width={78} />
+                    </NavLink>
+                    <div className="flex flex-col items-start w-full">
+                        {/* serif/name — 32px */}
+                        <p className="font-serif text-[32px] font-normal text-ink leading-normal whitespace-nowrap">
+                            Crystal Cho
+                        </p>
+                        {/* sans/meta — 14px medium, ALL CAPS, prussian */}
+                        <div className="flex items-center gap-1.5 text-[14px] font-sans font-medium tracking-[0.28px] uppercase text-prussian mt-1">
+                            <TypewriterTitles />
+                            <span>• NYC</span>
+                        </div>
+                        {/* hairline under subtitle */}
+                        <div className="w-full border-t border-hairline mt-5" />
                     </div>
-                    <p className="text-[12px] font-sans font-medium text-ink-muted text-center">
-                        Based in NYC
-                    </p>
                 </div>
-            </div>
 
-            {/* ── Divider ── */}
-            <div className="mx-4 my-5 border-t border-hairline" />
-
-            {/* ── Nav ── */}
-            <nav className="flex flex-col gap-6 px-3 pt-4 pb-4 flex-1">
-                <div className="flex flex-col gap-0.5">
+                {/* ── Explore card ── */}
+                <nav className="bg-nav-card rounded-lg p-3 flex flex-col gap-2 w-full">
                     <SectionLabel>Explore</SectionLabel>
                     <NavLink to="/" end className={navLinkClass}>
                         <IconHome size={iconSize} className="shrink-0" />
@@ -150,55 +152,63 @@ export const FinderLayout = () => {
                         <IconAboutMe size={iconSize} className="shrink-0" />
                         About Me
                     </NavLink>
-                </div>
-            </nav>
+                </nav>
+            </div>
 
-            {/* ── Let's Connect box ── */}
-            <div className="mx-4 mb-4">
-                <div className="border border-hairline rounded-xl p-4 flex flex-col gap-3">
-                    {/* sans/button — 12px medium, ALL CAPS */}
-                    <span className="text-[12px] font-sans font-extrabold text-ink-muted uppercase tracking-[0.24px]">
-                        Let's Connect
+            {/* ── Bottom: connect + copyright ── */}
+            <div className="flex flex-col gap-3 w-full">
+
+                {/* ── Connect card ── */}
+                <div className="bg-nav-card rounded-lg px-3 py-3 flex items-center justify-between w-full">
+                    <span className="text-[14px] font-sans font-medium text-ink/50 uppercase tracking-[0.28px]">
+                        Connect
                     </span>
-                    <div className="flex items-center justify-center gap-3 w-full">
+                    <div className="flex items-center gap-2.5">
                         {/* LinkedIn */}
                         <a
                             href="https://www.linkedin.com/in/cch0/"
                             target="_blank"
                             rel="noreferrer"
-                            className="w-14 h-14 rounded-full bg-prussian-pale flex items-center justify-center hover:opacity-80 transition-colors text-prussian-dark"
+                            className="w-6 h-6 rounded-[5px] bg-paper flex items-center justify-center hover:bg-paper-light transition-colors text-ink"
                             title="LinkedIn"
                         >
-                            <Linkedin size={24} />
+                            <Linkedin size={13} />
                         </a>
                         {/* Email copy */}
                         <button
                             onClick={handleCopy}
-                            className="w-14 h-14 rounded-full bg-prussian-pale flex items-center justify-center hover:opacity-80 transition-colors text-prussian-dark"
+                            className="w-6 h-6 rounded-[5px] bg-paper flex items-center justify-center hover:bg-paper-light transition-colors text-ink"
                             title={isCopied === "Copied!" ? "Copied!" : "Copy email"}
                         >
-                            <Mail size={24} />
+                            <Mail size={13} />
                         </button>
                         {/* Resume */}
                         <a
                             href="https://drive.google.com/file/d/1W6JRUbUujetsAFSYz608EYB9ce5NvTph/view?usp=drive_link"
                             target="_blank"
                             rel="noreferrer"
-                            className="w-14 h-14 rounded-full bg-prussian-pale flex items-center justify-center hover:opacity-80 transition-colors text-prussian-dark"
+                            className="w-6 h-6 rounded-[5px] bg-paper flex items-center justify-center hover:bg-paper-light transition-colors text-ink"
                             title="Resume"
                         >
-                            <FileText size={24} />
+                            <FileText size={13} />
                         </a>
                     </div>
                 </div>
+
+                {/* ── Copyright ── */}
+                <p className="text-left text-[12px] font-sans font-medium tracking-[0.24px] text-ink/50">
+                    © 2026 Crystal Cho
+                </p>
             </div>
 
-            {/* ── Copyright ── */}
-            <p className="text-center text-[10px] font-sans font-medium text-ink-muted pb-4 px-4">
-                © 2026 Crystal Cho
-            </p>
-
         </div>
+    );
+
+    /* Inside a case study the navbar gives way to a table of contents */
+    const activeSidebar = caseMeta ? (
+        <CaseStudySidebar meta={caseMeta} pathname={location.pathname} />
+    ) : (
+        sidebarContent
     );
 
     return (
@@ -206,7 +216,7 @@ export const FinderLayout = () => {
 
             {/* ── Sidebar desktop ── */}
             <aside className="hidden md:flex w-[260px] h-full shrink-0 flex-col overflow-y-auto border-r border-hairline z-20 bg-paper">
-                {sidebarContent}
+                {activeSidebar}
             </aside>
 
             {/* ── Mobile overlay ── */}
@@ -230,7 +240,15 @@ export const FinderLayout = () => {
                 >
                     <X size={16} />
                 </button>
-                {sidebarContent}
+                {caseMeta ? (
+                    <CaseStudySidebar
+                        meta={caseMeta}
+                        pathname={location.pathname}
+                        onNavigate={() => setIsSidebarOpen(false)}
+                    />
+                ) : (
+                    sidebarContent
+                )}
             </aside>
 
             {/* ── Mobile top bar ── */}
@@ -242,13 +260,13 @@ export const FinderLayout = () => {
                     <Menu size={20} />
                 </button>
                 <span className="font-serif text-[18px] font-normal text-ink">
-                    {getTitle()}
+                    {caseMeta ? caseMeta.title : getTitle()}
                 </span>
             </div>
 
             {/* ── Main content ── */}
             <div className="flex-1 h-full overflow-hidden relative">
-                <main className="absolute inset-0 bg-paper overflow-hidden isolate pt-12 md:pt-0">
+                <main className="absolute inset-0 bg-paper-light overflow-hidden isolate pt-12 md:pt-0">
                     <Outlet />
                 </main>
             </div>
