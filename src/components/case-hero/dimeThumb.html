@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: -apple-system, 'Inter', sans-serif;
+}
+
+.thumb {
+  width: 640px;
+  height: 360px;
+  background: #121212;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.glow-l {
+  position: absolute;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(128,81,234,0.22) 0%, transparent 65%);
+  top: -80px; left: -60px;
+  pointer-events: none;
+}
+.glow-r {
+  position: absolute;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(3,218,198,0.1) 0%, transparent 65%);
+  bottom: -40px; right: -40px;
+  pointer-events: none;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.cc-wrap {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-60%) rotate(-7deg);
+  animation: floatCard 5s ease-in-out infinite;
+  z-index: 10;
+}
+@keyframes floatCard {
+  0%,100% { transform: translateX(-60%) rotate(-7deg) translateY(0); }
+  50%      { transform: translateX(-60%) rotate(-7deg) translateY(-9px); }
+}
+
+.cc {
+  width: 230px;
+  height: 146px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(55,0,179,0.8) 0%, #BB86FC 100%);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,0.6),
+    0 2px 8px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.18);
+  padding: 16px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.cc::after {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.cc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.cc-network {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+}
+.cc-rate {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 2px 8px;
+}
+.cc-chip {
+  width: 26px; height: 19px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.12));
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.cc-name {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.87);
+}
+.cc-num {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.5);
+  font-family: monospace;
+  margin-top: 2px;
+}
+
+.badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0a0a0a;
+  border: 1.5px solid rgba(3,218,198,0.55);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #03DAC6;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  box-shadow: 0 0 14px rgba(3,218,198,0.18);
+  z-index: 20;
+}
+.badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #03DAC6;
+  box-shadow: 0 0 6px rgba(3,218,198,0.9);
+  animation: blink 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.stat {
+  position: absolute;
+  background: rgba(12,12,20,0.94);
+  border-radius: 12px;
+  padding: 10px 14px;
+  backdrop-filter: blur(16px);
+  z-index: 20;
+}
+.stat-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 4px;
+}
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.stat-a {
+  left: 32px;
+  bottom: 48px;
+  border: 1px solid rgba(3,218,198,0.28);
+  box-shadow: 0 0 0 1px rgba(3,218,198,0.05), 0 10px 30px rgba(0,0,0,0.5);
+  animation: popInSimple .45s cubic-bezier(.34,1.5,.64,1) .5s both;
+}
+.stat-b {
+  left: 32px;
+  top: 40px;
+  border: 1px solid rgba(187,134,252,0.28);
+  box-shadow: 0 0 0 1px rgba(187,134,252,0.05), 0 10px 30px rgba(0,0,0,0.5);
+  animation: popInSimple .45s cubic-bezier(.34,1.5,.64,1) .75s both;
+}
+.stat-c {
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(128,81,234,0.28);
+  box-shadow: 0 0 0 1px rgba(128,81,234,0.05), 0 10px 30px rgba(0,0,0,0.5);
+  animation: popInCenter .45s cubic-bezier(.34,1.5,.64,1) 1s both;
+  min-width: 186px;
+}
+
+@keyframes popInSimple {
+  from { opacity: 0; transform: scale(.9) translateY(6px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes popInCenter {
+  from { opacity: 0; transform: translateY(calc(-50% + 6px)) scale(.9); }
+  to   { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+
+.txn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.txn-icon {
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.txn-name { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.72); }
+.txn-sub  { font-size: 9px; color: rgba(255,255,255,0.28); margin-top: 1px; }
+.txn-pts {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  color: #8051EA;
+  background: rgba(128,81,234,0.14);
+  border-radius: 20px;
+  padding: 2px 8px;
+  flex-shrink: 0;
+}
+
+.svg-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: visible;
+}
+.conn {
+  fill: none;
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+  animation: flow 2s linear infinite;
+}
+@keyframes flow { to { stroke-dashoffset: -28; } }
+
+.edge-fade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, #121212 0%, transparent 14%, transparent 84%, #121212 100%),
+    linear-gradient(to right, #121212 0%, transparent 18%);
+  pointer-events: none;
+  z-index: 8;
+}
+</style>
+</head>
+<body>
+<div class="thumb">
+  <div class="glow-l"></div>
+  <div class="glow-r"></div>
+  <div class="grid"></div>
+
+  <svg class="svg-lines" width="640" height="360">
+    <path class="conn" d="M 160 68 Q 210 80 236 110" stroke="rgba(187,134,252,0.3)"/>
+    <circle cx="160" cy="68" r="3" fill="rgba(187,134,252,0.45)"/>
+    <path class="conn" d="M 155 288 Q 200 280 236 248" stroke="rgba(3,218,198,0.3)"/>
+    <circle cx="155" cy="288" r="3" fill="rgba(3,218,198,0.45)"/>
+    <path class="conn" d="M 420 180 Q 395 178 370 168" stroke="rgba(128,81,234,0.3)"/>
+    <circle cx="420" cy="180" r="3" fill="rgba(128,81,234,0.45)"/>
+  </svg>
+
+  <div class="cc-wrap">
+    <div class="badge"><span class="badge-dot"></span>Best card</div>
+    <div class="cc">
+      <div class="cc-top">
+        <div class="cc-network">VISA</div>
+        <div class="cc-rate">3× dining</div>
+      </div>
+      <div class="cc-chip"></div>
+      <div>
+        <div class="cc-name">Chase Sapphire</div>
+        <div class="cc-num">•••• •••• •••• 4567</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat stat-a">
+    <div class="stat-label">Total earned</div>
+    <div class="stat-value" style="color:#03DAC6;">+$6,271.86</div>
+  </div>
+
+  <div class="stat stat-b">
+    <div class="stat-label">Points this month</div>
+    <div class="stat-value" style="color:#BB86FC;">5,291 pts</div>
+  </div>
+
+  <div class="stat stat-c">
+    <div class="stat-label">Recent activity</div>
+    <div class="txn">
+      <div class="txn-icon">🛒</div>
+      <div>
+        <div class="txn-name">Whole Foods</div>
+        <div class="txn-sub">Freedom Unlimited ··3897</div>
+      </div>
+      <div class="txn-pts">+86</div>
+    </div>
+    <div class="txn">
+      <div class="txn-icon">📦</div>
+      <div>
+        <div class="txn-name">Amazon</div>
+        <div class="txn-sub">Sapphire Reserve ··4567</div>
+      </div>
+      <div class="txn-pts">+625</div>
+    </div>
+  </div>
+
+  <div class="edge-fade"></div>
+</div>
+</body>
+</html>

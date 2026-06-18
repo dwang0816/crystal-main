@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Xometry WorkCenter — Portfolio Assets</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --blue: #0E6AED;
+    --navy: #092C47;
+    --mid: #22445F;
+    --light: #E6F0FD;
+    --lighter: #F6F9FF;
+    --border: #E6E9EC;
+    --blue50: #86B5F8;
+    --blue25: #C3DAFB;
+    --red: #E63817;
+    --red-bg: #F7CCC4;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f2f5;
+    color: #111;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+  }
+
+  /* ---- ASSET WRAPPER ---- */
+  .asset {
+    width: 100%;
+    max-width: 900px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.10);
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .asset.visible { opacity: 1; transform: translateY(0); }
+
+  /* ---- DEVICE SHELL ---- */
+  .device {
+    border-radius: 36px;
+    border: 6px solid var(--navy);
+    overflow: hidden;
+    background: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .device img { display: block; width: 100%; }
+
+  /* ---- graceful fallback when a device image fails to load ---- */
+  .ph-fallback {
+    width: 100%; aspect-ratio: 10 / 19;
+    background: linear-gradient(165deg, #EAF2FE, #CFE0FB);
+    display: flex; flex-direction: column;
+  }
+  .phf-bar { height: 12%; background: rgba(9,44,71,0.06); }
+  .phf-body {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 9px;
+    padding: 14px; text-align: center;
+  }
+  .phf-icon {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: rgba(14,106,237,0.14);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--blue);
+  }
+  .phf-label {
+    font-size: 11px; font-weight: 600; color: var(--navy);
+    letter-spacing: 0.03em; line-height: 1.3;
+  }
+  .phf-sub {
+    font-size: 8.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(9,44,71,0.4);
+  }
+
+  /* ==== 1. HERO ==== */
+  .hero {
+    background: var(--blue);
+    padding: 52px 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-label {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45); margin-bottom: 16px;
+  }
+  .hero-title {
+    font-size: 30px; font-weight: 700; color: #fff;
+    text-align: center; line-height: 1.2; margin-bottom: 8px;
+  }
+  .hero-sub {
+    font-size: 13px; color: rgba(255,255,255,0.5);
+    text-align: center; margin-bottom: 48px; letter-spacing: 0.02em;
+  }
+  .hero-phones {
+    display: flex; align-items: flex-end; justify-content: center; gap: 14px;
+  }
+  .hero-phones .device { border-color: rgba(255,255,255,0.2); }
+  .dev-c { width: 200px; }
+  .dev-s { width: 168px; margin-bottom: 24px; opacity: 0.55; }
+
+  /* hero phone float anims */
+  .dev-c { animation: floatC 4s ease-in-out infinite; }
+  .dev-s:first-child { animation: floatL 4.4s ease-in-out infinite; }
+  .dev-s:last-child { animation: floatR 3.8s ease-in-out infinite; }
+  @keyframes floatC {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes floatL {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes floatR {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* ==== 2. RESEARCH ==== */
+  .research { background: var(--lighter); padding: 32px; }
+  .section-label {
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #9CA3AF; margin-bottom: 20px;
+  }
+  .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 20px; }
+  .stat-box {
+    background: #fff; border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px; text-align: center;
+  }
+  .stat-num { font-size: 28px; font-weight: 700; color: var(--blue); }
+  .stat-lbl { font-size: 10px; color: #9CA3AF; margin-top: 2px; }
+  .research-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .r-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .r-card-label { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #9CA3AF; margin-bottom: 14px; }
+  .quote { border-left: 3px solid var(--blue); padding: 8px 12px; margin-bottom: 10px; background: var(--lighter); border-radius: 0 8px 8px 0; }
+  .quote-text { font-size: 12px; color: #333; line-height: 1.55; font-style: italic; }
+  .quote-attr { font-size: 10px; color: #9CA3AF; margin-top: 5px; }
+  .sticky-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .sticky-col-label { font-size: 9px; color: #9CA3AF; margin-bottom: 5px; }
+  .sticky {
+    border-radius: 6px; padding: 9px 10px; font-size: 11px;
+    line-height: 1.4; margin-bottom: 6px;
+  }
+  .sy { background: #FFFBE6; color: #7A4A00; border-top: 3px solid #FFD700; }
+  .sb { background: var(--light); color: #0E3A70; border-top: 3px solid var(--blue); }
+  .sg { background: #F0FFF4; color: #1A5C2A; border-top: 3px solid #52C41A; }
+  .sr { background: #FFF1F0; color: #7A1010; border-top: 3px solid var(--red); }
+
+  /* ==== 3. WIREFRAMES ==== */
+  .wireframes { background: #fff; padding: 32px; }
+  .wf-row { display: flex; gap: 20px; justify-content: center; align-items: flex-start; margin-top: 4px; }
+  .wf-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .wf-name { font-size: 10px; color: #9CA3AF; letter-spacing: 0.08em; text-transform: uppercase; }
+  .wf-phone {
+    width: 120px; background: #fff; border-radius: 18px;
+    border: 2px solid #E6E9EC; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  .wf-bar { height: 18px; background: #E6E9EC; display: flex; align-items: center; padding: 0 8px; gap: 3px; }
+  .wf-dot { width: 5px; height: 5px; border-radius: 50%; background: #C1CAD1; }
+  .wf-body { padding: 8px; }
+  .wf-line { height: 7px; background: #E6E9EC; border-radius: 4px; margin-bottom: 5px; }
+  .wf-line.short { width: 55%; }
+  .wf-line.med { width: 78%; }
+  .wf-block { height: 40px; background: var(--light); border-radius: 6px; margin-bottom: 5px; border: 1px dashed var(--blue50); }
+  .wf-block.sm { height: 24px; }
+  .wf-block.xs { height: 18px; }
+  .wf-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 5px; }
+  .wf-cell {
+    height: 28px; background: var(--light); border-radius: 4px;
+    border: 1px dashed var(--blue50); display: flex; align-items: center;
+    justify-content: center; font-size: 8px; font-weight: 700; color: var(--blue50);
+  }
+  .wf-nav { height: 22px; background: #E6E9EC; display: flex; justify-content: space-around; align-items: center; }
+  .wf-nav-dot { width: 14px; height: 14px; background: #C1CAD1; border-radius: 3px; }
+
+  /* ==== WORKFLOW CARDS (4-7) ==== */
+  .wf-card {
+    display: flex; align-items: flex-end; gap: 0;
+    overflow: hidden;
+  }
+  .wf-card.light { background: var(--lighter); }
+  .wf-card.blue-light { background: var(--light); }
+  .wf-card.dark { background: var(--navy); }
+  .wf-card.xblue { background: var(--blue); }
+
+  .wf-text { flex: 1; padding: 32px 32px 32px; display: flex; flex-direction: column; justify-content: center; }
+  .wf-eyebrow {
+    font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .wf-eyebrow.light-txt { color: var(--blue50); }
+  .wf-eyebrow.dark-txt { color: var(--blue); }
+  .wf-title { font-size: 18px; font-weight: 700; line-height: 1.3; margin-bottom: 10px; }
+  .wf-title.white { color: #fff; }
+  .wf-title.navy { color: var(--navy); }
+  .wf-body { font-size: 12px; line-height: 1.65; }
+  .wf-body.light-body { color: rgba(255,255,255,0.6); }
+  .wf-body.dark-body { color: var(--mid); }
+
+  .wf-phone-col { flex-shrink: 0; display: flex; align-items: flex-end; padding-right: 24px; gap: 10px; }
+
+  .ph-main { width: 176px; }
+  .ph-side { width: 148px; margin-bottom: 20px; opacity: 0.55; }
+
+  /* slide-up animation for phone in each card */
+  .slide-phone {
+    animation: slideUp 0.7s cubic-bezier(0.34,1.56,0.64,1) both;
+    animation-play-state: paused;
+  }
+  .visible .slide-phone { animation-play-state: running; }
+  @keyframes slideUp {
+    from { transform: translateY(60px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .slide-phone.delay1 { animation-delay: 0.1s; }
+  .slide-phone.delay2 { animation-delay: 0.25s; }
+  .slide-phone.delay3 { animation-delay: 0.4s; }
+
+  /* ==== 8. ANNOTATED ==== */
+  .annotated { background: var(--lighter); padding: 28px 28px; }
+  .ann-layout { display: flex; gap: 20px; align-items: flex-start; }
+  .ann-list { flex: 1; display: flex; flex-direction: column; gap: 12px; padding-top: 4px; }
+  .ann-item { display: flex; gap: 9px; align-items: flex-start; }
+  .ann-num {
+    width: 22px; height: 22px; border-radius: 50%; color: #fff;
+    font-size: 10px; font-weight: 700; display: flex; align-items: center;
+    justify-content: center; flex-shrink: 0; margin-top: 1px;
+  }
+  .ann-num.blue { background: var(--blue); }
+  .ann-num.red { background: var(--red); }
+  .ann-title { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+  .ann-desc { font-size: 11px; color: var(--mid); line-height: 1.5; }
+  .ann-divider { width: 1px; background: var(--border); align-self: stretch; flex-shrink: 0; }
+  .ann-device { border-radius: 28px; border: 5px solid var(--navy); overflow: hidden; width: 160px; flex-shrink: 0; background: #fff; }
+  .ann-device img { display: block; width: 100%; }
+
+  /* fade-in stagger for ann items */
+  .ann-item {
+    opacity: 0; transform: translateX(-12px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .ann-item.right-side {
+    opacity: 0; transform: translateX(12px);
+  }
+  .visible .ann-item { opacity: 1; transform: translateX(0); }
+  .visible .ann-item:nth-child(1) { transition-delay: 0.05s; }
+  .visible .ann-item:nth-child(2) { transition-delay: 0.15s; }
+  .visible .ann-item:nth-child(3) { transition-delay: 0.25s; }
+  .visible .ann-item:nth-child(4) { transition-delay: 0.35s; }
+
+  /* stat counter animation */
+  .stat-num { transition: none; }
+
+  /* pulse dot for hero */
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #4ADE80;
+    display: inline-block; margin-right: 6px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.75); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 1. HERO ===== -->
+<div class="asset" id="a1">
+  <div class="hero">
+    <p class="hero-label"><span class="live-dot"></span>Xometry WorkCenter — iOS Mobile App</p>
+    <h1 class="hero-title">Manufacturing operations<br>in your pocket</h1>
+    <p class="hero-sub">Partner Success Score &nbsp;·&nbsp; Job Board &nbsp;·&nbsp; Project Status &nbsp;·&nbsp; Score Details</p>
+    <div class="hero-phones">
+      <div class="device dev-s">
+        <img src="https://www.figma.com/api/mcp/asset/9b7be301-46cd-424d-842a-35634312dd24" alt="Score details"/>
+      </div>
+      <div class="device dev-c">
+        <img src="https://www.figma.com/api/mcp/asset/d61b62ab-a99e-4ac9-baff-722062f23aaa" alt="Home dashboard"/>
+      </div>
+      <div class="device dev-s">
+        <img src="https://www.figma.com/api/mcp/asset/a4643fda-68f2-4986-a1f4-0959bcf268a1" alt="Job board"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2. RESEARCH ===== -->
+<div class="asset" id="a2">
+  <div class="research">
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num" data-target="8">0</div><div class="stat-lbl">users interviewed</div></div>
+      <div class="stat-box"><div class="stat-num" data-target="3">0</div><div class="stat-lbl">roles represented</div></div>
+      <div class="stat-box"><div class="stat-num" data-target="24">0</div><div class="stat-lbl">pain points found</div></div>
+      <div class="stat-box"><div class="stat-num" data-target="5">0</div><div class="stat-lbl">key themes</div></div>
+    </div>
+    <div class="research-grid">
+      <div class="r-card">
+        <div class="r-card-label">User quotes</div>
+        <div class="quote"><div class="quote-text">"I need to know a job is ITAR before I even open it — not halfway through."</div><div class="quote-attr">— Production supervisor</div></div>
+        <div class="quote"><div class="quote-text">"My Partner Success Score feels like a black box. I don't know why it drops."</div><div class="quote-attr">— CNC machinist, 11 yrs</div></div>
+        <div class="quote"><div class="quote-text">"I defer status updates because the flow feels uncertain — I don't trust it saved."</div><div class="quote-attr">— Shop floor operator</div></div>
+      </div>
+      <div class="r-card">
+        <div class="r-card-label">Affinity clusters</div>
+        <div class="sticky-grid">
+          <div>
+            <div class="sticky-col-label">Visibility</div>
+            <div class="sticky sy">Score not visible on load</div>
+            <div class="sticky sy">ITAR buried in job detail</div>
+          </div>
+          <div>
+            <div class="sticky-col-label">Access</div>
+            <div class="sticky sb">Job details too deep</div>
+            <div class="sticky sb">File downloads 3+ taps</div>
+          </div>
+          <div>
+            <div class="sticky-col-label">Feedback</div>
+            <div class="sticky sg">Status saves silently</div>
+            <div class="sticky sg">Defer flow is unclear</div>
+          </div>
+          <div>
+            <div class="sticky-col-label">Compliance</div>
+            <div class="sticky sr">ITAR confirm confusing</div>
+            <div class="sticky sr">CoC docs hard to find</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 3. WIREFRAMES ===== -->
+<div class="asset" id="a3">
+  <div class="wireframes">
+    <div class="section-label">Early wireframes — lo-fi explorations</div>
+    <div class="wf-row">
+      <div class="wf-wrap">
+        <div class="wf-phone">
+          <div class="wf-bar"><div class="wf-dot"></div></div>
+          <div class="wf-body">
+            <div class="wf-line short"></div>
+            <div class="wf-line"></div>
+            <div class="wf-grid2">
+              <div class="wf-cell">88</div>
+              <div class="wf-cell">92</div>
+              <div class="wf-cell">75</div>
+              <div class="wf-cell">PSS</div>
+            </div>
+            <div class="wf-line med"></div>
+            <div class="wf-block sm"></div>
+            <div class="wf-block sm"></div>
+          </div>
+          <div class="wf-nav"><div class="wf-nav-dot"></div><div class="wf-nav-dot"></div><div class="wf-nav-dot"></div></div>
+        </div>
+        <div class="wf-name">Home</div>
+      </div>
+      <div class="wf-wrap">
+        <div class="wf-phone">
+          <div class="wf-bar"><div class="wf-dot"></div></div>
+          <div class="wf-body">
+            <div class="wf-line short"></div>
+            <div class="wf-line med"></div>
+            <div class="wf-block" style="height:36px;"></div>
+            <div class="wf-block" style="height:36px;"></div>
+            <div class="wf-block" style="height:36px;opacity:0.4;"></div>
+          </div>
+          <div class="wf-nav"><div class="wf-nav-dot"></div><div class="wf-nav-dot"></div><div class="wf-nav-dot"></div></div>
+        </div>
+        <div class="wf-name">Job board</div>
+      </div>
+      <div class="wf-wrap">
+        <div class="wf-phone">
+          <div class="wf-bar"><div class="wf-dot"></div></div>
+          <div class="wf-body">
+            <div class="wf-line short"></div>
+            <div class="wf-block" style="height:52px;"></div>
+            <div class="wf-line"></div>
+            <div class="wf-line med"></div>
+            <div class="wf-block sm"></div>
+            <div style="display:flex;gap:4px;margin-top:4px;">
+              <div style="flex:1;height:20px;background:#E6E9EC;border-radius:4px;"></div>
+              <div style="flex:1;height:20px;background:var(--blue);border-radius:4px;"></div>
+            </div>
+          </div>
+          <div class="wf-nav"><div class="wf-nav-dot"></div><div class="wf-nav-dot"></div><div class="wf-nav-dot"></div></div>
+        </div>
+        <div class="wf-name">Job detail</div>
+      </div>
+      <div class="wf-wrap">
+        <div class="wf-phone">
+          <div class="wf-bar"><div class="wf-dot"></div></div>
+          <div class="wf-body">
+            <div class="wf-line short"></div>
+            <div style="border:1px solid #E6E9EC;border-radius:8px;overflow:hidden;">
+              <div style="height:12px;background:#E6E9EC;"></div>
+              <div style="padding:5px;">
+                <div class="wf-line"></div>
+                <div class="wf-grid2">
+                  <div class="wf-cell">88</div>
+                  <div class="wf-cell">Q</div>
+                  <div class="wf-cell">T</div>
+                </div>
+                <div style="height:7px;background:#F0FFF4;border-radius:3px;margin-bottom:3px;border:1px solid #d9f7be;"></div>
+                <div style="height:7px;background:#FEFFE6;border-radius:3px;margin-bottom:3px;border:1px solid #fffb8f;"></div>
+                <div style="height:7px;background:#FFF1F0;border-radius:3px;border:1px solid #ffccc7;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wf-nav"><div class="wf-nav-dot"></div><div class="wf-nav-dot"></div><div class="wf-nav-dot"></div></div>
+        </div>
+        <div class="wf-name">Score details</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Replace any device image that fails to load (e.g. expired asset URL)
+// with a clean placeholder screen so nothing renders "broken".
+function buildFallback(alt) {
+  const f = document.createElement('div');
+  f.className = 'ph-fallback';
+  f.innerHTML =
+    '<div class="phf-bar"></div>' +
+    '<div class="phf-body">' +
+      '<div class="phf-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>' +
+      '<div class="phf-label">' + (alt || 'Screen') + '</div>' +
+      '<div class="phf-sub">Preview</div>' +
+    '</div>';
+  return f;
+}
+document.querySelectorAll('.device img, .ann-device img, .wf-phone img').forEach((img) => {
+  const swap = () => { if (img.parentNode) img.replaceWith(buildFallback(img.alt)); };
+  img.addEventListener('error', swap);
+  // catch images that already failed before this script ran
+  if (img.complete && img.naturalWidth === 0) swap();
+});
+
+// Intersection Observer — trigger .visible on scroll
+const assets = document.querySelectorAll('.asset');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // counter animation for research stats
+      e.target.querySelectorAll('[data-target]').forEach(el => {
+        const target = parseInt(el.dataset.target);
+        let current = 0;
+        const step = Math.ceil(target / 20);
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = current;
+          if (current >= target) clearInterval(timer);
+        }, 40);
+      });
+    }
+  });
+}, { threshold: 0.15 });
+assets.forEach(a => observer.observe(a));
+
+// Immediately trigger first asset
+document.querySelector('.asset').classList.add('visible');
+</script>
+</body>
+</html>

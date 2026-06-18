@@ -1,4 +1,5 @@
-import crystalIcelandImg from '../assets/crystal_in_iceland.jpg';
+import { useState } from 'react';
+import { MusicPlayer } from '../components/MusicPlayer';
 
 /* ════════════════════════════════════════════════════════════
    About Me — simple, warm, editorial.
@@ -6,16 +7,19 @@ import crystalIcelandImg from '../assets/crystal_in_iceland.jpg';
 
    TO FILL IN (search for "EDIT:"):
    · bio paragraphs        → BIO array below
-   · candid photos         → CANDIDS array (drop files in /public/about/)
+   · favorites decks       → FAVORITE_DECKS array
    · experience list       → EXPERIENCE array
 ════════════════════════════════════════════════════════════ */
 
 /* EDIT: 2–3 honest, conversational paragraphs */
 const BIO = [
-    "Ever since I can recall, I've been making things — turning soda cans into pencil holders, filling sketchbooks cover to cover, and always keeping a camera close. That instinct to create grew into a love for design, especially in the small details: the swirl of latte art or the balance of a well-curated space.",
-    "My life has always existed between contrasts: NYC's fast pace and rural Malaysia's stillness, tech and art, structure and spontaneity. As a first-gen student moving between different worlds, I've learned to notice the nuances — the cultural and financial realities that shape how people experience life — and to design with empathy and intention.",
-    "I'm not afraid to take risks for something that excites me. Shifting from CS at Queens College to Graphic Design at Virginia Tech was one of my best decisions. I'm always looking to learn, explore, and grow — whether through travel, collaboration, or diving into new experiences.",
+    "I recently graduated from Virginia Tech with a degree in Graphic Design and a focus on UX and Human-Computer Interaction. My work sits at the intersection of design, technology, and human behavior, where I'm most interested in creating experiences that feel intuitive, thoughtful, and genuinely useful.",
+    "Curiosity has always been at the center of how I learn and design. It's led me to explore product design, visual design, research, branding, and front-end development, giving me a broader perspective on how ideas evolve into real products. Growing up between New York and Malaysia taught me to value different perspectives and approach problems with empathy. Whether I'm collaborating with a team, conducting research, or refining details in a design, I enjoy finding clarity in complexity and creating solutions that feel both functional and human.",
 ];
+
+/* EDIT: closing paragraph, shown after the Experience section */
+const OUTRO =
+    "When I'm not designing, I'm usually planning my next concert or festival, playing video games, taking photos I'll take days to edit, or trying a new recipe. I love collecting inspiration from everyday places—whether that's a museum visit, a conversation with a friend, or something I noticed while wandering around the city. Most of my best ideas start as random notes, and most of my days are powered by iced matcha.";
 
 /* EDIT: company · role · dates, most recent first */
 const EXPERIENCE = [
@@ -26,22 +30,13 @@ const EXPERIENCE = [
     { company: 'Photo Store Digital Express',  role: 'Assistant Photo Editor', period: 'Jan 2018 – Jan 2020' },
 ];
 
-/* EDIT: 3–5 candid photos — drop files into /public/about/ and
-   update src + caption. src: null renders a placeholder slot. */
-const CANDIDS: { src: string | null; caption: string }[] = [
-    { src: crystalIcelandImg, caption: 'Iceland, 2025' },
-    { src: null,              caption: 'your caption' },
-    { src: null,              caption: 'your caption' },
-    { src: null,              caption: 'your caption' },
-];
-
-/* EDIT: favorites — things you love. Same deal: drop files into
-   /public/about/ and update src + caption. */
-const FAVORITES: { src: string | null; caption: string }[] = [
-    { src: null, caption: 'your caption' },
-    { src: null, caption: 'your caption' },
-    { src: null, caption: 'your caption' },
-    { src: null, caption: 'your caption' },
+/* EDIT: favorites — each deck is a stack of cards you click through.
+   Drop image files into /public/ and list them in `cards`. */
+const FAVORITE_DECKS: { label: string; cards: string[] }[] = [
+    { label: 'Books',  cards: ['/fav_book1.jpg', '/fav_book2.jpg'] },
+    { label: 'Games',  cards: ['/fav_game1.jpeg', '/fav_game2.jpg'] },
+    { label: 'Shows',  cards: ['/fav_show1.jpg', '/fav_show2.jpg'] },
+    { label: 'Movies', cards: ['/fav-movie1.jpg', '/fav-movie2.jpg'] },
 ];
 
 /* ─── Section eyebrow (matches Home) ─── */
@@ -54,34 +49,61 @@ const Eyebrow = ({ label }: { label: string }) => (
     </div>
 );
 
-/* ─── Photo row (candids / favorites) ─── */
-const PhotoRow = ({ photos }: { photos: { src: string | null; caption: string }[] }) => (
-    <div
-        className="flex gap-4 md:gap-5 overflow-x-auto pb-3 -mx-1 px-1"
-        style={{ scrollbarWidth: 'none' }}
-    >
-        {photos.map((photo, i) => (
-            <figure key={i} className="shrink-0 w-[180px] md:w-[200px]">
-                {photo.src ? (
-                    <img
-                        src={photo.src}
-                        alt={photo.caption}
-                        className="w-full aspect-[3/4] object-cover rounded-xl border border-hairline"
-                    />
-                ) : (
-                    <div className="w-full aspect-[3/4] rounded-xl border border-dashed border-ink/15 bg-canvas flex items-center justify-center">
-                        <span className="text-[12px] font-sans font-medium text-ink-muted">
-                            photo soon
-                        </span>
-                    </div>
-                )}
-                <figcaption className="font-serif italic text-[13px] text-ink-muted mt-2.5 text-center">
-                    {photo.caption}
-                </figcaption>
-            </figure>
-        ))}
-    </div>
-);
+/* ─── Click-to-flip stacked card deck ─── */
+const CardDeck = ({ label, cards, tilt = 0 }: { label: string; cards: string[]; tilt?: number }) => {
+    const [top, setTop] = useState(0);
+    const [hovered, setHovered] = useState(false);
+    const n = cards.length;
+    const advance = () => setTop((t) => (t + 1) % n);
+
+    return (
+        <div className="flex flex-col items-center">
+            <button
+                type="button"
+                onClick={advance}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+                aria-label={`Flip through favorite ${label.toLowerCase()}`}
+                className="group relative w-[180px] md:w-[200px] aspect-[3/4] focus:outline-none transition-transform duration-500 ease-out"
+                style={{ perspective: '1200px', transform: `rotate(${hovered ? tilt * 0.3 : tilt}deg)` }}
+            >
+                {cards.map((src, i) => {
+                    /* depth: 0 = front, increasing = further back */
+                    const depth = (i - top + n) % n;
+                    const isFront = depth === 0;
+                    /* on hover the stack fans out and the front card lifts,
+                       inviting the visitor to click */
+                    const offY = depth * 8 + (hovered ? depth * 6 : 0) - (isFront && hovered ? 6 : 0);
+                    const offX = depth * 6 + (hovered ? depth * 5 : 0);
+                    const rot = depth * 2.5 + (hovered ? depth * 1.5 : 0);
+                    const scale = (1 - depth * 0.04) * (isFront && hovered ? 1.02 : 1);
+                    return (
+                        <img
+                            key={i}
+                            src={src}
+                            alt={`${label} ${i + 1}`}
+                            className="absolute inset-0 w-full h-full object-cover rounded-xl border border-hairline shadow-sm transition-all duration-500 ease-out"
+                            style={{
+                                zIndex: n - depth,
+                                transform: `translateY(${offY}px) translateX(${offX}px) rotate(${rot}deg) scale(${scale})`,
+                                opacity: depth > 2 ? 0 : 1,
+                                pointerEvents: isFront ? 'auto' : 'none',
+                            }}
+                        />
+                    );
+                })}
+
+                {/* hover hint */}
+                <span
+                    className="pointer-events-none absolute left-1/2 bottom-3 -translate-x-1/2 z-50 whitespace-nowrap rounded-full bg-ink/85 px-3 py-1 text-[11px] font-sans font-medium tracking-[0.08em] uppercase text-paper-light shadow-md transition-all duration-300 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0"
+                >
+                    click to flip
+                </span>
+            </button>
+            <span className="mt-3.5 font-serif italic text-[15px] text-ink">{label}</span>
+        </div>
+    );
+};
 
 export const AboutMe = () => {
     return (
@@ -93,12 +115,9 @@ export const AboutMe = () => {
                     <div className="grid grid-cols-1 md:grid-cols-[1fr_280px] gap-10 md:gap-14 items-start">
 
                         <div className="order-2 md:order-1">
-                            <h1 className="font-serif text-[40px] md:text-[52px] font-normal leading-[1.1] text-ink mb-2">
+                            <h1 className="font-serif text-[40px] md:text-[52px] font-normal leading-[1.1] text-ink mb-8">
                                 Hi, I'm Crystal <span className="text-prussian">:)</span>
                             </h1>
-                            <p className="text-[13px] font-sans font-medium tracking-[0.14em] uppercase text-ink-muted mb-8">
-                                she/her · NYC
-                            </p>
 
                             <div className="flex flex-col gap-5">
                                 {BIO.map((text, i) => (
@@ -109,16 +128,18 @@ export const AboutMe = () => {
                             </div>
                         </div>
 
-                        {/* Profile photo */}
-                        <figure className="order-1 md:order-2 w-full max-w-[300px] md:max-w-none mx-auto">
-                            <img
-                                src="/CrystalC-2.1.jpg"
-                                alt="Crystal Cho"
-                                className="w-full aspect-[3/4] object-cover rounded-2xl border border-hairline"
-                            />
-                            <figcaption className="font-serif italic text-[14px] text-ink-muted mt-3 text-center">
-                                that's me!
-                            </figcaption>
+                        {/* Profile photo — framed like a print, slight tilt */}
+                        <figure className="order-1 md:order-2 w-full max-w-[300px] md:max-w-none mx-auto group">
+                            <div className="bg-white p-3 pb-5 rounded-md shadow-lg rotate-[3deg] transition-transform duration-500 ease-out group-hover:rotate-0 group-hover:scale-[1.03] group-hover:shadow-xl">
+                                <img
+                                    src="/aboutme-profile.JPG"
+                                    alt="Crystal Cho"
+                                    className="w-full aspect-[3/4] object-cover"
+                                />
+                                <figcaption className="font-serif italic text-[15px] text-ink-muted mt-3 text-center">
+                                    that's me!
+                                </figcaption>
+                            </div>
                         </figure>
 
                     </div>
@@ -150,24 +171,56 @@ export const AboutMe = () => {
                     <p className="text-[14px] font-sans font-normal text-ink-muted mt-5">
                         BFA Graphic Design + Human-Computer Interaction, Virginia Tech · 2026
                     </p>
-                </section>
 
-                {/* ═══ CANDIDS ══════════════════════════════════════════ */}
-                <section className="mb-20 md:mb-24">
-                    <Eyebrow label="Life Lately" />
-                    <PhotoRow photos={CANDIDS} />
+                    <p className="text-[16px] font-sans font-normal text-ink/75 leading-[1.8] mt-10">
+                        {OUTRO}
+                    </p>
                 </section>
 
                 {/* ═══ MY FAVORITES ═════════════════════════════════════ */}
-                <section className="mb-12">
+                <section className="mb-20 md:mb-24">
                     <Eyebrow label="My Favorites" />
-                    <PhotoRow photos={FAVORITES} />
+                    <div className="flex flex-wrap gap-12 md:gap-16 pt-2 items-start">
+                        {FAVORITE_DECKS.map((deck, i) => (
+                            <CardDeck
+                                key={deck.label}
+                                label={deck.label}
+                                cards={deck.cards}
+                                tilt={[-5, 3.5, -2.5, 4][i % 4]}
+                            />
+                        ))}
+                        <MusicPlayer />
+                    </div>
                 </section>
 
-                {/* ═══ SIGN-OFF ═════════════════════════════════════════ */}
-                <p className="font-serif italic text-[16px] text-ink-muted">
-                    Thanks for stopping by — let's make something good together.
-                </p>
+                {/* ═══ LET'S CONNECT ════════════════════════════════════ */}
+                <section className="mb-12">
+                    <Eyebrow label="Let's Connect" />
+                    <div className="flex flex-col gap-5 max-w-[640px]">
+                        <p className="text-[16px] font-sans font-normal text-ink/75 leading-[1.8]">
+                            I'm a big believer in learning from other people and paying forward the advice that's helped me along the way. If you're interested in design, technology, creative work, or just want to say hello, I'd love to connect.
+                        </p>
+                        <p className="text-[16px] font-sans font-normal text-ink/75 leading-[1.8]">
+                            Feel free to reach out on{' '}
+                            <a
+                                href="https://www.linkedin.com/in/crystalcho"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-prussian underline underline-offset-2 hover:opacity-70 transition-opacity"
+                            >
+                                LinkedIn
+                            </a>{' '}
+                            or send me an email at{' '}
+                            <a
+                                href="mailto:crystalcho.official@gmail.com"
+                                className="text-prussian underline underline-offset-2 hover:opacity-70 transition-opacity"
+                            >
+                                crystalcho.official@gmail.com
+                            </a>
+                            .
+                        </p>
+                    </div>
+                </section>
 
             </div>
         </div>

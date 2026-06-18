@@ -100,7 +100,7 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
     >
       {/* Hero / image */}
       <div className="w-full overflow-hidden bg-canvas"
-           style={{ height: item.span === 'full' ? 340 : 240 }}>
+           style={{ height: item.span === 'full' ? 360 : 240 }}>
         {item.hero ? (
           item.hero
         ) : (

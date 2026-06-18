@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import { XometryWorkCenterWidget } from '../components/widgets/XometryWorkCenterWidget';
+import { XometryHeroWidget } from '../components/widgets/XometryHeroWidget';
 
 /* ─── Design tokens (mapped to site palette — see PALETTE.md) ─── */
 const T = {
@@ -161,8 +163,8 @@ export const XometryCase = () => {
             </div>
           </div>
 
-          {/* Hero image */}
-          <CaseImg src="/xometry/mockup-hero.png" alt="Xometry WorkCenter Hero" className="rounded-xl" />
+          {/* Hero — animated two-phone WorkCenter showcase */}
+          <XometryHeroWidget />
         </section>
 
         {/* ═══ OVERVIEW ═══ */}
@@ -261,15 +263,7 @@ export const XometryCase = () => {
           <div>
             <div className="text-[10px] font-bold uppercase tracking-[0.12em] mb-2.5"
                  style={{ color: T.text3, fontFamily: '"Hanken Grotesk", sans-serif' }}>Research Artifacts</div>
-            <Grid2 className="mb-3">
-              <ImgPlaceholder label="Interview Notes Screenshot" className="sm:!min-h-[220px]" />
-              <ImgPlaceholder label="Affinity Mapping" className="sm:!min-h-[220px]" />
-            </Grid2>
-            <Grid2 className="mb-3">
-              <ImgPlaceholder label="Research Documentation" />
-              <ImgPlaceholder label="Sticky Note Groupings" />
-            </Grid2>
-            <ImgPlaceholder label="User Quotes & Highlights" />
+            <XometryWorkCenterWidget keep={['a2']} bare />
           </div>
         </SectionWrap>
 
@@ -323,14 +317,7 @@ export const XometryCase = () => {
             </p>
           </div>
 
-          <Grid2 className="mb-3">
-            <ImgPlaceholder label="Information Architecture" className="sm:!min-h-[240px]" />
-            <ImgPlaceholder label="Flow Diagram" className="sm:!min-h-[240px]" />
-          </Grid2>
-          <Grid2>
-            <ImgPlaceholder label="App Map" className="sm:!min-h-[240px]" />
-            <ImgPlaceholder label="Early Wireframes" className="sm:!min-h-[240px]" />
-          </Grid2>
+          <XometryWorkCenterWidget keep={['a3']} bare />
         </SectionWrap>
 
         {/* ═══ KEY FEATURES ═══ */}

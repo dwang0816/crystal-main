@@ -3,13 +3,12 @@ import { useState } from 'react';
 /*
   Splash thumbnail — Oneum
   ─────────────────────────────────────────────
-  Color world: dusty rose — dancheong warmth, K-pop, print.
-  · Dominant rose color field
-  · Ghosted "02" in Source Serif 4 behind everything
-  · Floating element: type-specimen card, Hangul + Latin (lifts on hover)
+  Color world: rose / pink — dancheong warmth, K-pop, retro type.
+  Real type-driven album artwork (이효리 — 10 Minutes) floats on the
+  rose field and lifts on hover. Ghosted "02" behind everything.
 */
 
-const FIELD  = '#E4C6C2';                    /* rose tint of paper  */
+const FIELD  = '#E7C9C4';                    /* rose tint of paper  */
 const DEEP   = '#9B5350';                    /* deep rose accent    */
 const GHOST  = 'rgba(155, 83, 80, 0.16)';    /* ghosted number      */
 
@@ -41,61 +40,28 @@ export const OneumHero = ({ className = '' }: { className?: string }) => {
 
             {/* ── Eyebrow ── */}
             <div className="absolute top-4 sm:top-5 left-5 right-5 flex items-center justify-between z-10">
-                <span
-                    className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-extrabold font-sans"
-                    style={{ color: DEEP }}
-                >
-                    Case Study
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-extrabold font-sans"
+                      style={{ color: DEEP }}>
+                    Case Study · 02
                 </span>
-                <span className="text-[16px] leading-none font-serif" style={{ color: DEEP }} aria-hidden>
-                    ✦
-                </span>
+                <span className="text-[16px] leading-none font-serif" style={{ color: DEEP }} aria-hidden>✦</span>
             </div>
 
-            {/* ── Floating element: type-specimen card ── */}
-            <div className="absolute inset-0 flex items-center justify-center pt-4 pb-6">
-                <div
-                    className="relative rounded-[14px] border-[1.5px] bg-paper-light px-5 py-4"
+            {/* ── Floating element: real album artwork ── */}
+            <div className="absolute inset-0 flex items-center justify-center px-6 pt-6 pb-7">
+                <img
+                    src="/oneum/type-driven-album-covers.gif"
+                    alt="Oneum — type-driven K-pop album artwork"
+                    className="w-full h-full object-contain"
                     style={{
-                        borderColor: 'var(--ink)',
-                        transform: hover ? 'translateY(-7px) rotate(1deg)' : 'translateY(0) rotate(0deg)',
-                        boxShadow: hover
-                            ? '0 22px 40px -10px rgba(74, 35, 33, 0.38), 0 4px 10px rgba(74, 35, 33, 0.12)'
-                            : '0 8px 18px -6px rgba(74, 35, 33, 0.22)',
-                        transition: 'transform 0.6s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.6s ease',
+                        transform: hover ? 'translateY(-7px) rotate(-1deg) scale(1.03)' : 'translateY(0) rotate(0deg)',
+                        filter: hover
+                            ? 'drop-shadow(0 22px 30px rgba(74,35,33,0.32))'
+                            : 'drop-shadow(0 10px 18px rgba(74,35,33,0.2))',
+                        transition: 'transform 0.6s cubic-bezier(0.2,0.8,0.2,1), filter 0.6s ease',
                     }}
-                >
-                    {/* Specimen header */}
-                    <div className="flex items-center justify-between gap-6 mb-2">
-                        <span className="text-[7px] uppercase tracking-[0.18em] font-sans" style={{ color: DEEP }}>
-                            Specimen
-                        </span>
-                        <span className="font-mono text-[7px] tracking-[0.15em] text-ink/50">온음 / sound</span>
-                    </div>
-
-                    {/* Hangul + Latin pairing */}
-                    <div className="flex items-baseline gap-3">
-                        <span
-                            className="font-serif text-ink leading-none"
-                            style={{ fontSize: 'clamp(40px, 6vw, 64px)' }}
-                        >
-                            한
-                        </span>
-                        <span
-                            className="font-serif italic leading-none"
-                            style={{ color: DEEP, fontSize: 'clamp(22px, 3.4vw, 36px)' }}
-                        >
-                            Oneum
-                        </span>
-                    </div>
-
-                    {/* Baseline rule */}
-                    <div className="mt-2 h-px w-full" style={{ background: 'var(--border-line)' }} />
-                    <div className="mt-1.5 flex justify-between text-[7px] uppercase tracking-[0.15em] font-sans text-ink/50">
-                        <span>Hangul</span>
-                        <span>Latin</span>
-                    </div>
-                </div>
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                />
             </div>
 
             {/* ── Bottom tagline ── */}
@@ -103,14 +69,12 @@ export const OneumHero = ({ className = '' }: { className?: string }) => {
                 <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.18em] font-sans text-ink/60">
                     Two scripts. One voice.
                 </span>
-                <span
-                    className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-extrabold font-sans"
-                    style={{
-                        color: DEEP,
-                        transform: hover ? 'translateX(-4px)' : 'translateX(0)',
-                        transition: 'transform 0.4s ease',
-                    }}
-                >
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-extrabold font-sans"
+                      style={{
+                          color: DEEP,
+                          transform: hover ? 'translateX(-4px)' : 'translateX(0)',
+                          transition: 'transform 0.4s ease',
+                      }}>
                     View →
                 </span>
             </div>

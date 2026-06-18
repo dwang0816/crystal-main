@@ -1,4 +1,5 @@
 import type { DraggableItem, FeaturedProject, InternshipPost } from '../types/index';
+import { XometryHero } from '../components/case-hero/XometryHero';
 import { ClockWidget } from '../components/widgets/ClockWidget';
 import { MemoWidget } from '../components/widgets/MemoWidget';
 import { ImageWidget } from '../components/widgets/ImageWidget';
@@ -93,6 +94,7 @@ export const featuredProjects: FeaturedProject[] = [
             { src: 'https://ik.imagekit.io/cch0/applications/Figma-logo.svg?updatedAt=1772659997879', alt: 'Figma' },
         ],
         image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800',
+        hero: <XometryHero />,
         link: '/projects/xometry-workcenter',
     },
     {

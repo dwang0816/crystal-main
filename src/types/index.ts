@@ -20,6 +20,7 @@ export type FeaturedProject = {
     tags: string[];
     tools: { src: string; alt: string }[];
     image: string;
+    hero?: ReactNode;
     link?: string;
     external?: boolean;
 };

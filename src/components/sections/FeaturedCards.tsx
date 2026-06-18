@@ -33,13 +33,17 @@ const FeaturedHero = ({ project, index: _index }: { project: typeof featuredProj
                 </p>
             </div>
 
-            {/* Full-width image */}
-            <div className="w-full h-[312px] rounded-xl overflow-hidden border border-hairline">
-                <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-500"
-                />
+            {/* Full-width hero / image */}
+            <div className="w-full h-[360px] rounded-xl overflow-hidden border border-hairline">
+                {project.hero ? (
+                    project.hero
+                ) : (
+                    <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-500"
+                    />
+                )}
             </div>
         </div>
     );

@@ -45,24 +45,18 @@ const SectionEyebrow = ({ number, label }: { number: string; label: string }) =>
     </div>
 );
 
-/* ─── Snapshot photo card ─── */
+/* ─── Snapshot photo card — framed like a print, slight tilt right ─── */
 const SnapshotCard = ({ className = '', style }: { className?: string; style?: React.CSSProperties }) => (
-    <div className={`relative rounded-2xl overflow-hidden border border-hairline ${className}`} style={style}>
-        <img
-            src={crystalIcelandImg}
-            alt="Crystal in Iceland"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
-            draggable={false}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
-        <span className="absolute top-3 left-4 text-paper-light text-[12px] font-sans font-medium uppercase">
-            Snapshot
-        </span>
-        <span className="absolute top-3 right-4 text-paper-light text-[24px] leading-none">✦</span>
-        <span className="absolute bottom-3 left-4 text-paper-light font-serif text-[20px] font-normal italic">
-            Iceland | 2025
-        </span>
-    </div>
+    <figure className={`group ${className}`} style={style}>
+        <div className="bg-white p-3 rounded-md shadow-lg rotate-[3deg] transition-transform duration-500 ease-out group-hover:-translate-y-1.5 group-hover:rotate-[2.5deg]">
+            <img
+                src={crystalIcelandImg}
+                alt="Crystal in Iceland"
+                className="w-full aspect-[3/4] object-cover rounded-sm pointer-events-none select-none"
+                draggable={false}
+            />
+        </div>
+    </figure>
 );
 
 /* ════════════════════════════════════════════════════════════
@@ -109,7 +103,7 @@ export const Home = () => {
                         </div>
 
                         <SnapshotCard
-                            className="order-1 md:order-2 w-full md:w-[260px] aspect-[3/4] md:aspect-[3/4] shrink-0"
+                            className="order-1 md:order-2 w-full max-w-[260px] mx-auto md:mx-0 md:w-[260px] shrink-0"
                         />
 
                     </div>
