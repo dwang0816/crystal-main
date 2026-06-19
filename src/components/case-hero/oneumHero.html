@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;900&family=Noto+Sans+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.thumb {
+  width: 640px;
+  height: 360px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 16px;
+  background: #FAF7F2;
+  cursor: pointer;
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+.thumb:hover {
+  box-shadow: 0 24px 64px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.08);
+  transform: translateY(-3px);
+}
+
+/* ── GRADIENT WASH ── */
+.wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 70% at 30% 20%, rgba(160,185,255,0.28) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 55% at 72% 75%, rgba(255,165,100,0.2) 0%, transparent 60%);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.thumb:hover .wash {
+  opacity: 1.3;
+}
+
+/* ── LEFT: size ramp ── */
+.col-left {
+  position: absolute;
+  left: 32px;
+  top: 0; bottom: 0;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 5;
+}
+
+.size-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 5px 0;
+  border-bottom: 0.5px solid rgba(26,20,16,0.08);
+  transition: padding-left 0.35s ease, background 0.35s ease;
+}
+.size-row:last-child { border-bottom: none; }
+
+/* on hover, rows slide right slightly in staggered sequence */
+.thumb:hover .size-row:nth-child(1) { padding-left: 6px; transition-delay: 0.00s; }
+.thumb:hover .size-row:nth-child(2) { padding-left: 6px; transition-delay: 0.04s; }
+.thumb:hover .size-row:nth-child(3) { padding-left: 6px; transition-delay: 0.08s; }
+.thumb:hover .size-row:nth-child(4) { padding-left: 6px; transition-delay: 0.12s; }
+.thumb:hover .size-row:nth-child(5) { padding-left: 6px; transition-delay: 0.16s; }
+
+.sz-label {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: rgba(26,20,16,0.28);
+  width: 22px;
+  flex-shrink: 0;
+  transition: color 0.3s ease;
+}
+.thumb:hover .sz-label { color: rgba(26,20,16,0.45); }
+
+.sz-ko {
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 900;
+  color: #1a1410;
+  line-height: 1;
+  display: inline-block;
+  transition: color 0.3s ease, transform 0.3s ease;
+  transform-origin: bottom left;
+}
+.sz-en {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: rgba(26,20,16,0.28);
+  line-height: 1;
+  display: inline-block;
+  transition: color 0.4s ease;
+}
+
+/* Hangul chars get slightly bolder on hover, Latin fades more */
+.thumb:hover .sz-ko { color: #0e0a08; transform: scale(1.04); }
+.thumb:hover .sz-en { color: rgba(26,20,16,0.18); }
+
+/* ── RULE ── */
+.rule {
+  position: absolute;
+  left: 244px;
+  top: 12%;
+  bottom: 12%;
+  width: 0.5px;
+  background: rgba(26,20,16,0.12);
+  z-index: 5;
+  transform-origin: top center;
+  transition: background 0.4s ease, width 0.4s ease;
+}
+.thumb:hover .rule {
+  background: rgba(26,20,16,0.22);
+  width: 1px;
+}
+
+/* ── RIGHT COLUMN ── */
+.col-right {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  bottom: 24px;
+  width: 340px;
+  z-index: 5;
+}
+
+.spec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.spec-title-ko {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(26,20,16,0.55);
+  transition: color 0.3s ease;
+}
+.spec-title-en {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  font-style: italic;
+  color: rgba(26,20,16,0.28);
+  letter-spacing: 0.04em;
+  transition: color 0.3s ease;
+}
+.thumb:hover .spec-title-ko { color: rgba(26,20,16,0.75); }
+.thumb:hover .spec-title-en { color: rgba(26,20,16,0.42); }
+
+.spec-divider {
+  height: 0.5px;
+  background: rgba(26,20,16,0.1);
+  margin-bottom: 10px;
+  transform-origin: left;
+  transition: background 0.4s ease;
+}
+.thumb:hover .spec-divider { background: rgba(26,20,16,0.18); }
+
+/* ── CHAR GRID ── */
+.char-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.char-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #1a1410;
+  background: rgba(26,20,16,0.05);
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+
+/* individual cell hover */
+.char-cell:hover {
+  transform: scale(1.18);
+  z-index: 10;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+/* on card hover, all cells get slightly brighter background */
+.thumb:hover .char-cell { background: rgba(26,20,16,0.07); }
+
+/* highlighted cells */
+.char-cell.hi-blue {
+  background: rgba(100,140,230,0.15);
+  color: rgba(60,90,200,0.9);
+}
+.thumb:hover .char-cell.hi-blue {
+  background: rgba(100,140,230,0.24);
+  box-shadow: 0 0 0 1px rgba(100,140,230,0.2);
+}
+.char-cell.hi-blue:hover {
+  background: rgba(100,140,230,0.35) !important;
+}
+
+.char-cell.hi-orange {
+  background: rgba(230,100,50,0.12);
+  color: rgba(190,70,30,0.9);
+}
+.thumb:hover .char-cell.hi-orange {
+  background: rgba(230,100,50,0.2);
+  box-shadow: 0 0 0 1px rgba(230,100,50,0.2);
+}
+.char-cell.hi-orange:hover {
+  background: rgba(230,100,50,0.32) !important;
+}
+
+.char-cell.hi-dark {
+  background: #1a1410;
+  color: #FAF7F2;
+}
+.thumb:hover .char-cell.hi-dark {
+  background: #2d2420;
+  box-shadow: 0 0 0 1px rgba(26,20,16,0.3);
+}
+.char-cell.hi-dark:hover {
+  background: #3d3028 !important;
+}
+
+/* staggered lift on card hover */
+.thumb:hover .char-cell { transform: translateY(0px); }
+.thumb:hover .char-cell:nth-child(1)  { transition-delay: 0.000s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(2)  { transition-delay: 0.015s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(3)  { transition-delay: 0.030s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(4)  { transition-delay: 0.045s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(5)  { transition-delay: 0.060s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(6)  { transition-delay: 0.075s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(7)  { transition-delay: 0.090s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(8)  { transition-delay: 0.105s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(9)  { transition-delay: 0.120s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(10) { transition-delay: 0.135s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(11) { transition-delay: 0.150s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(12) { transition-delay: 0.165s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(13) { transition-delay: 0.180s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(14) { transition-delay: 0.195s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(15) { transition-delay: 0.210s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(16) { transition-delay: 0.225s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(17) { transition-delay: 0.240s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(18) { transition-delay: 0.255s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(19) { transition-delay: 0.270s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(20) { transition-delay: 0.285s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(21) { transition-delay: 0.300s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(22) { transition-delay: 0.315s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(23) { transition-delay: 0.330s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(24) { transition-delay: 0.345s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(25) { transition-delay: 0.360s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(26) { transition-delay: 0.375s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(27) { transition-delay: 0.390s; transform: translateY(-1px); }
+.thumb:hover .char-cell:nth-child(28) { transition-delay: 0.405s; transform: translateY(-1px); }
+
+/* ── WORD SPECIMENS ── */
+.word-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.word-specimen {
+  flex: 1;
+  background: rgba(26,20,16,0.04);
+  border: 0.5px solid rgba(26,20,16,0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+  transition: background 0.35s ease, border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+}
+.thumb:hover .word-specimen {
+  background: rgba(26,20,16,0.06);
+  border-color: rgba(26,20,16,0.13);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+}
+.thumb:hover .word-specimen.dark {
+  background: #231c18;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  transition-delay: 0.06s;
+}
+
+.ws-ko {
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 900;
+  font-size: 22px;
+  color: #1a1410;
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+  transition: letter-spacing 0.4s ease;
+}
+.thumb:hover .ws-ko { letter-spacing: 0.02em; }
+
+.ws-en {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: rgba(26,20,16,0.38);
+  display: block;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+.ws-meta {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: rgba(26,20,16,0.22);
+  margin-top: 6px;
+  text-transform: uppercase;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+.thumb:hover .ws-meta { opacity: 0.6; }
+
+.word-specimen.dark .ws-ko  { color: #FAF7F2; }
+.word-specimen.dark .ws-en  { color: rgba(242,237,228,0.35); }
+.word-specimen.dark .ws-meta { color: rgba(242,237,228,0.18); }
+.thumb:hover .word-specimen.dark .ws-en { color: rgba(242,237,228,0.5); }
+
+/* ── EDGE FADE ── */
+.fade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, #FAF7F2 0%, transparent 14%, transparent 88%, #FAF7F2 100%),
+    linear-gradient(to bottom, #FAF7F2 0%, transparent 10%, transparent 90%, #FAF7F2 100%);
+  pointer-events: none;
+  z-index: 15;
+  transition: opacity 0.4s ease;
+}
+.thumb:hover .fade { opacity: 0.7; }
+</style>
+</head>
+<body>
+<div class="thumb">
+  <div class="wash"></div>
+
+  <div class="col-left">
+    <div class="size-row">
+      <span class="sz-label">72</span>
+      <span class="sz-ko" style="font-size:48px;">가</span>
+      <span class="sz-en" style="font-size:40px;">A</span>
+    </div>
+    <div class="size-row">
+      <span class="sz-label">48</span>
+      <span class="sz-ko" style="font-size:32px;">나</span>
+      <span class="sz-en" style="font-size:28px;">B</span>
+    </div>
+    <div class="size-row">
+      <span class="sz-label">32</span>
+      <span class="sz-ko" style="font-size:22px;">다</span>
+      <span class="sz-en" style="font-size:19px;">C</span>
+    </div>
+    <div class="size-row">
+      <span class="sz-label">24</span>
+      <span class="sz-ko" style="font-size:16px;">라</span>
+      <span class="sz-en" style="font-size:14px;">D</span>
+    </div>
+    <div class="size-row">
+      <span class="sz-label">16</span>
+      <span class="sz-ko" style="font-size:11px;">마</span>
+      <span class="sz-en" style="font-size:10px;">E</span>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="col-right">
+    <div class="spec-header">
+      <span class="spec-title-ko">한글 · 라틴</span>
+      <span class="spec-title-en">Hangul &amp; Latin Coexistence</span>
+    </div>
+    <div class="spec-divider"></div>
+
+    <div class="char-grid">
+      <div class="char-cell hi-dark">ㄱ</div>
+      <div class="char-cell">ㄴ</div>
+      <div class="char-cell hi-blue">ㄷ</div>
+      <div class="char-cell">ㄹ</div>
+      <div class="char-cell">ㅁ</div>
+      <div class="char-cell hi-orange">ㅂ</div>
+      <div class="char-cell">ㅅ</div>
+      <div class="char-cell">ㅇ</div>
+      <div class="char-cell hi-blue">ㅈ</div>
+      <div class="char-cell">ㅊ</div>
+      <div class="char-cell hi-dark">ㅋ</div>
+      <div class="char-cell">ㅌ</div>
+      <div class="char-cell">ㅍ</div>
+      <div class="char-cell hi-orange">ㅎ</div>
+      <div class="char-cell hi-orange">ㅏ</div>
+      <div class="char-cell">ㅑ</div>
+      <div class="char-cell">ㅓ</div>
+      <div class="char-cell hi-blue">ㅕ</div>
+      <div class="char-cell">ㅗ</div>
+      <div class="char-cell">ㅛ</div>
+      <div class="char-cell hi-dark">ㅜ</div>
+      <div class="char-cell">ㅠ</div>
+      <div class="char-cell hi-dark">ㅡ</div>
+      <div class="char-cell">ㅣ</div>
+      <div class="char-cell hi-orange">ㅐ</div>
+      <div class="char-cell">ㅔ</div>
+      <div class="char-cell hi-blue">ㅒ</div>
+      <div class="char-cell">ㅖ</div>
+    </div>
+
+    <div class="word-row">
+      <div class="word-specimen">
+        <span class="ws-ko">온음</span>
+        <span class="ws-en">Oneum</span>
+        <span class="ws-meta">Noto Serif KR · 900</span>
+      </div>
+      <div class="word-specimen dark">
+        <span class="ws-ko">온음</span>
+        <span class="ws-en">Oneum</span>
+        <span class="ws-meta">Playfair Display · Italic</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fade"></div>
+</div>
+</body>
+</html>
