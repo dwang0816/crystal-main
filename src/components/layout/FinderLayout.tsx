@@ -121,7 +121,7 @@ export const FinderLayout = () => {
                     <div className="flex flex-col items-start w-full">
                         {/* serif/name — 32px */}
                         <p className="font-serif text-[32px] font-normal text-ink leading-normal whitespace-nowrap">
-                            Krystal Cho
+                            Crystal Cho
                         </p>
                         {/* sans/meta — 14px medium, ALL CAPS, prussian */}
                         <div className="flex items-center gap-1.5 text-[14px] font-sans font-medium tracking-[0.28px] uppercase text-prussian mt-1">
@@ -197,7 +197,7 @@ export const FinderLayout = () => {
 
                 {/* ── Copyright ── */}
                 <p className="text-left text-[12px] font-sans font-medium tracking-[0.24px] text-ink/50">
-                    © 2026 Krystal Cho
+                    © 2026 Crystal Cho
                 </p>
             </div>
 

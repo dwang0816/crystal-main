@@ -55,7 +55,7 @@ export default {
 				input:  'hsl(var(--input))',
 				ring:   'hsl(var(--ring))',
 
-				/* ── Krystal site palette (named tokens) ──────────── */
+				/* ── Crystal site palette (named tokens) ──────────── */
 				paper:       'var(--paper)',
 				'paper-light': 'var(--paper-light)',
 				canvas:      'var(--canvas)',

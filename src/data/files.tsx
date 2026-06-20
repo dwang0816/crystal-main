@@ -13,8 +13,8 @@ export const SECTIONS = [
 ] as const;
 
 export const homeFiles: DraggableItem[] = [
-    { id: 'intro-text', name: 'memo', type: 'widget', widget: <MemoWidget content={`Hi, I'm Krystal — a Product Designer building\n*efficient, impactful *experiences\nwith *intention.*\n\nPreviously @Xometry`} />, pos: { left: '3%', top: '9%' } },
-    { id: 'crystal-iceland', name: 'crystal_in_iceland.jpg', type: 'widget', widget: <ImageWidget src={crystalIcelandImg} alt="Krystal in Iceland" />, showLabel: true, pos: { left: '35%', top: '28%' } },
+    { id: 'intro-text', name: 'memo', type: 'widget', widget: <MemoWidget content={`Hi, I'm Crystal — a Product Designer building\n*efficient, impactful *experiences\nwith *intention.*\n\nPreviously @Xometry`} />, pos: { left: '3%', top: '9%' } },
+    { id: 'crystal-iceland', name: 'crystal_in_iceland.jpg', type: 'widget', widget: <ImageWidget src={crystalIcelandImg} alt="Crystal in Iceland" />, showLabel: true, pos: { left: '35%', top: '28%' } },
     { id: 'clock-widget', name: 'clock', type: 'widget', widget: <ClockWidget />, pos: { right: '2%', top: '9%' } },
     { id: 'experience-widget', name: 'experience', type: 'widget', widget: <ExperienceWidget />, showLabel: true, pos: { right: '5%', bottom: '12%' } },
 
