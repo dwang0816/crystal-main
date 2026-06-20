@@ -76,6 +76,9 @@ export const HeroThumbWidget = ({
           height: STAGE_H,
           border: 'none',
           display: 'block',
+          // The thumbnails are purely decorative; let clicks fall through to the
+          // parent card so the whole thumbnail navigates to the case study.
+          pointerEvents: 'none',
           transformOrigin: 'top left',
           transform: `translate(${tx}px, ${ty}px) scale(${scale})`,
         }}

@@ -99,7 +99,7 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
       onClick={() => isClickable && navigate(item.link!)}
     >
       {/* Hero / image */}
-      <div className="w-full overflow-hidden bg-canvas"
+      <div className="relative w-full overflow-hidden bg-canvas"
            style={{ height: item.span === 'full' ? 360 : 240 }}>
         {item.hero ? (
           item.hero
@@ -108,6 +108,17 @@ const GalleryCard = ({ item }: { item: GalleryItem }) => {
             src={item.image}
             alt={item.title}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+          />
+        )}
+        {/* Explicit click target over the thumbnail. The hero <iframe> swallows
+            clicks (or only unreliably lets them fall through to the card), so
+            this transparent overlay guarantees the thumbnail navigates. */}
+        {isClickable && (
+          <button
+            type="button"
+            aria-label={`View ${item.title} case study`}
+            onClick={() => navigate(item.link!)}
+            className="absolute inset-0 z-10 w-full h-full cursor-pointer bg-transparent border-none p-0"
           />
         )}
       </div>
