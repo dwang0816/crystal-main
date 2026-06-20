@@ -1,16 +1,26 @@
 #!/usr/bin/env node
 /**
  * fetch-gallery.mjs
- * Fetches images from a Google Drive folder and generates src/data/gallery-items.ts.
- * Supports subfolder grouping: images in subfolders are grouped under the folder's description.
- * Images in the root folder use their own description as a caption.
- * Run: npm run fetch-gallery
- * Requires: GOOGLE_API_KEY in .env
+ * Generates src/data/gallery-items.ts from a Google Drive folder.
+ * Supports subfolder grouping; folder names become section headers.
+ *
+ * Media strategy (so the production build never depends on Drive — see the
+ * 403 download-quota incident that wiped the gallery):
+ *   · Images  → served straight from Google's CDN (lh3.googleusercontent.com),
+ *               nothing is downloaded or committed.
+ *   · Videos  → downloaded once, compressed with ffmpeg to a small looping mp4
+ *               in public/clips/ (committed to the repo).
+ *
+ * This is a LOCAL/manual refresh step — it is intentionally NOT part of the
+ * build. Run it when Drive contents change, then commit the results.
+ * Run: npm run fetch-gallery   ·   Requires: GOOGLE_API_KEY in .env
  */
 
 import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { spawnSync } from 'child_process';
+import ffmpegPath from 'ffmpeg-static';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -34,49 +44,86 @@ if (!API_KEY) {
   process.exit(1);
 }
 
-const galleryDir = join(ROOT, 'public', 'gallery');
-mkdirSync(galleryDir, { recursive: true });
+// Working cache for video originals (gitignored). Images are never downloaded.
+const cacheDir = join(ROOT, 'public', 'gallery');
+// Compressed looping clips that actually ship (committed).
+const clipsDir = join(ROOT, 'public', 'clips');
+mkdirSync(cacheDir, { recursive: true });
+mkdirSync(clipsDir, { recursive: true });
 
 const isImage = f => f.mimeType?.startsWith('image/');
 const isVideo = f => f.mimeType?.startsWith('video/');
 const isMedia = f => isImage(f) || isVideo(f);
 
-/** Download an image or video file (if not already cached) and return a gallery item. */
-async function processMediaFile(file) {
-  const ext      = file.name.split('.').pop()?.toLowerCase() ?? 'jpg';
-  const filename = `${file.id}.${ext}`;
-  const dest     = join(galleryDir, filename);
+const driveDownloadUrl = id =>
+  `https://www.googleapis.com/drive/v3/files/${id}?alt=media&key=${API_KEY}`;
 
-  if (existsSync(dest)) {
-    console.log(`   –  ${file.name} (already downloaded)`);
-  } else {
-    const dlUrl = `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media&key=${API_KEY}`;
-    const dlRes = await fetch(dlUrl);
+/** Download a Drive video original (cached), then compress it to a small mp4. */
+async function processVideoFile(file) {
+  const ext      = file.name.split('.').pop()?.toLowerCase() ?? 'mp4';
+  const srcPath  = join(cacheDir, `${file.id}.${ext}`);
+  const outPath  = join(clipsDir, `${file.id}.mp4`);
 
+  if (!existsSync(srcPath)) {
+    const dlRes = await fetch(driveDownloadUrl(file.id));
     if (!dlRes.ok) {
-      console.warn(`   ⚠  Skipping "${file.name}" (${dlRes.status})`);
+      console.warn(`   ⚠  Skipping "${file.name}" — download failed (${dlRes.status})`);
       return null;
     }
-
-    const buffer = await dlRes.arrayBuffer();
-    writeFileSync(dest, Buffer.from(buffer));
-    console.log(`   ✓  ${file.name} (downloaded)`);
+    writeFileSync(srcPath, Buffer.from(await dlRes.arrayBuffer()));
+    console.log(`   ✓  ${file.name} (downloaded original)`);
   }
 
-  // Images expose imageMediaMetadata; videos expose videoMediaMetadata.
-  const meta = file.imageMediaMetadata ?? file.videoMediaMetadata ?? {};
-  const mediaH = meta.height ?? 800;
-  const mediaW = meta.width  ?? 600;
-  const displayHeight = Math.round((mediaH / mediaW) * 600);
+  if (!existsSync(outPath)) {
+    // Cap width at 800px, strip audio, web-optimized H.264 — loops are tiny.
+    const res = spawnSync(ffmpegPath, [
+      '-y', '-loglevel', 'error', '-i', srcPath,
+      '-an', '-vf', "scale='min(800,iw)':-2",
+      '-c:v', 'libx264', '-preset', 'slow', '-crf', '30',
+      '-pix_fmt', 'yuv420p', '-movflags', '+faststart', outPath,
+    ]);
+    if (res.status !== 0) {
+      console.warn(`   ⚠  Skipping "${file.name}" — ffmpeg failed`);
+      return null;
+    }
+    console.log(`   ✓  ${file.name} (compressed → clips/${file.id}.mp4)`);
+  } else {
+    console.log(`   –  ${file.name} (clip already built)`);
+  }
+
+  const meta = file.videoMediaMetadata ?? {};
+  const displayHeight = Math.round(((meta.height ?? 800) / (meta.width ?? 600)) * 600);
 
   return {
     id:          file.id,
-    type:        isVideo(file) ? 'video' : 'image',
-    img:         `/gallery/${filename}`,
+    type:        'video',
+    img:         `/clips/${file.id}.mp4`,
     url:         `https://drive.google.com/file/d/${file.id}/view`,
     height:      displayHeight,
     description: file.description ?? '',
   };
+}
+
+/** Build a gallery item for an image — served directly from Google's CDN. */
+function processImageFile(file) {
+  const meta = file.imageMediaMetadata ?? {};
+  const displayHeight = Math.round(((meta.height ?? 800) / (meta.width ?? 600)) * 600);
+  console.log(`   –  ${file.name} (CDN)`);
+
+  return {
+    id:          file.id,
+    type:        'image',
+    // lh3 resizes static images and serves animated GIFs untouched.
+    img:         `https://lh3.googleusercontent.com/d/${file.id}=w1600`,
+    url:         `https://drive.google.com/file/d/${file.id}/view`,
+    height:      displayHeight,
+    description: file.description ?? '',
+  };
+}
+
+/** Route a media file to the right processor. */
+async function processMediaFile(file) {
+  return isVideo(file) ? processVideoFile(file) : processImageFile(file);
 }
 
 /** List all files in a given Drive folder. */

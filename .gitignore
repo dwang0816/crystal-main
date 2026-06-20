@@ -16,7 +16,9 @@ dist-ssr
 .env
 .env.local
 
-# Downloaded gallery images (regenerated at build time)
+# Drive video originals — local working cache for fetch-gallery only.
+# (Images are served from Google's CDN; compressed clips live in public/clips/
+#  and ARE committed.)
 public/gallery/
 
 # Editor directories and files
