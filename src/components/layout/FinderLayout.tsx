@@ -184,7 +184,7 @@ export const FinderLayout = () => {
                         </button>
                         {/* Resume */}
                         <a
-                            href="https://drive.google.com/file/d/1W6JRUbUujetsAFSYz608EYB9ce5NvTph/view?usp=drive_link"
+                            href="https://drive.google.com/file/d/1XTDYT8Ik7WdHIRwl-b-JHOoQLocvy6zM/view"
                             target="_blank"
                             rel="noreferrer"
                             className="w-6 h-6 rounded-[5px] bg-paper flex items-center justify-center hover:bg-paper-light transition-colors text-ink"

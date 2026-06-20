@@ -84,7 +84,7 @@ export const Home = () => {
                             </p>
                             <div className="flex items-center gap-1 mt-2">
                                 <a
-                                    href="https://drive.google.com/file/d/1W6JRUbUujetsAFSYz608EYB9ce5NvTph/view?usp=drive_link"
+                                    href="https://drive.google.com/file/d/1XTDYT8Ik7WdHIRwl-b-JHOoQLocvy6zM/view"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="bg-ink text-paper-light text-[12px] font-sans font-medium rounded-full px-5 py-2 flex items-center gap-2 hover:opacity-80 transition-opacity"
