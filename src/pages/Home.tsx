@@ -95,9 +95,9 @@ export const Home = () => {
                                     href="https://www.linkedin.com/in/cch0/"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="text-prussian text-[12px] font-sans font-medium underline underline-offset-2 px-5 py-2 hover:opacity-60 transition-opacity flex items-center gap-1.5"
+                                    className="text-prussian text-[12px] font-sans font-medium px-5 py-2 hover:opacity-60 transition-opacity flex items-center gap-1.5"
                                 >
-                                    CONNECT <span className="inline-block -rotate-45">→</span>
+                                    <span className="underline underline-offset-2">CONNECT</span> <span className="inline-block -rotate-45">→</span>
                                 </a>
                             </div>
                         </div>
@@ -193,7 +193,7 @@ export const Home = () => {
                 <section className="mb-20 md:mb-24">
                     <SectionEyebrow number="04" label="Kind Words" />
                     <figure className="flex flex-col gap-6">
-                        <blockquote className="relative font-serif text-[20px] md:text-[24px] font-normal text-ink leading-[1.5] max-w-[700px]">
+                        <blockquote className="relative font-serif text-[20px] md:text-[24px] font-normal text-ink leading-[1.5]">
                             <span className="absolute -left-3 md:-left-6 -top-2 text-prussian-pale text-[40px] md:text-[56px] leading-none font-serif select-none">
                                 "
                             </span>

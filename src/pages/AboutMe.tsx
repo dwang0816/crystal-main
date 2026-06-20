@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { MusicPlayer } from '../components/MusicPlayer';
 
 /* ════════════════════════════════════════════════════════════
@@ -53,8 +53,14 @@ const Eyebrow = ({ label }: { label: string }) => (
 const CardDeck = ({ label, cards, tilt = 0 }: { label: string; cards: string[]; tilt?: number }) => {
     const [top, setTop] = useState(0);
     const [hovered, setHovered] = useState(false);
+    const [cursor, setCursor] = useState({ x: 0, y: 0 });
     const n = cards.length;
     const advance = () => setTop((t) => (t + 1) % n);
+
+    const handleMove = (e: MouseEvent) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    };
 
     return (
         <div className="flex flex-col items-center">
@@ -63,6 +69,7 @@ const CardDeck = ({ label, cards, tilt = 0 }: { label: string; cards: string[]; 
                 onClick={advance}
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
+                onMouseMove={handleMove}
                 aria-label={`Flip through favorite ${label.toLowerCase()}`}
                 className="group relative w-[180px] md:w-[200px] aspect-[3/4] focus:outline-none transition-transform duration-500 ease-out"
                 style={{ perspective: '1200px', transform: `rotate(${hovered ? tilt * 0.3 : tilt}deg)` }}
@@ -93,11 +100,18 @@ const CardDeck = ({ label, cards, tilt = 0 }: { label: string; cards: string[]; 
                     );
                 })}
 
-                {/* hover hint */}
+                {/* hover hint — a pill that follows the cursor */}
                 <span
-                    className="pointer-events-none absolute left-1/2 bottom-3 -translate-x-1/2 z-50 whitespace-nowrap rounded-full bg-ink/85 px-3 py-1 text-[11px] font-sans font-medium tracking-[0.08em] uppercase text-paper-light shadow-md transition-all duration-300 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0"
+                    className="pointer-events-none absolute left-0 top-0 z-50"
+                    style={{
+                        transform: `translate(${cursor.x}px, ${cursor.y}px)`,
+                        opacity: hovered ? 1 : 0,
+                        transition: 'opacity 0.2s ease, transform 0.07s ease-out',
+                    }}
                 >
-                    click to flip
+                    <span className="block -translate-x-1/2 -translate-y-[160%] whitespace-nowrap rounded-full bg-ink/85 px-3 py-1 text-[11px] font-sans font-medium tracking-[0.08em] uppercase text-paper-light shadow-md">
+                        flip me
+                    </span>
                 </span>
             </button>
             <span className="mt-3.5 font-serif italic text-[15px] text-ink">{label}</span>
@@ -137,7 +151,7 @@ export const AboutMe = () => {
                                     className="w-full aspect-[3/4] object-cover"
                                 />
                                 <figcaption className="font-serif italic text-[15px] text-ink-muted mt-3 text-center">
-                                    that's me!
+                                    #newgrad
                                 </figcaption>
                             </div>
                         </figure>
@@ -172,7 +186,7 @@ export const AboutMe = () => {
                         BFA Graphic Design + Human-Computer Interaction, Virginia Tech · 2026
                     </p>
 
-                    <p className="text-[16px] font-sans font-normal text-ink/75 leading-[1.8] mt-10">
+                    <p className="text-[16px] font-sans font-normal text-ink/75 leading-[1.8] mt-20 md:mt-24">
                         {OUTRO}
                     </p>
                 </section>
