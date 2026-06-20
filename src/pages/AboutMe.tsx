@@ -210,7 +210,7 @@ export const AboutMe = () => {
                 {/* ═══ LET'S CONNECT ════════════════════════════════════ */}
                 <section className="mb-12">
                     <Eyebrow label="Let's Connect" />
-                    <div className="flex flex-col gap-5 max-w-[640px]">
+                    <div className="flex flex-col gap-5">
                         <p className="text-[16px] font-sans font-normal text-ink/75 leading-[1.8]">
                             I'm a big believer in learning from other people and paying forward the advice that's helped me along the way. If you're interested in design, technology, creative work, or just want to say hello, I'd love to connect.
                         </p>
