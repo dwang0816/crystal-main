@@ -10,7 +10,7 @@ export const AboutMeSection = () => {
                         style={{ fontSize: 'clamp(48px,7.5vw,72px)' }}
                     >
                         hi, i'm{' '}
-                        <span className="text-prussian">Crystal</span>{' '}
+                        <span className="text-prussian">Krystal</span>{' '}
                         <span>:)</span>
                     </h1>
                     <p className="italic text-ink-muted font-sans text-[20px]">
@@ -45,7 +45,7 @@ export const AboutMeSection = () => {
                     <div className="shrink-0" style={{ width: '480px' }}>
                         <img
                             src="/CrystalC-2.1.jpg"
-                            alt="Crystal"
+                            alt="Krystal"
                             className="w-full rounded-xl object-cover"
                             style={{ maxHeight: '720px' }}
                         />

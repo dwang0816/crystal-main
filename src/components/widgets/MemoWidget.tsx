@@ -62,7 +62,7 @@ function charsUpToSegment(segments: Segment[], segIdx: number): number {
 }
 
 // ── Main component ───────────────────────────────────────────────────────────
-// staticContent renders immediately (Crystal + highlight on mount).
+// staticContent renders immediately (Krystal + highlight on mount).
 // content is typed out character-by-character.
 const CHAR_INTERVAL_MS = 26;
 
@@ -79,7 +79,7 @@ export function MemoWidget({ content, staticContent }: { content: string; static
     const [animHighlightVisible, setAnimHighlightVisible] = useState(false);
     const stateRef = useRef({ typed: 0, lastTs: 0 });
 
-    // Reveal static highlight (Crystal) shortly after mount
+    // Reveal static highlight (Krystal) shortly after mount
     useEffect(() => {
         const t = setTimeout(() => setStaticHighlight(true), 200);
         return () => clearTimeout(t);

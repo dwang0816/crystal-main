@@ -208,7 +208,7 @@ export const CaseStudySidebar = ({
 
                 {/* Copyright */}
                 <p className="text-left text-[12px] font-sans font-medium tracking-[0.24px] text-ink/50">
-                    © 2026 Crystal Cho
+                    © 2026 Krystal Cho
                 </p>
             </div>
 

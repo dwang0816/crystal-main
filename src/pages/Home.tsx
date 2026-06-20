@@ -51,7 +51,7 @@ const SnapshotCard = ({ className = '', style }: { className?: string; style?: R
         <div className="bg-white p-3 rounded-md shadow-lg rotate-[3deg] transition-transform duration-500 ease-out group-hover:-translate-y-1.5 group-hover:rotate-[2.5deg]">
             <img
                 src={crystalIcelandImg}
-                alt="Crystal in Iceland"
+                alt="Krystal in Iceland"
                 className="w-full aspect-[3/4] object-cover rounded-sm pointer-events-none select-none"
                 draggable={false}
             />
@@ -76,7 +76,7 @@ export const Home = () => {
                                 Welcome
                             </p>
                             <h1 className="font-serif text-[40px] md:text-[52px] xl:text-[56px] font-normal leading-[1.05] text-ink">
-                                Hi! I'm Crystal,<br />a Product Designer.
+                                Hi! I'm Krystal,<br />a Product Designer.
                             </h1>
                             <p className="text-[16px] font-sans font-normal text-prussian leading-relaxed max-w-[480px]">
                                 I design digital experiences that are{' '}
@@ -197,7 +197,7 @@ export const Home = () => {
                             <span className="absolute -left-3 md:-left-6 -top-2 text-prussian-pale text-[40px] md:text-[56px] leading-none font-serif select-none">
                                 "
                             </span>
-                            Crystal contributed to the immersive installation Mood Cocoon as my research assistant
+                            Krystal contributed to the immersive installation Mood Cocoon as my research assistant
                             and collaborator on the website design. She brings a thoughtful and detail-oriented approach,
                             with a strong sensitivity to both concept and form.
                         </blockquote>

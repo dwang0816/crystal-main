@@ -130,7 +130,7 @@ export const AboutMe = () => {
 
                         <div className="order-2 md:order-1">
                             <h1 className="font-serif text-[40px] md:text-[52px] font-normal leading-[1.1] text-ink mb-8">
-                                Hi, I'm Crystal <span className="text-prussian">:)</span>
+                                Hi, I'm Krystal <span className="text-prussian">:)</span>
                             </h1>
 
                             <div className="flex flex-col gap-5">
@@ -147,7 +147,7 @@ export const AboutMe = () => {
                             <div className="bg-white p-3 pb-5 rounded-md shadow-lg rotate-[3deg] transition-transform duration-500 ease-out group-hover:rotate-0 group-hover:scale-[1.03] group-hover:shadow-xl">
                                 <img
                                     src="/aboutme-profile.JPG"
-                                    alt="Crystal Cho"
+                                    alt="Krystal Cho"
                                     className="w-full aspect-[3/4] object-cover"
                                 />
                                 <figcaption className="font-serif italic text-[15px] text-ink-muted mt-3 text-center">

@@ -1,4 +1,4 @@
-# Crystal Cho — Site Color Palette
+# Krystal Cho — Site Color Palette
 
 Editorial warm-paper palette with a Prussian-blue accent. Single source of
 truth lives in `src/index.css` (CSS variables) and `tailwind.config.js`
