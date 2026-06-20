@@ -37,8 +37,12 @@ if (!API_KEY) {
 const galleryDir = join(ROOT, 'public', 'gallery');
 mkdirSync(galleryDir, { recursive: true });
 
-/** Download an image file (if not already cached) and return a gallery item. */
-async function processImageFile(file) {
+const isImage = f => f.mimeType?.startsWith('image/');
+const isVideo = f => f.mimeType?.startsWith('video/');
+const isMedia = f => isImage(f) || isVideo(f);
+
+/** Download an image or video file (if not already cached) and return a gallery item. */
+async function processMediaFile(file) {
   const ext      = file.name.split('.').pop()?.toLowerCase() ?? 'jpg';
   const filename = `${file.id}.${ext}`;
   const dest     = join(galleryDir, filename);
@@ -59,12 +63,15 @@ async function processImageFile(file) {
     console.log(`   ✓  ${file.name} (downloaded)`);
   }
 
-  const imgH = file.imageMediaMetadata?.height ?? 800;
-  const imgW = file.imageMediaMetadata?.width  ?? 600;
-  const displayHeight = Math.round((imgH / imgW) * 600);
+  // Images expose imageMediaMetadata; videos expose videoMediaMetadata.
+  const meta = file.imageMediaMetadata ?? file.videoMediaMetadata ?? {};
+  const mediaH = meta.height ?? 800;
+  const mediaW = meta.width  ?? 600;
+  const displayHeight = Math.round((mediaH / mediaW) * 600);
 
   return {
     id:          file.id,
+    type:        isVideo(file) ? 'video' : 'image',
     img:         `/gallery/${filename}`,
     url:         `https://drive.google.com/file/d/${file.id}/view`,
     height:      displayHeight,
@@ -77,16 +84,24 @@ async function listFiles(folderId) {
   const listUrl = new URL('https://www.googleapis.com/drive/v3/files');
   listUrl.searchParams.set('q', `'${folderId}' in parents and trashed = false`);
   listUrl.searchParams.set('key', API_KEY);
-  listUrl.searchParams.set('fields', 'files(id,name,description,mimeType,imageMediaMetadata)');
+  listUrl.searchParams.set('fields', 'nextPageToken,files(id,name,description,mimeType,imageMediaMetadata,videoMediaMetadata)');
   listUrl.searchParams.set('orderBy', 'createdTime desc');
-  listUrl.searchParams.set('pageSize', '100');
+  listUrl.searchParams.set('pageSize', '1000');
 
-  const res = await fetch(listUrl.toString());
-  if (!res.ok) {
-    const msg = await res.text();
-    throw new Error(`Drive API list error ${res.status}: ${msg}`);
-  }
-  const { files = [] } = await res.json();
+  const files = [];
+  let pageToken;
+  do {
+    if (pageToken) listUrl.searchParams.set('pageToken', pageToken);
+    const res = await fetch(listUrl.toString());
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(`Drive API list error ${res.status}: ${msg}`);
+    }
+    const data = await res.json();
+    files.push(...(data.files ?? []));
+    pageToken = data.nextPageToken;
+  } while (pageToken);
+
   return files;
 }
 
@@ -96,22 +111,22 @@ async function main() {
   // ── 1. List everything in the root folder ────────────────────────────────
   const rootFiles = await listFiles(FOLDER_ID);
 
-  const rootImages   = rootFiles.filter(f => f.mimeType?.startsWith('image/'));
+  const rootMedia    = rootFiles.filter(isMedia);
   const subfolders   = rootFiles.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
 
-  console.log(`   Found ${rootImages.length} root image(s) and ${subfolders.length} subfolder(s)\n`);
+  console.log(`   Found ${rootMedia.length} root media file(s) and ${subfolders.length} subfolder(s)\n`);
 
-  // ── 2. Process root images (no folder group) ─────────────────────────────
+  // ── 2. Process root media (no folder group) ──────────────────────────────
   const groups = [];
 
-  if (rootImages.length > 0) {
-    console.log('📷  Root images:');
+  if (rootMedia.length > 0) {
+    console.log('📷  Root media:');
     const items = [];
-    for (const file of rootImages) {
-      const item = await processImageFile(file);
+    for (const file of rootMedia) {
+      const item = await processMediaFile(file);
       if (item) items.push(item);
     }
-    // Root images have no folder label — section is null
+    // Root media have no folder label — section is null
     if (items.length > 0) groups.push({ folder: null, items });
   }
 
@@ -119,12 +134,12 @@ async function main() {
   for (const folder of subfolders) {
     console.log(`\n📂  Subfolder: "${folder.name}" (description: "${folder.description ?? ''}")`);
     const folderFiles  = await listFiles(folder.id);
-    const folderImages = folderFiles.filter(f => f.mimeType?.startsWith('image/'));
-    console.log(`   Found ${folderImages.length} image(s)`);
+    const folderMedia  = folderFiles.filter(isMedia);
+    console.log(`   Found ${folderMedia.length} media file(s)`);
 
     const items = [];
-    for (const file of folderImages) {
-      const item = await processImageFile(file);
+    for (const file of folderMedia) {
+      const item = await processMediaFile(file);
       if (item) items.push(item);
     }
 
@@ -148,6 +163,7 @@ async function main() {
 
 export interface GalleryItem {
   id:          string;
+  type:        'image' | 'video';
   img:         string;
   url:         string;
   height:      number;

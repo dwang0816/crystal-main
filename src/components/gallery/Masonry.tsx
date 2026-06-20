@@ -49,6 +49,7 @@ const preloadImages = async (urls: string[]): Promise<void> => {
 
 interface Item {
   id: string;
+  type?: 'image' | 'video';
   img: string;
   url: string;
   height: number;
@@ -277,9 +278,11 @@ const Lightbox: React.FC<LightboxProps> = ({ item, onClose }) => {
 
       {/* Hint */}
       <div className="lightbox-hint">
-        {scale > 1
-          ? 'Drag to pan · Double-tap to reset'
-          : 'Scroll or pinch to zoom · Double-tap for 2.5× · Hold ✕ to close'}
+        {item.type === 'video'
+          ? 'Hold ✕ to close'
+          : scale > 1
+            ? 'Drag to pan · Double-tap to reset'
+            : 'Scroll or pinch to zoom · Double-tap for 2.5× · Hold ✕ to close'}
       </div>
 
       {/* Canvas */}
@@ -292,25 +295,41 @@ const Lightbox: React.FC<LightboxProps> = ({ item, onClose }) => {
         onTouchEnd={handleTouchEnd}
         style={{ cursor: scale > 1 ? (isPanning ? 'grabbing' : 'grab') : 'zoom-in' }}
       >
-        <img
-          src={item.img}
-          alt={item.description ?? ''}
-          className="lightbox-img"
-          style={{
-            transform: `translate(${tx}px, ${ty}px) scale(${scale})`,
-            transition: isPanning || pinch.current.active ? 'none' : 'transform 0.2s ease',
-            willChange: 'transform',
-          }}
-          draggable={false}
-        />
+        {item.type === 'video' ? (
+          <video
+            src={item.img}
+            className="lightbox-img"
+            controls
+            autoPlay
+            loop
+            playsInline
+            style={{ maxWidth: '100%', maxHeight: '100%' }}
+            onClick={(e) => e.stopPropagation()}
+            onDoubleClick={(e) => e.stopPropagation()}
+          />
+        ) : (
+          <img
+            src={item.img}
+            alt={item.description ?? ''}
+            className="lightbox-img"
+            style={{
+              transform: `translate(${tx}px, ${ty}px) scale(${scale})`,
+              transition: isPanning || pinch.current.active ? 'none' : 'transform 0.2s ease',
+              willChange: 'transform',
+            }}
+            draggable={false}
+          />
+        )}
       </div>
 
-      {/* Zoom controls */}
-      <div className="lightbox-zoom-controls">
-        <button onClick={() => setZoom(scale - 0.5)} aria-label="Zoom out" disabled={scale <= MIN_SCALE}>−</button>
-        <button onClick={resetView} aria-label="Reset zoom">{Math.round(scale * 100)}%</button>
-        <button onClick={() => setZoom(scale + 0.5)} aria-label="Zoom in" disabled={scale >= MAX_SCALE}>+</button>
-      </div>
+      {/* Zoom controls (images only) */}
+      {item.type !== 'video' && (
+        <div className="lightbox-zoom-controls">
+          <button onClick={() => setZoom(scale - 0.5)} aria-label="Zoom out" disabled={scale <= MIN_SCALE}>−</button>
+          <button onClick={resetView} aria-label="Reset zoom">{Math.round(scale * 100)}%</button>
+          <button onClick={() => setZoom(scale + 0.5)} aria-label="Zoom in" disabled={scale >= MAX_SCALE}>+</button>
+        </div>
+      )}
 
       {item.description && <p className="lightbox-caption-bottom">{item.description}</p>}
     </div>
@@ -500,7 +519,19 @@ const Masonry: React.FC<MasonryProps> = ({
               onMouseEnter={e => handleMouseEnter(e, item)}
               onMouseLeave={e => handleMouseLeave(e, item)}
             >
-              {item.img.endsWith('.gif') ? (
+              {item.type === 'video' ? (
+                <div className="item-img" style={{ background: 'var(--canvas)' }}>
+                  <video
+                    src={item.img}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 10, display: 'block' }}
+                  />
+                </div>
+              ) : item.img.endsWith('.gif') ? (
                 <div className="item-img" style={{ background: 'var(--canvas)' }}>
                   <img
                     src={item.img}

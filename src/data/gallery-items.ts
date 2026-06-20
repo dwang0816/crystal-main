@@ -3,6 +3,7 @@
 
 export interface GalleryItem {
   id:          string;
+  type:        'image' | 'video';
   img:         string;
   url:         string;
   height:      number;
@@ -31,6 +32,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1xeK68pOKP5PCBsmHii1H6ho7FuWF99OS",
+        "type": "image",
         "img": "/gallery/1xeK68pOKP5PCBsmHii1H6ho7FuWF99OS.jpeg",
         "url": "https://drive.google.com/file/d/1xeK68pOKP5PCBsmHii1H6ho7FuWF99OS/view",
         "height": 800,
@@ -38,6 +40,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1cjsp10IfcTvrTLfU98UWQf0TrbSRmXK0",
+        "type": "image",
         "img": "/gallery/1cjsp10IfcTvrTLfU98UWQf0TrbSRmXK0.jpeg",
         "url": "https://drive.google.com/file/d/1cjsp10IfcTvrTLfU98UWQf0TrbSRmXK0/view",
         "height": 800,
@@ -45,6 +48,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1D-oDvRv0lS8vlfldvGj-if0mLHKXg_zJ",
+        "type": "image",
         "img": "/gallery/1D-oDvRv0lS8vlfldvGj-if0mLHKXg_zJ.jpeg",
         "url": "https://drive.google.com/file/d/1D-oDvRv0lS8vlfldvGj-if0mLHKXg_zJ/view",
         "height": 800,
@@ -52,6 +56,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "16URD60L49ZrTNA2vR2YKXDyR2ijVGoUa",
+        "type": "image",
         "img": "/gallery/16URD60L49ZrTNA2vR2YKXDyR2ijVGoUa.jpeg",
         "url": "https://drive.google.com/file/d/16URD60L49ZrTNA2vR2YKXDyR2ijVGoUa/view",
         "height": 800,
@@ -59,6 +64,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1qZKxAgD-3amoIN6AwNaehb62s7IhMhkb",
+        "type": "image",
         "img": "/gallery/1qZKxAgD-3amoIN6AwNaehb62s7IhMhkb.jpeg",
         "url": "https://drive.google.com/file/d/1qZKxAgD-3amoIN6AwNaehb62s7IhMhkb/view",
         "height": 800,
@@ -66,9 +72,43 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1AK3IJQ415O9lBv2RtYhat9UV56X2PHIa",
+        "type": "image",
         "img": "/gallery/1AK3IJQ415O9lBv2RtYhat9UV56X2PHIa.png",
         "url": "https://drive.google.com/file/d/1AK3IJQ415O9lBv2RtYhat9UV56X2PHIa/view",
         "height": 710,
+        "description": ""
+      }
+    ]
+  },
+  {
+    "folder": {
+      "id": "1qlmVr6B6aaa916mhS5JQe4VcMQa7sjmn",
+      "name": "Consumption-Loop",
+      "description": ""
+    },
+    "items": [
+      {
+        "id": "1CtTvVqX68mqb4w_xdopAVo0uUO2Ol5vh",
+        "type": "video",
+        "img": "/gallery/1CtTvVqX68mqb4w_xdopAVo0uUO2Ol5vh.mp4",
+        "url": "https://drive.google.com/file/d/1CtTvVqX68mqb4w_xdopAVo0uUO2Ol5vh/view",
+        "height": 801,
+        "description": ""
+      },
+      {
+        "id": "1DgrmG4811ar3ZwhEHXjUApWJRVSgljFQ",
+        "type": "video",
+        "img": "/gallery/1DgrmG4811ar3ZwhEHXjUApWJRVSgljFQ.mp4",
+        "url": "https://drive.google.com/file/d/1DgrmG4811ar3ZwhEHXjUApWJRVSgljFQ/view",
+        "height": 801,
+        "description": ""
+      },
+      {
+        "id": "1bbKOD3EJpl6VFrXG5nlaSrBTush-fkJX",
+        "type": "video",
+        "img": "/gallery/1bbKOD3EJpl6VFrXG5nlaSrBTush-fkJX.mp4",
+        "url": "https://drive.google.com/file/d/1bbKOD3EJpl6VFrXG5nlaSrBTush-fkJX/view",
+        "height": 801,
         "description": ""
       }
     ]
@@ -82,6 +122,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1PV-KF1297_8VIIxcwT16q2ntYp66LMsc",
+        "type": "image",
         "img": "/gallery/1PV-KF1297_8VIIxcwT16q2ntYp66LMsc.png",
         "url": "https://drive.google.com/file/d/1PV-KF1297_8VIIxcwT16q2ntYp66LMsc/view",
         "height": 197,
@@ -89,6 +130,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1d3tvOSQgWKAZnhV3NDEUTFp7SRrvIBMz",
+        "type": "image",
         "img": "/gallery/1d3tvOSQgWKAZnhV3NDEUTFp7SRrvIBMz.png",
         "url": "https://drive.google.com/file/d/1d3tvOSQgWKAZnhV3NDEUTFp7SRrvIBMz/view",
         "height": 197,
@@ -96,6 +138,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1miHVpIPZKNsE2xdyyyCazlH2VKi69atT",
+        "type": "image",
         "img": "/gallery/1miHVpIPZKNsE2xdyyyCazlH2VKi69atT.png",
         "url": "https://drive.google.com/file/d/1miHVpIPZKNsE2xdyyyCazlH2VKi69atT/view",
         "height": 197,
@@ -103,6 +146,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1smL62B7UuhShAiMHCK74oMMehHTNjJee",
+        "type": "image",
         "img": "/gallery/1smL62B7UuhShAiMHCK74oMMehHTNjJee.png",
         "url": "https://drive.google.com/file/d/1smL62B7UuhShAiMHCK74oMMehHTNjJee/view",
         "height": 197,
@@ -110,6 +154,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1nHGMicG33oyea9iivEubrMGqMR12KHlh",
+        "type": "image",
         "img": "/gallery/1nHGMicG33oyea9iivEubrMGqMR12KHlh.png",
         "url": "https://drive.google.com/file/d/1nHGMicG33oyea9iivEubrMGqMR12KHlh/view",
         "height": 197,
@@ -126,6 +171,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1JdWtyFCrgb4YYv6aNWDyUvyxmKiDb5vm",
+        "type": "image",
         "img": "/gallery/1JdWtyFCrgb4YYv6aNWDyUvyxmKiDb5vm.png",
         "url": "https://drive.google.com/file/d/1JdWtyFCrgb4YYv6aNWDyUvyxmKiDb5vm/view",
         "height": 754,
@@ -133,6 +179,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1WgEav7xrNn_Wramv-OwzFiTjIstRO-lo",
+        "type": "image",
         "img": "/gallery/1WgEav7xrNn_Wramv-OwzFiTjIstRO-lo.jpg",
         "url": "https://drive.google.com/file/d/1WgEav7xrNn_Wramv-OwzFiTjIstRO-lo/view",
         "height": 386,
@@ -149,6 +196,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1Wcyc0wiieSy1l-zsg6mQwuEhIsVE-KTA",
+        "type": "image",
         "img": "/gallery/1Wcyc0wiieSy1l-zsg6mQwuEhIsVE-KTA.png",
         "url": "https://drive.google.com/file/d/1Wcyc0wiieSy1l-zsg6mQwuEhIsVE-KTA/view",
         "height": 470,
@@ -156,6 +204,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1pyhQ85qEhuefEgr4XsbKXABC8zfNJxQP",
+        "type": "image",
         "img": "/gallery/1pyhQ85qEhuefEgr4XsbKXABC8zfNJxQP.png",
         "url": "https://drive.google.com/file/d/1pyhQ85qEhuefEgr4XsbKXABC8zfNJxQP/view",
         "height": 465,
@@ -163,6 +212,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1sxUse5ZKiAhSb8kQSmnKli_z997UMCCW",
+        "type": "image",
         "img": "/gallery/1sxUse5ZKiAhSb8kQSmnKli_z997UMCCW.png",
         "url": "https://drive.google.com/file/d/1sxUse5ZKiAhSb8kQSmnKli_z997UMCCW/view",
         "height": 444,
@@ -170,6 +220,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "13thutyAc2Xgt0imSB-cGx6BFYht8jvp0",
+        "type": "image",
         "img": "/gallery/13thutyAc2Xgt0imSB-cGx6BFYht8jvp0.png",
         "url": "https://drive.google.com/file/d/13thutyAc2Xgt0imSB-cGx6BFYht8jvp0/view",
         "height": 460,
@@ -177,6 +228,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1rxzlihiD-UCSHYuwx3PD7McP9lfEGeZW",
+        "type": "image",
         "img": "/gallery/1rxzlihiD-UCSHYuwx3PD7McP9lfEGeZW.png",
         "url": "https://drive.google.com/file/d/1rxzlihiD-UCSHYuwx3PD7McP9lfEGeZW/view",
         "height": 589,
@@ -193,6 +245,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1ML2qcq-zL0hPt1FzC54FbmeetgwxM_fw",
+        "type": "image",
         "img": "/gallery/1ML2qcq-zL0hPt1FzC54FbmeetgwxM_fw.jpeg",
         "url": "https://drive.google.com/file/d/1ML2qcq-zL0hPt1FzC54FbmeetgwxM_fw/view",
         "height": 450,
@@ -200,6 +253,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "12aBy_XPiAPxawORQfSmFya4a9XyS7E_M",
+        "type": "image",
         "img": "/gallery/12aBy_XPiAPxawORQfSmFya4a9XyS7E_M.jpeg",
         "url": "https://drive.google.com/file/d/12aBy_XPiAPxawORQfSmFya4a9XyS7E_M/view",
         "height": 450,
@@ -207,6 +261,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1IhdWdMsle-UbdvdTfBHIAFL1W9-HO2E2",
+        "type": "image",
         "img": "/gallery/1IhdWdMsle-UbdvdTfBHIAFL1W9-HO2E2.jpeg",
         "url": "https://drive.google.com/file/d/1IhdWdMsle-UbdvdTfBHIAFL1W9-HO2E2/view",
         "height": 450,
@@ -223,6 +278,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1GgTHYwWPST4KV3KMrkBqZUsnSL5pkQYe",
+        "type": "image",
         "img": "/gallery/1GgTHYwWPST4KV3KMrkBqZUsnSL5pkQYe.jpg",
         "url": "https://drive.google.com/file/d/1GgTHYwWPST4KV3KMrkBqZUsnSL5pkQYe/view",
         "height": 800,
@@ -230,9 +286,43 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1owopgmSy7buNiBlspK01xEOOqd4CE56E",
+        "type": "image",
         "img": "/gallery/1owopgmSy7buNiBlspK01xEOOqd4CE56E.png",
         "url": "https://drive.google.com/file/d/1owopgmSy7buNiBlspK01xEOOqd4CE56E/view",
         "height": 877,
+        "description": ""
+      }
+    ]
+  },
+  {
+    "folder": {
+      "id": "180ommlksFk8hIJhndVFWR5Fcqkm6GbkY",
+      "name": "Creative-Code",
+      "description": ""
+    },
+    "items": [
+      {
+        "id": "1UcmSNodXml4tn3L3lLCL6ScziEAjcj7H",
+        "type": "video",
+        "img": "/gallery/1UcmSNodXml4tn3L3lLCL6ScziEAjcj7H.mov",
+        "url": "https://drive.google.com/file/d/1UcmSNodXml4tn3L3lLCL6ScziEAjcj7H/view",
+        "height": 360,
+        "description": ""
+      },
+      {
+        "id": "1tQkK-rgW3zKVCODrG-i3B3XfYYx3IASG",
+        "type": "video",
+        "img": "/gallery/1tQkK-rgW3zKVCODrG-i3B3XfYYx3IASG.mov",
+        "url": "https://drive.google.com/file/d/1tQkK-rgW3zKVCODrG-i3B3XfYYx3IASG/view",
+        "height": 360,
+        "description": ""
+      },
+      {
+        "id": "10jsuS8qTtSS6aoFnq1gjUWZ2ZRHzO55W",
+        "type": "video",
+        "img": "/gallery/10jsuS8qTtSS6aoFnq1gjUWZ2ZRHzO55W.mov",
+        "url": "https://drive.google.com/file/d/10jsuS8qTtSS6aoFnq1gjUWZ2ZRHzO55W/view",
+        "height": 360,
         "description": ""
       }
     ]
@@ -246,6 +336,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1fXB1HkM-cZpAsjSN0ycRwEuF_7cyQrtJ",
+        "type": "image",
         "img": "/gallery/1fXB1HkM-cZpAsjSN0ycRwEuF_7cyQrtJ.gif",
         "url": "https://drive.google.com/file/d/1fXB1HkM-cZpAsjSN0ycRwEuF_7cyQrtJ/view",
         "height": 600,
@@ -253,6 +344,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1PixfbXYedX9hcmoYMCCJ6ok8wit_3TwF",
+        "type": "image",
         "img": "/gallery/1PixfbXYedX9hcmoYMCCJ6ok8wit_3TwF.png",
         "url": "https://drive.google.com/file/d/1PixfbXYedX9hcmoYMCCJ6ok8wit_3TwF/view",
         "height": 450,
@@ -260,6 +352,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1vY36Y6c1EH_7Jz2fO_DvIOHfasLQU7C1",
+        "type": "image",
         "img": "/gallery/1vY36Y6c1EH_7Jz2fO_DvIOHfasLQU7C1.png",
         "url": "https://drive.google.com/file/d/1vY36Y6c1EH_7Jz2fO_DvIOHfasLQU7C1/view",
         "height": 791,
@@ -275,7 +368,16 @@ export const galleryGroups: GalleryGroup[] = [
     },
     "items": [
       {
+        "id": "1Cz-RnAhqgATSVei7FhhTWGuLTHDm3cMR",
+        "type": "video",
+        "img": "/gallery/1Cz-RnAhqgATSVei7FhhTWGuLTHDm3cMR.mp4",
+        "url": "https://drive.google.com/file/d/1Cz-RnAhqgATSVei7FhhTWGuLTHDm3cMR/view",
+        "height": 338,
+        "description": ""
+      },
+      {
         "id": "1AvN9wUQQiSFh5DuvzzNzkB8RdfiG9-kH",
+        "type": "image",
         "img": "/gallery/1AvN9wUQQiSFh5DuvzzNzkB8RdfiG9-kH.png",
         "url": "https://drive.google.com/file/d/1AvN9wUQQiSFh5DuvzzNzkB8RdfiG9-kH/view",
         "height": 535,
@@ -283,6 +385,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1tXQIvWhoTSgSkQXgZsy538c7dLph1Jpa",
+        "type": "image",
         "img": "/gallery/1tXQIvWhoTSgSkQXgZsy538c7dLph1Jpa.png",
         "url": "https://drive.google.com/file/d/1tXQIvWhoTSgSkQXgZsy538c7dLph1Jpa/view",
         "height": 645,
@@ -290,6 +393,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1c5ohKSNHYm9pP5F92ZkCvqaw8Xtdu_Py",
+        "type": "image",
         "img": "/gallery/1c5ohKSNHYm9pP5F92ZkCvqaw8Xtdu_Py.png",
         "url": "https://drive.google.com/file/d/1c5ohKSNHYm9pP5F92ZkCvqaw8Xtdu_Py/view",
         "height": 539,
@@ -306,6 +410,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1TZYEMsoiWmFYHVQTkuOChl75VcJ567Nj",
+        "type": "image",
         "img": "/gallery/1TZYEMsoiWmFYHVQTkuOChl75VcJ567Nj.gif",
         "url": "https://drive.google.com/file/d/1TZYEMsoiWmFYHVQTkuOChl75VcJ567Nj/view",
         "height": 1046,
@@ -313,6 +418,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1jqD0l1H66ySoIopgDgHKgL7Q7vy45GVh",
+        "type": "image",
         "img": "/gallery/1jqD0l1H66ySoIopgDgHKgL7Q7vy45GVh.png",
         "url": "https://drive.google.com/file/d/1jqD0l1H66ySoIopgDgHKgL7Q7vy45GVh/view",
         "height": 255,
@@ -329,6 +435,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1dNJtJFK_4LJbDoBsD5O0Ro3uEE1kJlTk",
+        "type": "image",
         "img": "/gallery/1dNJtJFK_4LJbDoBsD5O0Ro3uEE1kJlTk.png",
         "url": "https://drive.google.com/file/d/1dNJtJFK_4LJbDoBsD5O0Ro3uEE1kJlTk/view",
         "height": 1067,
@@ -336,6 +443,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1FCq0ueL5R0u1BLW_3m3DVTwwPhRKNd13",
+        "type": "image",
         "img": "/gallery/1FCq0ueL5R0u1BLW_3m3DVTwwPhRKNd13.jpg",
         "url": "https://drive.google.com/file/d/1FCq0ueL5R0u1BLW_3m3DVTwwPhRKNd13/view",
         "height": 800,
@@ -343,6 +451,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1bOY2ru8R8SKDE7K3SKHh-GZGeZV8j-KP",
+        "type": "image",
         "img": "/gallery/1bOY2ru8R8SKDE7K3SKHh-GZGeZV8j-KP.gif",
         "url": "https://drive.google.com/file/d/1bOY2ru8R8SKDE7K3SKHh-GZGeZV8j-KP/view",
         "height": 795,
@@ -350,6 +459,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1V6yMQFokl3fZqMbrBqoTiSUHsa9u6a-C",
+        "type": "image",
         "img": "/gallery/1V6yMQFokl3fZqMbrBqoTiSUHsa9u6a-C.gif",
         "url": "https://drive.google.com/file/d/1V6yMQFokl3fZqMbrBqoTiSUHsa9u6a-C/view",
         "height": 822,
@@ -366,6 +476,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1_eWjHaHC_GOmOpuIxsBAzOmZWlqBpROn",
+        "type": "image",
         "img": "/gallery/1_eWjHaHC_GOmOpuIxsBAzOmZWlqBpROn.jpg",
         "url": "https://drive.google.com/file/d/1_eWjHaHC_GOmOpuIxsBAzOmZWlqBpROn/view",
         "height": 800,
@@ -373,6 +484,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1UwgNbG3MNPGAhSIGQvrIRNbv5m_G5vr9",
+        "type": "image",
         "img": "/gallery/1UwgNbG3MNPGAhSIGQvrIRNbv5m_G5vr9.jpg",
         "url": "https://drive.google.com/file/d/1UwgNbG3MNPGAhSIGQvrIRNbv5m_G5vr9/view",
         "height": 800,
@@ -380,6 +492,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1wL2dpf7B6LAWo9NL_kM0umZa3NTjEDBJ",
+        "type": "image",
         "img": "/gallery/1wL2dpf7B6LAWo9NL_kM0umZa3NTjEDBJ.gif",
         "url": "https://drive.google.com/file/d/1wL2dpf7B6LAWo9NL_kM0umZa3NTjEDBJ/view",
         "height": 800,
@@ -396,6 +509,7 @@ export const galleryGroups: GalleryGroup[] = [
     "items": [
       {
         "id": "1SOWd9e6cG9PDwhkvZ_qGx3UMkz5b9rlj",
+        "type": "image",
         "img": "/gallery/1SOWd9e6cG9PDwhkvZ_qGx3UMkz5b9rlj.png",
         "url": "https://drive.google.com/file/d/1SOWd9e6cG9PDwhkvZ_qGx3UMkz5b9rlj/view",
         "height": 464,
@@ -403,6 +517,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1XBO8Jt09vtZpdBRxb6uCMaQPbdsz9DC3",
+        "type": "image",
         "img": "/gallery/1XBO8Jt09vtZpdBRxb6uCMaQPbdsz9DC3.png",
         "url": "https://drive.google.com/file/d/1XBO8Jt09vtZpdBRxb6uCMaQPbdsz9DC3/view",
         "height": 464,
@@ -410,6 +525,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1_QximM5NJjLc4G07_vrhXvcM1PnAKICX",
+        "type": "image",
         "img": "/gallery/1_QximM5NJjLc4G07_vrhXvcM1PnAKICX.png",
         "url": "https://drive.google.com/file/d/1_QximM5NJjLc4G07_vrhXvcM1PnAKICX/view",
         "height": 464,
@@ -417,6 +533,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1-4bNjq0FV7uO8dCD8xk0iFLh_ofwG3zU",
+        "type": "image",
         "img": "/gallery/1-4bNjq0FV7uO8dCD8xk0iFLh_ofwG3zU.png",
         "url": "https://drive.google.com/file/d/1-4bNjq0FV7uO8dCD8xk0iFLh_ofwG3zU/view",
         "height": 464,
@@ -424,6 +541,7 @@ export const galleryGroups: GalleryGroup[] = [
       },
       {
         "id": "1z5aKN2b2f2mx61Naf4ydMPyGKJkDvwnb",
+        "type": "image",
         "img": "/gallery/1z5aKN2b2f2mx61Naf4ydMPyGKJkDvwnb.gif",
         "url": "https://drive.google.com/file/d/1z5aKN2b2f2mx61Naf4ydMPyGKJkDvwnb/view",
         "height": 600,
