@@ -1,0 +1,48 @@
+name: Nightly rebuild
+
+# Pushes one empty commit a day so Vercel redeploys the site.
+#
+# The point of the empty commit (rather than a Vercel deploy hook) is that the
+# deployment rows in the Vercel dashboard carry their own commit message, so a
+# long list of identical automated deploys is self-explanatory instead of
+# looking like you pushed the same change 20 times.
+#
+# NOTE: this does NOT refresh the Visual gallery — see the commit body below.
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # daily at midnight UTC
+  workflow_dispatch:      # also allows manual trigger from GitHub Actions UI
+
+permissions:
+  contents: write         # needed to push the empty commit
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Push empty commit to trigger a Vercel deploy
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -F - <<'MSG'
+          Automated nightly rebuild (no content change)
+
+          This empty commit exists only to make Vercel redeploy. It is created
+          by .github/workflows/nightly-rebuild.yml on a daily cron — nobody
+          edited the site. Repeated identical rows in the Vercel dashboard are
+          expected.
+
+          It does NOT refresh the Visual gallery. The gallery ships as the
+          committed file src/data/gallery-items.ts (images point at Google's
+          CDN), and the build never talks to Drive — that was removed in
+          ce17886 after a Drive 403 wiped the gallery in production. To pick up
+          new Drive files you have to run it locally:
+
+              npm run fetch-gallery      # needs GOOGLE_API_KEY in .env
+
+          then commit src/data/gallery-items.ts and any new public/clips/*.mp4.
+          MSG
+          git push
